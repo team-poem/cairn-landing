@@ -1,9 +1,12 @@
 'use client';
-import { useState } from 'react';
-import { ArrowRight, ArrowUpRight } from 'lucide-react';
+import { useEffect, useState } from 'react';
+import { ArrowRight, ArrowUpRight, Pause, Play, RotateCcw } from 'lucide-react';
+import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Button } from '@/components/ui/button';
 import { cairnLinks } from '@/lib/cairn';
 import { useI18n } from './LocaleProvider';
 const stages = ['context', 'plan', 'execute', 'judge', 'report'] as const;
+type Stage = (typeof stages)[number];
 const ports = [
   'ContextProvider',
   'Planner',
@@ -13,12 +16,43 @@ const ports = [
   'Reporter',
 ] as const;
 type Port = (typeof ports)[number];
-/* 3번 섹션의 주제는 하나다: 테스트 러너가 아니라 엔진이고, 그 위에 짓는다.
- * 파이프라인 다섯 단계와 포트 여섯을 보여주고 바로 설치로 잇는다. */
+/* 실제 export 이름만 쓴다(cairn-engine index.ts). 줄마다 어느 포트인지 적어
+ * 왼쪽에서 고른 포트의 줄이 켜진다. runHarness 의 옵션 키는 README 예제 그대로. */
+const code: { text: string; port?: Port }[] = [
+  { text: 'const skills = new FileSkillStore("./skills");', port: 'SkillStore' },
+  { text: 'const result = await runHarness({' },
+  { text: '  context:  new InlineContextProvider(),', port: 'ContextProvider' },
+  { text: '  planner:  new StaticPlanner(scenario),', port: 'Planner' },
+  { text: '  driver:   new ChromeDevToolsDriver(),', port: 'Driver' },
+  { text: '  critic:   new AssertionCritic(),', port: 'Critic' },
+  { text: '  reporter: new JsonReporter("report.json"),', port: 'Reporter' },
+  { text: '}, scenario.name);' },
+];
+const TICK = 820;
 export function GetStarted() {
   const { t } = useI18n();
   const [port, setPort] = useState<Port>('Driver');
-  const activeStage = t.features.ports[port].stage;
+  const [running, setRunning] = useState(false);
+  const [reached, setReached] = useState(-1); // 실행이 지나간 마지막 단계
+  const done = reached === stages.length - 1;
+  useEffect(() => {
+    if (!running || done) return;
+    const timer = window.setTimeout(() => {
+      const next = reached + 1;
+      setReached(next);
+      if (next === stages.length - 1) setRunning(false);
+    }, TICK);
+    return () => window.clearTimeout(timer);
+  }, [running, reached, done]);
+  const play = () => {
+    if (done) setReached(-1);
+    setRunning(true);
+  };
+  const reset = () => {
+    setRunning(false);
+    setReached(-1);
+  };
+  const portStage = t.features.ports[port].stage as Stage;
   return (
     <section
       className="start-section"
@@ -26,85 +60,160 @@ export function GetStarted() {
       aria-labelledby="fit-title"
     >
       <div className="cairn-container start-stack">
-        <div className="fit-grid">
-          <div className="engine-intro">
-            <h2 id="fit-title">
-              {t.features.titleTop}
-              <br />
-              {t.features.titleBottom}
-            </h2>
-            <p>{t.features.lead}</p>
-            <a className="cairn-link" href={`${cairnLinks.guide}#embed-it`}>
-              {t.features.link} <ArrowUpRight size={16} />
-            </a>
-          </div>
-          <div className="pipeline">
-            <span className="fit-label">{t.features.pipelineLabel}</span>
-            <ol className="pipeline-stages" aria-label={t.features.pipelineLabel}>
-              {stages.map((stage, index) => (
-                <li
-                  key={stage}
-                  className="pipeline-stage"
-                  data-active={activeStage === stage}
-                >
-                  <strong>{t.features.stages[stage].name}</strong>
-                  <span>{t.features.stages[stage].role}</span>
-                  {index < stages.length - 1 && (
-                    <ArrowRight size={14} aria-hidden="true" />
-                  )}
-                </li>
-              ))}
-            </ol>
-            <span className="fit-label">{t.features.portsLabel}</span>
-            <div className="pipeline-ports">
-              {ports.map((name) => (
-                <button
-                  key={name}
-                  type="button"
-                  className="pipeline-port"
-                  aria-pressed={port === name}
-                  onClick={() => setPort(name)}
-                  onPointerEnter={() => setPort(name)}
-                  onFocus={() => setPort(name)}
-                >
-                  {name}
-                </button>
-              ))}
-            </div>
-            <p className="pipeline-note" aria-live="polite">
-              <strong>{port}</strong> — {t.features.ports[port].description}
-            </p>
-          </div>
+        <div className="flow-heading">
+          <h2 id="fit-title">
+            {t.features.titleTop}
+            <br />
+            {t.features.titleBottom}
+          </h2>
+          <p>{t.features.lead}</p>
         </div>
-        <div className="start-layout">
-          <div>
-            <h3 id="start-title">{t.start.title}</h3>
-            <p>
-              {t.start.leadTop}
-              <br />
-              {t.start.leadBottom}
-            </p>
+        <Tabs
+          value={port}
+          onValueChange={(value) => setPort(value as Port)}
+          orientation="vertical"
+          className="flow-workbench engine-workbench"
+        >
+          <TabsList className="engine-ports" aria-label={t.engine.tabsLabel}>
+            {ports.map((name, index) => (
+              <TabsTrigger
+                key={name}
+                value={name}
+                className="flow-tab engine-port"
+                data-stage={t.features.ports[name].stage}
+              >
+                <span className="flow-tab-index">0{index + 1}</span>
+                <span>
+                  <span className="flow-tab-title">{name}</span>
+                  <span className="flow-tab-description">
+                    {t.engine.portRole[name]}
+                  </span>
+                </span>
+                <ArrowRight size={17} />
+              </TabsTrigger>
+            ))}
+          </TabsList>
+          <div className="engine-stage-panel" data-running={running}>
+            {/* 파이프라인. 고른 포트의 단계가 켜지고, 실행이 지나간 단계는 불이 남는다. */}
+            <div className="pipe">
+              <span className="fit-label">{t.features.pipelineLabel}</span>
+              <ol className="pipe-stages">
+                {stages.map((stage, index) => (
+                  <li
+                    key={stage}
+                    className="pipe-stage"
+                    data-port={portStage === stage}
+                    data-lit={index <= reached}
+                    data-current={running && index === reached + 1}
+                  >
+                    <strong>{t.features.stages[stage].name}</strong>
+                    <span>{t.features.stages[stage].role}</span>
+                  </li>
+                ))}
+              </ol>
+              <svg className="pipe-track" viewBox="0 0 500 24" aria-hidden="true" fill="none">
+                <path className="flow-path-guide" d="M12 12H488" />
+                <path
+                  className="flow-path-fill"
+                  pathLength="4"
+                  d="M12 12H488"
+                  style={{
+                    strokeDasharray: '4',
+                    strokeDashoffset: 4 - Math.max(0, reached),
+                  }}
+                />
+                {[12, 131, 250, 369, 488].map((x, index) => (
+                  <circle
+                    key={x}
+                    cx={x}
+                    cy="12"
+                    r="4"
+                    className={index <= reached ? 'route-lit' : ''}
+                  />
+                ))}
+                <circle
+                  className="route-runner"
+                  cx="12"
+                  cy="12"
+                  r="6"
+                  style={{
+                    transform: `translateX(${Math.max(0, reached) * 119}px)`,
+                  }}
+                />
+              </svg>
+              <p className="pipe-note" aria-live="polite">
+                <strong>{port}</strong> — {t.features.ports[port].description}
+              </p>
+            </div>
+            <div className="engine-split">
+              <div className="sync-code engine-code">
+                <div>
+                  <span>{t.engine.codeLabel}</span>
+                  <span>{t.engine.illustrative}</span>
+                </div>
+                <pre aria-label={t.engine.codeLabel}>
+                  {code.map((line, index) => (
+                    <code
+                      key={index}
+                      className={`sync-code-line ${line.port === port ? 'code-active' : ''}`}
+                    >
+                      <span>{index + 1}</span>
+                      <span>{line.text}</span>
+                    </code>
+                  ))}
+                </pre>
+              </div>
+              <div className="engine-output">
+                <span className="fit-label">{t.engine.outputLabel}</span>
+                <output className="engine-log" aria-live="polite">
+                  {reached < 0 ? (
+                    <span className="engine-log-idle">{t.engine.idle}</span>
+                  ) : (
+                    stages.slice(0, reached + 1).map((stage) => (
+                      <span key={stage} className="engine-log-line" data-stage={stage}>
+                        {t.engine.stageOutput[stage]}
+                      </span>
+                    ))
+                  )}
+                  {done && <span className="engine-log-done">{t.engine.done}</span>}
+                </output>
+                <div className="flow-actions">
+                  <Button className="cairn-button" onClick={running ? () => setRunning(false) : play}>
+                    {running ? t.engine.pause : done ? t.engine.runAgain : t.engine.run}
+                    {running ? <Pause size={16} /> : <Play size={16} />}
+                  </Button>
+                  {reached >= 0 && (
+                    <Button variant="ghost" className="flow-next" onClick={reset}>
+                      <RotateCcw size={15} />
+                      {t.engine.reset}
+                    </Button>
+                  )}
+                  <a className="cairn-link" href={`${cairnLinks.guide}#embed-it`}>
+                    {t.features.link} <ArrowUpRight size={15} />
+                  </a>
+                </div>
+                <p className="flow-note">{t.engine.note}</p>
+              </div>
+            </div>
           </div>
-          <div className="start-command">
+          <div className="flow-command engine-install">
+            <span>{t.start.title}</span>
             <pre aria-label={t.start.installLabel}>
               <code>
                 <span aria-hidden="true">$ </span>npm install -g cairn-engine
               </code>
             </pre>
             <div className="start-actions">
-              <a
-                className="cairn-button"
-                href={`${cairnLinks.guide}#try-it-in-60-seconds`}
-              >
+              <a className="cairn-button" href={`${cairnLinks.guide}#try-it-in-60-seconds`}>
                 {t.start.primary} <ArrowUpRight size={17} />
               </a>
               <a className="cairn-link" href={cairnLinks.quickstart}>
                 {t.start.secondary} <ArrowUpRight size={16} />
               </a>
+              <span className="start-note">{t.start.note}</span>
             </div>
-            <p className="start-note">{t.start.note}</p>
           </div>
-        </div>
+        </Tabs>
       </div>
     </section>
   );

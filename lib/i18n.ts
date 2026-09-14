@@ -146,7 +146,7 @@ const en = {
       judge: { name: 'Judge', role: 'Rules on evidence' },
       report: { name: 'Report', role: 'Emits the result' },
     },
-    portsLabel: 'Six ports. Replace any one without forking.',
+    portsLabel: 'Six ports. Pick one to see where it plugs in.',
     ports: {
       ContextProvider: {
         stage: 'context',
@@ -178,6 +178,34 @@ const en = {
         description:
           'Sends the result anywhere: console, JSON, or the tracker your team already uses.',
       },
+    },
+  },
+  engine: {
+    tabsLabel: 'Engine ports',
+    run: 'Run a replay',
+    pause: 'Pause',
+    runAgain: 'Run again',
+    reset: 'Reset',
+    codeLabel: 'What you wire',
+    illustrative: 'Illustrative code',
+    outputLabel: 'Output',
+    idle: 'Press run to send a frozen scenario through the pipeline.',
+    stageOutput: {
+      context: 'context · intent + cart.skill.json loaded',
+      plan: 'plan · StaticPlanner → 6 steps, no model',
+      execute: 'execute · 6 actions · 34 requests · settled',
+      judge: 'judge · ✓ navigated /cart · ✓ no-failed-requests',
+      report: 'report · ✓ pass — llm: 0 call(s)',
+    },
+    done: 'Same input, same verdict, zero model calls. Swap any port and run it again.',
+    note: 'Simulated run. Stage output mirrors what cairn replay prints.',
+    portRole: {
+      ContextProvider: 'What the run should know',
+      Planner: 'Intent to Scenario',
+      SkillStore: 'Where frozen files live',
+      Driver: 'Drives the browser',
+      Critic: 'Rules on evidence',
+      Reporter: 'Emits the result',
     },
   },
   start: {
@@ -347,7 +375,7 @@ const ko: Copy = {
       judge: { name: 'Judge', role: '증거로 판정한다' },
       report: { name: 'Report', role: '결과를 내보낸다' },
     },
-    portsLabel: '포트 여섯. 포크하지 않고 어느 하나든 바꿀 수 있습니다.',
+    portsLabel: '포트 여섯. 하나를 고르면 어디에 꽂히는지 보입니다.',
     ports: {
       ContextProvider: {
         stage: 'context',
@@ -373,6 +401,34 @@ const ko: Copy = {
         stage: 'report',
         description: '결과를 어디로든 보냅니다. 콘솔, JSON, 팀이 쓰는 트래커.',
       },
+    },
+  },
+  engine: {
+    tabsLabel: '엔진 포트',
+    run: '재생 실행',
+    pause: '일시정지',
+    runAgain: '다시 실행',
+    reset: '초기화',
+    codeLabel: '실제로 연결하는 것',
+    illustrative: '설명용 코드',
+    outputLabel: '출력',
+    idle: '실행을 누르면 저장된 시나리오가 파이프라인을 지나갑니다.',
+    stageOutput: {
+      context: 'context · 의도 + cart.skill.json 로드',
+      plan: 'plan · StaticPlanner → 6단계, 모델 없음',
+      execute: 'execute · 동작 6 · 요청 34 · 안정됨',
+      judge: 'judge · ✓ /cart 로 이동 · ✓ 실패한 요청 없음',
+      report: 'report · ✓ pass — llm: 0 call(s)',
+    },
+    done: '같은 입력, 같은 판정, 모델 호출 0. 포트 하나를 바꾸고 다시 돌려 보세요.',
+    note: '설명용 실행입니다. 단계 출력은 cairn replay 가 찍는 것을 따랐습니다.',
+    portRole: {
+      ContextProvider: '실행이 알아야 할 것',
+      Planner: '의도를 시나리오로',
+      SkillStore: '저장된 파일이 사는 곳',
+      Driver: '브라우저를 움직인다',
+      Critic: '증거로 판정한다',
+      Reporter: '결과를 내보낸다',
     },
   },
   start: {
