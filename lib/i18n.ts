@@ -251,10 +251,10 @@ const ko: Copy = {
     eyebrow: ', 에이전틱 테스팅 엔진.',
     nameMeaning:
       '케언(cairn)은 산길에 길을 표시하려고 쌓아 둔 돌무더기입니다. 이 케언은 앱을 지나는 경로를 찾아 표시해 두고, 다음 실행이 그 길을 따라가게 합니다.',
-    titleTop: '경로를 찾고,',
-    titleBottom: '다시 실행합니다.',
+    titleTop: 'Find a path.',
+    titleBottom: 'Run it again.',
     description:
-      '테스트 케이스를 설명하면 Cairn이 AI로 단계를 찾아 JSON으로 저장합니다. 저장된 이후에는 신규 호출 없이 그대로 실행합니다.',
+      '테스트 케이스를 설명하면 Cairn이 AI로 단계를 찾아 JSON으로 저장합니다. 저장된 이후에는 신규 호출 없이 재실행됩니다.',
     primary: '실행 보기',
     secondary: '가이드 읽기',
     footnote: '기본 재생은 모델을 호출하지 않습니다.',
@@ -389,7 +389,7 @@ const ko: Copy = {
       },
       Driver: {
         stage: 'execute',
-        description: '브라우저를 움직이고 화면이 안정될 때까지 기다립니다. Chrome DevTools 가 기본, Playwright 나 직접 만든 드라이버도 됩니다.',
+        description: '화면을 움직이고 안정될 때까지 기다립니다. Chrome DevTools 가 기본, Playwright 나 직접 만든 드라이버도 됩니다.',
       },
       Critic: {
         stage: 'judge',
