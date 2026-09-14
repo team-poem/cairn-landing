@@ -5,7 +5,6 @@ import {
   useEffect,
   useSyncExternalStore,
 } from 'react';
-import { flushSync } from 'react-dom';
 import {
   defaultLocale,
   dictionaries,
@@ -40,6 +39,7 @@ function subscribe(listener: () => void) {
   listeners.add(listener);
   return () => listeners.delete(listener);
 }
+const FADE_MS = 150;
 function publishLocale(next: Locale) {
   if (next === current) return;
   const apply = () => {
@@ -53,13 +53,25 @@ function publishLocale(next: Locale) {
     /* 저장에 실패해도 이번 방문에는 선택이 적용된다. */
   }
   /* 문구 길이가 달라 레이아웃이 움직인다. 한 프레임에 툭 바뀌면 흔들리는
-   * 것으로 보이므로 이전 화면과 새 화면을 크로스페이드한다.
-   * flushSync 로 전환 안에서 리렌더가 끝나게 한다. 미지원 브라우저는 즉시 전환. */
-  if (typeof document.startViewTransition === 'function') {
-    document.startViewTransition(() => flushSync(apply));
-  } else {
+   * 것으로 보이므로 살짝 어둡혔다 새 문구로 밝아지게 한다.
+   * document.startViewTransition 은 히어로의 라이브 WebGL 캔버스까지
+   * 전체 페이지를 스냅샷으로 떠서 무거웠고(렉), 캡처 시점에 캔버스가
+   * 막 지워진 프레임을 찍어 가끔 깨져 보였다. 대신 콘텐츠 래퍼 하나만
+   * opacity 전환한다 — 캔버스는 그 아래서 평소처럼 계속 그려진다. */
+  const wrap = document.querySelector<HTMLElement>('.cairn-site');
+  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (!wrap || reduced) {
     apply();
+    return;
   }
+  wrap.style.transition = `opacity ${FADE_MS}ms ease`;
+  wrap.style.opacity = '0';
+  window.setTimeout(() => {
+    apply();
+    requestAnimationFrame(() => {
+      wrap.style.opacity = '1';
+    });
+  }, FADE_MS);
 }
 type LocaleValue = {
   locale: Locale;
