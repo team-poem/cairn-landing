@@ -254,7 +254,7 @@ const ko: Copy = {
     titleTop: '경로를 찾고,',
     titleBottom: '다시 실행한다.',
     description:
-      '브라우저에서 할 일을 설명하면 Cairn이 AI로 단계를 찾아 JSON으로 저장하고, 다음부터는 모델 호출 없이 그대로 실행합니다.',
+      '브라우저에서 할 일을 설명하면 Cairn이 AI로 단계를 찾아 JSON으로 저장합니다. 다음부터는 모델 호출 없이 그대로 실행합니다.',
     primary: '실행 보기',
     secondary: '가이드 읽기',
     footnote: '기본 재생은 모델을 호출하지 않습니다.',
@@ -275,22 +275,22 @@ const ko: Copy = {
   workflow: {
     titleTop: '브라우저 작업을,',
     titleBottom: '한 단계씩.',
-    lead: '하나의 작업을 세 화면으로 봅니다. 샘플 앱, 지금 실행 중인 동작, 그리고 뒤에 남는 경로를 함께 따라가세요.',
+    lead: '하나의 작업, 세 화면. 샘플 앱과 지금 실행 중인 동작, 그 뒤에 남는 경로를 함께 따라가세요.',
     tabsLabel: 'Cairn 작업 단계',
     phases: {
       discover: {
         label: '단계 찾기',
-        subtitle: '할 일에서 시작합니다.',
+        subtitle: '할 일부터 시작합니다.',
         description:
-          '무엇을 할지 알려주세요. 로그인하고, 데이팩을 담고, 장바구니를 여는 과정을 볼 수 있습니다. 각 동작은 저장할 수 있는 단계가 됩니다.',
+          '무엇을 할지 알려주세요. 로그인하고 데이팩을 담고 장바구니를 여는 과정을 지켜보세요. 각 동작이 저장할 수 있는 단계가 됩니다.',
         action: '탐색 실행',
       },
       freeze: {
         label: '경로 저장',
-        subtitle: '된 것을 남깁니다.',
+        subtitle: '잘된 것을 남깁니다.',
         description:
           '작업이 끝났습니다. Cairn이 단계를 JSON으로 저장해 다음 실행이 같은 경로를 따라가게 합니다.',
-        action: '파일로 재생',
+        action: '파일 재생',
       },
       replay: {
         label: '다시 실행',
@@ -326,7 +326,7 @@ const ko: Copy = {
     savedSummary: '저장된 동작 요약',
     actionTrace: '동작 기록',
     illustrative: '설명용 코드',
-    codeLabel: '데모와 함께 움직이는 동작 목록',
+    codeLabel: '데모에 맞춰 움직이는 동작 목록',
     running: '실행 중',
     ready: '대기',
     completedLabel: '완료됨',
@@ -409,7 +409,7 @@ const ko: Copy = {
     runAgain: '다시 실행',
     reset: '초기화',
     outputLabel: '출력',
-    idle: '저장된 시나리오를 파이프라인에 흘려 봅니다.',
+    idle: '저장된 시나리오를 파이프라인에 흘려 보세요.',
     stageOutput: {
       context: 'Context — cart.skill.json 로드',
       plan: 'Plan — 6단계, 모델 없음',
