@@ -1,0 +1,92 @@
+name: Dispatch Cairn Pages
+on:
+  pull_request:
+    paths:
+      - .github/workflows/pages-dispatch.yml
+      - tests/pages-dispatch.test.py
+  workflow_run:
+    workflows: [landing-check]
+    types: [completed]
+    branches: [main]
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: cairn-pages-dispatch
+  cancel-in-progress: false
+jobs:
+  test:
+    name: 배포 판단 회귀 검사
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - run: python3 tests/pages-dispatch.test.py
+  dispatch:
+    name: 검증된 main 배포 및 결과 확인
+    if: >-
+      github.event_name == 'workflow_dispatch' ||
+      (github.event.workflow_run.conclusion == 'success' &&
+       github.event.workflow_run.event == 'push' &&
+       github.event.workflow_run.head_repository.full_name == github.repository)
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: 최신 main만 배포 대상으로 선택
+        id: source
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPOSITORY: ${{ github.repository }}
+          VERIFIED_SHA: ${{ github.event.workflow_run.head_sha }}
+          EVENT_NAME: ${{ github.event_name }}
+        run: |
+          latest_sha=$(gh api "repos/$REPOSITORY/commits/main" --jq .sha)
+          [[ "$latest_sha" =~ ^[0-9a-f]{40}$ ]] || exit 1
+          if [[ "$EVENT_NAME" == workflow_run && "$VERIFIED_SHA" != "$latest_sha" ]]; then
+            comparison=$(gh api "repos/$REPOSITORY/compare/$VERIFIED_SHA...$latest_sha")
+            # 협업 봇의 claim 정리만 있으면 검증된 앱 소스가 같습니다.
+            if ! jq -e '(.status == "ahead" or .status == "identical") and (.files | length < 300) and (.files | all(.filename | startswith("collab/")))' <<< "$comparison" >/dev/null; then
+              echo 'main의 앱 소스가 갱신되어 이전 검증 결과의 배포를 생략합니다.' >> "$GITHUB_STEP_SUMMARY"
+              echo 'current=false' >> "$GITHUB_OUTPUT"
+              exit 0
+            fi
+          fi
+          echo "sha=$latest_sha" >> "$GITHUB_OUTPUT"
+          echo 'current=true' >> "$GITHUB_OUTPUT"
+      - name: 배포 저장소 전용 단기 토큰
+        if: steps.source.outputs.current == 'true'
+        id: app-token
+        uses: actions/create-github-app-token@bcd2ba49218906704ab6c1aa796996da409d3eb1 # v3
+        with:
+          client-id: ${{ vars.PAGES_APP_CLIENT_ID }}
+          private-key: ${{ secrets.PAGES_APP_PRIVATE_KEY }}
+          owner: team-poem
+          repositories: team-poem.github.io
+          permission-actions: write
+      - name: Pages 실행 및 실제 완료 확인
+        if: steps.source.outputs.current == 'true'
+        env:
+          GH_TOKEN: ${{ steps.app-token.outputs.token }}
+          SOURCE_SHA: ${{ steps.source.outputs.sha }}
+        run: |
+          response=$(gh api --method POST \
+            repos/team-poem/team-poem.github.io/actions/workflows/pages.yml/dispatches \
+            -H 'X-GitHub-Api-Version: 2026-03-10' \
+            -f ref=main -f "inputs[source_sha]=$SOURCE_SHA")
+          run_id=$(jq -er '.workflow_run_id' <<< "$response")
+          [[ "$run_id" =~ ^[0-9]+$ ]] || exit 1
+          echo "Pages 실행: https://github.com/team-poem/team-poem.github.io/actions/runs/$run_id" >> "$GITHUB_STEP_SUMMARY"
+          for _attempt in $(seq 1 90); do
+            result=$(gh api "repos/team-poem/team-poem.github.io/actions/runs/$run_id")
+            if [[ "$(jq -r .status <<< "$result")" == completed ]]; then
+              conclusion=$(jq -r .conclusion <<< "$result")
+              echo "Pages 결과: $conclusion" >> "$GITHUB_STEP_SUMMARY"
+              [[ "$conclusion" == success ]] || exit 1
+              exit 0
+            fi
+            sleep 10
+          done
+          echo '::error::Pages 배포 완료 대기 시간 초과'
+          exit 1

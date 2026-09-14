@@ -4,7 +4,7 @@ owner: Kangmin_Kim
 started: 2026-09-15
 status: active
 goal: main 변경으로 조직 Pages 배포를 직접 실행하고 배포 결과를 검증한다
-next: .github/workflows/pages-dispatch.yml README.md
+next: .github/workflows/pages-dispatch.yml README.md tests/pages-dispatch.test.py
 ---
 
 ## 메모

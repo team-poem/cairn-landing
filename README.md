@@ -52,3 +52,11 @@ npm test
 - 배포 상태: Pages 저장소 Actions의 `Cairn Pages`와 `github-pages` 환경에서 확인합니다. 검증·빌드 실패 시 현재 사이트를 유지합니다.
 - Pages 설정: 배포 저장소 Settings → Pages → GitHub Actions. 동시에 여러 배포가 덮어쓰지 않도록 워크플로 실행을 직렬화합니다.
 - 기존 Sites 설정은 유지합니다. GitHub Pages는 `dist/client`만 제공하며 서버 코드나 런타임 API를 실행하지 않습니다.
+
+### 직접 자동 호출 전환
+
+`.github/workflows/pages-dispatch.yml`은 main push의 `landing-check` 성공 이벤트를 받아 Pages 저장소의 `pages.yml`을 호출하고 실제 배포 완료 결과까지 기다립니다. PR·실패한 검증·다른 저장소의 실행은 호출하지 않습니다. 늦게 끝난 옛 검증은 생략하며, 협업 봇의 `collab/` 정리만 뒤따른 경우에는 동일한 앱 소스로 간주합니다. Pages 쪽에서도 요청 SHA가 현재 main인지 확인합니다.
+
+연결에는 `Poem Cairn Pages Deploy` GitHub App을 배포 저장소 하나에만 설치하고 Repository Actions 읽기·쓰기(기본 Metadata 읽기 포함)만 허용합니다. 이 소스 저장소의 `PAGES_APP_CLIENT_ID` 변수와 `PAGES_APP_PRIVATE_KEY` secret을 설정해야 합니다. 호출 토큰은 해당 저장소의 Actions 권한으로만 발급하고 job 종료 시 폐기합니다. 개인 계정 토큰을 CI에 복사하지 않습니다.
+
+**전환 상태:** 코드 검증 후 App 설치·인증 설정과 PR 리뷰가 완료되어야 직접 자동 호출이 활성화됩니다. 기존 5분 스케줄은 보조 수단이며 실제 예약 실행이 확인되기 전에는 자동 복구를 보장하지 않습니다. 수동 실행은 `gh workflow run pages.yml --repo team-poem/team-poem.github.io --ref main`입니다.
