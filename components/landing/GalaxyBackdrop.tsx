@@ -50,19 +50,21 @@ export function GalaxyBackdrop({ animated }: { animated: boolean }) {
             <div className={styles.galaxyScale}>
               <EffectBoundary>
               <Suspense fallback={null}>
+                {/* WebGL 이 되는 눈에는 이게 그동안 "화려하게" 요청을 거듭
+                    누적한 값이었다. 정작 WebGL 이 꺼진 화면으로 조정해 와서
+                    아무도 실제로 보지 못한 채 계속 올라갔다. 원래 원하던
+                    "배경의 점 몇 개" 쪽으로 되돌린다. */}
                 <Galaxy
                   focal={focal}
                   rotation={rotation}
-                  density={3.2}
-                  starSpeed={0.6}
-                  speed={1.4}
-                  glowIntensity={1.35}
-                  twinkleIntensity={1}
-                  rotationSpeed={0.1}
+                  density={1.1}
+                  starSpeed={0.15}
+                  speed={0.4}
+                  glowIntensity={0.3}
+                  twinkleIntensity={0.5}
+                  rotationSpeed={0.02}
                   hueShift={210}
-                  saturation={0.55}
-                  mouseRepulsion
-                  repulsionStrength={2}
+                  saturation={0.15}
                   mouseInteraction
                   transparent
                 />
