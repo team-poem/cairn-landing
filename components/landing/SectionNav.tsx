@@ -1,7 +1,7 @@
 'use client';
 import { useEffect, useState } from 'react';
 import { useI18n } from './LocaleProvider';
-const sections = ['top', 'workflow', 'engine', 'get-started'] as const;
+const sections = ['top', 'workflow', 'get-started'] as const;
 type SectionId = (typeof sections)[number];
 /* 왼쪽 세로 중앙의 선 네비. 섹션마다 선 하나, 지금 보는 섹션은 길다.
  * 화면 가운데 띠(위아래 45% 를 뺀 10%)에 걸린 섹션을 현재로 본다. */

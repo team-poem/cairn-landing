@@ -949,9 +949,6 @@
     gap: 32px 64px;
   }
   .sync-panel .flow-story {
-    position: sticky;
-    top: 32px;
-    align-self: start;
   }
   .engine-art {
     min-height: 400px;

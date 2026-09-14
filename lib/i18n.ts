@@ -165,11 +165,6 @@ const en = {
           'Model and browser connections use separate ports. Replace either without rewriting the engine.',
       },
     ],
-    motionReduced: 'Reduced motion',
-    motionPause: 'Pause shards',
-    motionPlay: 'Play shards',
-    motionPauseLabel: 'Pause shard animation',
-    motionPlayLabel: 'Play shard animation',
   },
   start: {
     title: 'Give it a task.',
@@ -185,18 +180,15 @@ const en = {
     sections: {
       top: 'Top',
       workflow: 'How it works',
-      engine: 'Engine',
       'get-started': 'Get started',
     },
   },
   footer: {
-    taglineTop: 'An agentic testing engine',
-    taglineBottom: 'made by Poem.',
+    copyright: '© 2026 Poem',
     navLabel: 'Footer',
     howItWorks: 'How it works',
     documentation: 'Documentation',
     github: 'GitHub',
-    colophon: 'Open source. Built to run in your tools.',
   },
 };
 export type Copy = typeof en;
@@ -353,11 +345,6 @@ const ko: Copy = {
           '모델과 브라우저 연결은 서로 다른 포트를 씁니다. 엔진을 다시 쓰지 않고 어느 쪽이든 교체할 수 있습니다.',
       },
     ],
-    motionReduced: '모션 최소화',
-    motionPause: '조각 정지',
-    motionPlay: '조각 재생',
-    motionPauseLabel: '조각 애니메이션 정지',
-    motionPlayLabel: '조각 애니메이션 재생',
   },
   start: {
     title: '할 일을 알려주세요.',
@@ -373,18 +360,15 @@ const ko: Copy = {
     sections: {
       top: '처음',
       workflow: '동작 방식',
-      engine: '엔진',
       'get-started': '시작하기',
     },
   },
   footer: {
-    taglineTop: '에이전틱 테스팅 엔진',
-    taglineBottom: 'Poem이 만듭니다.',
+    copyright: '© 2026 Poem',
     navLabel: '푸터',
     howItWorks: '동작 방식',
     documentation: '문서',
     github: 'GitHub',
-    colophon: '오픈소스. 쓰던 도구 안에서 실행되도록 만들었습니다.',
   },
 };
 export const dictionaries: Record<Locale, Copy> = { en, ko };

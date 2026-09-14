@@ -11,9 +11,7 @@ export function SiteFooter() {
           cairn<span>.</span>
         </a>
         <p>
-          {t.footer.taglineTop}
-          <br />
-          <a href="https://github.com/team-poem">{t.footer.taglineBottom}</a>
+          <a href="https://github.com/team-poem">{t.footer.copyright}</a>
         </p>
       </div>
       <nav aria-label={t.footer.navLabel}>
@@ -25,7 +23,6 @@ export function SiteFooter() {
           {t.footer.github} <ArrowUpRight size={15} />
         </a>
       </nav>
-      <p className="footer-colophon">{t.footer.colophon}</p>
     </footer>
   );
 }
