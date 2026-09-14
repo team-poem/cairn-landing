@@ -1,0 +1,40 @@
+.nightHero {
+  isolation: isolate;
+}
+.sky {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+  background:
+    radial-gradient(ellipse at 82% 13%, #526eaa19 0%, transparent 48%),
+    radial-gradient(ellipse at 51% 0%, #5557810b 0%, transparent 40%);
+  mask-image: linear-gradient(
+    to bottom,
+    #000 0%,
+    #000 54%,
+    #0009 74%,
+    transparent 93%
+  );
+}
+.sky img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+  opacity: 0.9;
+}
+@media (max-width: 760px) {
+  .sky {
+    mask-image: linear-gradient(
+      to bottom,
+      #0005,
+      #0008 30%,
+      #000 48%,
+      transparent 80%
+    );
+  }
+  .sky img {
+    object-position: 70% top;
+  }
+}

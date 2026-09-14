@@ -4,6 +4,7 @@ import Image from 'next/image';
 import { ArrowDown, ArrowRight, ArrowUpRight, Pause, Play } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { cairnLinks } from '@/lib/cairn';
+import styles from './NightSky.module.css';
 const stages = [
   ['01', 'discover', 'AI가 경로를 발견', 'LLM · ONCE'],
   ['02', 'freeze', '읽을 수 있는 파일로', 'PLAIN JSON'],
@@ -24,7 +25,20 @@ export function Hero() {
     return () => preference.removeEventListener('change', update);
   }, []);
   return (
-    <section className="hero" aria-labelledby="hero-title">
+    <section
+      className={`hero ${styles.nightHero}`}
+      aria-labelledby="hero-title"
+    >
+      <div className={styles.sky} aria-hidden="true">
+        <Image
+          src={animated ? '/cairn-sky.svg' : '/cairn-sky-still.svg'}
+          alt=""
+          width={1440}
+          height={780}
+          unoptimized
+          priority
+        />
+      </div>
       <div className="hero-main wrap">
         <div className="hero-copy">
           <p className="eyebrow">
