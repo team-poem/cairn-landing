@@ -948,8 +948,6 @@
     grid-template-columns: minmax(0, 0.65fr) minmax(0, 1.35fr);
     gap: 32px 64px;
   }
-  .sync-panel .flow-story {
-  }
   .engine-art {
     min-height: 400px;
   }
