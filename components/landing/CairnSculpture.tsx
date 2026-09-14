@@ -40,7 +40,7 @@ export function CairnSculpture({ animated }: { animated: boolean }) {
     >
       <svg
         className="sculpture-art"
-        viewBox="0 0 700 590"
+        viewBox="155 35 355 500"
         fill="none"
         aria-hidden="true"
         dangerouslySetInnerHTML={{ __html: cairnArtwork }}

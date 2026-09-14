@@ -292,13 +292,6 @@ body {
   max-width: 560px;
   min-width: 0;
 }
-.night-landmark img {
-  display: block;
-  width: 100%;
-  height: auto;
-  max-height: 420px;
-  object-fit: contain;
-}
 .night-actions {
   display: flex;
   align-items: center;
@@ -382,10 +375,7 @@ body {
     max-width: 34ch;
   }
   .night-landmark {
-    max-width: 700px;
-  }
-  .night-landmark img {
-    max-height: 560px;
+    max-width: 720px;
   }
   .night-actions {
     justify-content: flex-start;

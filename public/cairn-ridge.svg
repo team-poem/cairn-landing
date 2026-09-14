@@ -1,0 +1,17 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!-- Original Cairn README artwork, MIT; see cairn-artwork-LICENSE.txt.
+     배너의 능선만 떼어내 히어로 하단 전체 폭으로 쓴다. -->
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="150" viewBox="0 210 1200 150" fill="none" preserveAspectRatio="none">
+  <defs>
+    <linearGradient id="ridgeFar" x1="0" y1="210" x2="0" y2="360" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#151d2c" />
+      <stop offset="1" stop-color="#0b1019" />
+    </linearGradient>
+    <linearGradient id="ridgeNear" x1="0" y1="260" x2="0" y2="360" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#10182a" />
+      <stop offset="1" stop-color="#090d15" />
+    </linearGradient>
+  </defs>
+  <path d="M0 268 L96 232 L190 260 L306 214 L420 258 L560 232 L700 262 L860 224 L1000 258 L1108 238 L1200 256 L1200 360 L0 360 Z" fill="url(#ridgeFar)" opacity="0.85" />
+  <path d="M0 300 L140 272 L300 300 L470 276 L640 302 L820 280 L990 302 L1200 282 L1200 360 L0 360 Z" fill="url(#ridgeNear)" />
+</svg>

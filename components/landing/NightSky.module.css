@@ -11,7 +11,7 @@
   mask-image: linear-gradient(
     to bottom,
     var(--color-mask) 0%,
-    var(--color-mask) 60%,
+    var(--color-mask) 74%,
     var(--color-clear) 100%
   );
 }
@@ -25,13 +25,25 @@
 .galaxy {
   position: absolute;
   inset: 0;
-  opacity: 0.95;
+  opacity: 1;
   mask-image: linear-gradient(
     to bottom,
-    var(--color-mask-soft),
-    var(--color-mask) 40%
+    var(--color-mask) 0%,
+    var(--color-mask) 62%,
+    var(--color-mask-soft) 100%
   );
 }
 .sky img.faintStars {
   opacity: 0.15;
+}
+/* 능선은 첫 화면 바닥에 붙어 좌우로 끝까지 이어진다. */
+.ridge {
+  position: absolute;
+  inset-inline: 0;
+  inset-block-end: 0;
+  width: 100%;
+  height: clamp(140px, 22vh, 260px);
+  object-fit: fill;
+  pointer-events: none;
+  z-index: 0;
 }
