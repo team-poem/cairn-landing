@@ -34,7 +34,7 @@ export default function Home() {
           <p>
             A browser testing engine
             <br />
-            made by Poem.
+            <a href="https://github.com/team-poem">made by Poem.</a>
           </p>
         </div>
         <nav aria-label="Footer">
