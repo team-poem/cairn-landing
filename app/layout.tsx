@@ -1,16 +1,18 @@
 import type { Metadata } from 'next';
 import './globals.css';
+import './hallmark.css';
+import './interactions.css';
 export const metadata: Metadata = {
   icons: { icon: '/favicon.svg' },
-  title: 'Cairn — 한 번 찾은 길을 테스트로',
+  title: 'Cairn | Find a path. Run it again.',
   description:
-    'AI로 브라우저 흐름을 발견하고, JSON으로 저장하고, 반복 재생하세요. Poem이 만드는 브라우저 테스트 엔진 Cairn.',
+    'Cairn uses AI to discover browser tasks, saves the steps as JSON, and replays them without model calls. An open source browser testing engine by Poem.',
 };
 export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="ko">
+    <html lang="en">
       <body>{children}</body>
     </html>
   );

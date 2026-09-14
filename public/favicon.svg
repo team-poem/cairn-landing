@@ -1,1 +1,78 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><rect width="64" height="64" rx="12" fill="#181918"/><text x="12" y="46" font-family="Arial,sans-serif" font-size="52" font-weight="700" fill="#fafafa">c</text><circle cx="49" cy="46" r="5" fill="#ce4b22"/></svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="115 115 220 220"><defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="360" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#0d1322" />
+      <stop offset="0.6" stop-color="#0b1019" />
+      <stop offset="1" stop-color="#080b12" />
+    </linearGradient>
+    <radialGradient id="beacon" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#eebd85" stop-opacity="0.32" />
+      <stop offset="0.5" stop-color="#eebd85" stop-opacity="0.10" />
+      <stop offset="1" stop-color="#eebd85" stop-opacity="0" />
+    </radialGradient>
+    <radialGradient id="vig" cx="0.5" cy="0.42" r="0.85">
+      <stop offset="0" stop-color="#000000" stop-opacity="0" />
+      <stop offset="0.72" stop-color="#000000" stop-opacity="0" />
+      <stop offset="1" stop-color="#000000" stop-opacity="0.32" />
+    </radialGradient>
+    <linearGradient id="stoneA" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#bcc4d1" />
+      <stop offset="1" stop-color="#5f6a7e" />
+    </linearGradient>
+    <linearGradient id="stoneB" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#aab3c2" />
+      <stop offset="1" stop-color="#566175" />
+    </linearGradient>
+    <linearGradient id="stoneTop" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#f4cd9c" />
+      <stop offset="1" stop-color="#c48f52" />
+    </linearGradient>
+    <linearGradient id="ridgeFar" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#151d2c" />
+      <stop offset="1" stop-color="#0b1019" />
+    </linearGradient>
+    <linearGradient id="ridgeNear" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#10182a" />
+      <stop offset="1" stop-color="#090d15" />
+    </linearGradient>
+    <linearGradient id="mark" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#f6f8fc" />
+      <stop offset="1" stop-color="#b9c6d8" />
+    </linearGradient>
+  </defs>
+
+  <rect x="115" y="115" width="220" height="220" rx="45" fill="#0d1322" /><g>
+    <ellipse cx="222" cy="308" rx="96" ry="18" fill="#000000" />
+    <g>
+      <g transform="rotate(-2 222 288)">
+        <ellipse cx="222" cy="288" rx="88" ry="27" fill="url(#stoneA)" />
+        <ellipse cx="203" cy="280" rx="47" ry="10" fill="#ffffff" opacity="0.10" />
+      </g>
+    </g>
+    <g>
+      <g transform="rotate(1.6 214 246)">
+        <ellipse cx="214" cy="246" rx="69" ry="23" fill="url(#stoneB)" />
+        <ellipse cx="197" cy="239" rx="36" ry="8" fill="#ffffff" opacity="0.10" />
+      </g>
+    </g>
+    <g>
+      <g transform="rotate(-1.6 226 208)">
+        <ellipse cx="226" cy="208" rx="54" ry="20" fill="url(#stoneA)" />
+        <ellipse cx="213" cy="202" rx="28" ry="7" fill="#ffffff" opacity="0.12" />
+      </g>
+    </g>
+    <g>
+      <g transform="rotate(2 212 174)">
+        <ellipse cx="212" cy="174" rx="41" ry="17" fill="url(#stoneB)" />
+        <ellipse cx="202" cy="169" rx="21" ry="6" fill="#ffffff" opacity="0.13" />
+      </g>
+    </g>
+    <g>
+      <g transform="rotate(-1 218 144)">
+        <ellipse cx="218" cy="144" rx="28" ry="13" fill="url(#stoneTop)" />
+        <ellipse cx="210" cy="140" rx="14" ry="4.5" fill="#ffffff" opacity="0.30" />
+      </g>
+    </g>
+  </g>
+
+
+  </svg>
