@@ -1,6 +1,7 @@
 'use client';
 import { lazy, Suspense, useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
+import { sitePath } from '@/lib/site-path';
 import { EffectBoundary } from './EffectBoundary';
 import styles from './NightSky.module.css';
 const Galaxy = lazy(() => import('./reactbits/Galaxy'));
@@ -35,7 +36,7 @@ export function GalaxyBackdrop({ animated }: { animated: boolean }) {
       >
         <Image
           className={active ? styles.faintStars : ''}
-          src="/cairn-sky-still.svg"
+          src={sitePath('/cairn-sky-still.svg')}
           alt=""
           width={1440}
           height={780}
@@ -74,7 +75,7 @@ export function GalaxyBackdrop({ animated }: { animated: boolean }) {
       {/* 능선은 돌무더기 SVG 에서 떼어내 화면 전체를 가로지르게 둔다. */}
       <Image
         className={styles.ridge}
-        src="/cairn-ridge.svg"
+        src={sitePath('/cairn-ridge.svg')}
         alt=""
         width={1200}
         height={150}
