@@ -2,9 +2,9 @@
 branch: codex/handwritten-landing
 owner: Kangmin_Kim
 started: 2026-09-14
-status: active
+status: done
 goal: 손글씨와 먹선으로 Cairn 실행 흐름을 보여주는 랜딩을 만든다
-next: app/globals.css components/landing/Hero.tsx components/landing/Workflow.tsx app/page.tsx
+next:
 ---
 
 ## 메모
