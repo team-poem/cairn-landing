@@ -2,9 +2,9 @@
 branch: codex/handwritten-landing
 owner: Kangmin_Kim
 started: 2026-09-14
-status: done
-goal: 밤하늘 컨셉을 유지하고 Hallmark로 Cairn 영문 랜딩을 재구성한다
-next:
+status: active
+goal: Cairn 영문 랜딩을 재구성하고 조직 GitHub Pages 자동 배포를 연결한다
+next: .github/workflows/landing.yml README.md
 ---
 
 ## 메모
@@ -26,3 +26,5 @@ next:
 - 실행 상태의 회귀 테스트 5개를 기본 테스트 명령과 landing CI에 연결한다. 새로운 의존성은 없다.
 
 - 사용자 요청: 푸터 made by Poem 문구에 team-poem GitHub 링크 추가.
+
+- 사용자 요청: team-poem.github.io 조직 Pages 생성 및 main 변경 자동 재배포 CI 구성. 원격 foundation은 없고 현재 작업과 충돌하는 동료 수정 없음.
