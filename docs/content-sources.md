@@ -28,3 +28,11 @@ LLM 호출이 없는 재생은 결정론적 기본 재생을 가리킨다. 탐�
 - [공식 소스](https://github.com/DavidHDev/react-bits): 셰이더는 원본을 사용하고, 사이트에 맞게 색·속도·배치를 설정했다. React 생명주기, GPU 포맷 타입, Galaxy 크기 초기화 및 포인터 이벤트 연결만 통합에 맞게 조정했다.
 
 React Bits는 MIT + Commons Clause 라이선스다. 전체 고지는 `public/licenses/react-bits-LICENSE.md`에 포함한다. 웹사이트의 일부로 사용하며 독립 컴포넌트 라이브러리로 재판매하지 않는다. 두 효과는 지연 로딩되며 탐색 링크나 설명용 Workflow 데모를 가로막지 않는다.
+
+## Hallmark 개편과 영어 문구
+
+2026-09-14 사용자 요청으로 [Hallmark 스킬](https://github.com/Nutlope/hallmark/tree/13ac0ec7e148655948100b6396439e481361d690/skills/hallmark)을 적용했다. 기존 밤하늘·돌무더기·React Bits 효과는 유지하고, Narrative Workflow를 중심으로 첫 화면·실행 데모·기능 설명·설치 안내·푸터를 다시 배치했다. 세부 결정과 검토 범위는 `.hallmark/`에 기록한다.
+
+[GeekNews 어휘 분석 글](https://news.hada.io/topic?id=32970)과 [원문](https://louisabraham.github.io/load-bearing/)은 반복되는 상투어와 과장된 서술을 줄이는 편집 참고 자료로 사용했다. 특정 단어의 유무로 작성 주체를 판정하거나 AI 문체 점수를 매기지는 않는다. “Replay forever” 대신 “Find a path. Run it again.”으로 바꾸고, 설명을 실제 동작과 입력·출력 중심으로 다시 썼다.
+
+Space Grotesk와 Geist의 영문 가변 웹폰트를 Google Fonts에서 받아 직접 제공한다. 각 OFL 라이선스는 `public/fonts/`에 포함한다. 기존 프레임워크 전역 스타일과 패키지는 유지했다.

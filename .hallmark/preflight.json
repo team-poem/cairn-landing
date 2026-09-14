@@ -1,0 +1,30 @@
+{
+  "date": "2026-09-14",
+  "source": "https://github.com/Nutlope/hallmark/tree/13ac0ec7e148655948100b6396439e481361d690/skills/hallmark",
+  "skill_version": "1.1.0",
+  "scope": "existing single-page redesign",
+  "before": {
+    "fonts": "Arial and system mono",
+    "palette": "navy, gold, slate; mint for replay",
+    "motion": "Galaxy, Aero Shards, original Cairn SVG; user requested preservation",
+    "framework": "React 19 / vinext; Tailwind 4 and Base UI",
+    "files": ["app/layout.tsx", "app/globals.css", "components/landing/"]
+  },
+  "preserve": [
+    "existing component boundaries",
+    "original Cairn artwork",
+    "React Bits effects",
+    "workflow demo state and timers",
+    "CLI and documentation links"
+  ],
+  "change": [
+    "composition",
+    "display/body fonts",
+    "English copy",
+    "section rhythm"
+  ],
+  "audience": "developers evaluating a browser test engine",
+  "primary_action": "understand the workflow and read the guide",
+  "tone": "night sky, technical, direct",
+  "user_authorization": "현재 컨셉 유지와 디자인 전면 재구성 및 영문 문구 개편을 명시적으로 요청함"
+}

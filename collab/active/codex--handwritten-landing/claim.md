@@ -2,9 +2,9 @@
 branch: codex/handwritten-landing
 owner: Kangmin_Kim
 started: 2026-09-14
-status: active
+status: done
 goal: 밤하늘 컨셉을 유지하고 Hallmark로 Cairn 영문 랜딩을 재구성한다
-next: app/page.tsx app/layout.tsx app/hallmark.css tokens.css components/landing/ public/fonts/ docs/content-sources.md .hallmark/
+next:
 ---
 
 ## 메모

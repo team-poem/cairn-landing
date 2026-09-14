@@ -44,12 +44,12 @@ export function AeroBackdrop() {
                 shardColor="#a8bdd6"
                 accentColor="#e8b077"
                 material="chrome"
-                placement="right"
+                placement="center"
                 flow="ribbon"
                 detail="balanced"
-                density={0.8}
+                density={0.65}
                 shardSize={1.1}
-                scale={0.95}
+                scale={0.85}
                 spread={0.7}
                 depth={0.8}
                 speed={0.38}
@@ -74,14 +74,11 @@ export function AeroBackdrop() {
           className={styles.toggle}
           disabled={reduced}
           onClick={() => setPaused((value) => !value)}
-          aria-label={
-            paused
-              ? '조각 배경 애니메이션 재생하기'
-              : '조각 배경 애니메이션 멈추기'
-          }
+          aria-pressed={paused || reduced}
+          aria-label={paused ? 'Play shard animation' : 'Pause shard animation'}
         >
           {paused || reduced ? <Play size={14} /> : <Pause size={14} />}{' '}
-          {reduced ? '모션 감소' : paused ? '모션 켜기' : '모션 끄기'}
+          {reduced ? 'Reduced motion' : paused ? 'Play shards' : 'Pause shards'}
         </Button>
       )}
     </>

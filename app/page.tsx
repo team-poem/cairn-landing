@@ -1,29 +1,24 @@
+import Image from 'next/image';
 import { ArrowUpRight } from 'lucide-react';
 import { Hero } from '@/components/landing/Hero';
 import { Workflow } from '@/components/landing/Workflow';
 import { Features } from '@/components/landing/Features';
 import { GetStarted } from '@/components/landing/GetStarted';
 import { cairnLinks } from '@/lib/cairn';
-const repo = cairnLinks.repository;
 export default function Home() {
   return (
-    <>
+    <div className="cairn-site">
       <a className="skip-link" href="#main">
-        본문으로 건너뛰기
+        Skip to content
       </a>
-      <header className="site-header wrap">
-        <a className="wordmark" href="#main" aria-label="Cairn 홈">
-          cairn<span className="brand-dot">.</span>
+      <header className="cairn-header cairn-container">
+        <a className="cairn-wordmark" href="#main" aria-label="Cairn home">
+          <Image src="/favicon.svg" width={26} height={32} alt="" unoptimized />
+          cairn
         </a>
-        <nav aria-label="주 메뉴">
-          <a href="#workflow">작동 방식</a>
-          <a href={`${repo}/blob/main/docs/guide.md`}>
-            문서 <ArrowUpRight size={14} />
-          </a>
-          <a className="nav-github" href={repo}>
-            GitHub <ArrowUpRight size={14} />
-          </a>
-        </nav>
+        <a className="cairn-link" href={cairnLinks.repository}>
+          GitHub <ArrowUpRight size={16} />
+        </a>
       </header>
       <main id="main">
         <Hero />
@@ -31,15 +26,30 @@ export default function Home() {
         <Features />
         <GetStarted />
       </main>
-      <footer className="site-footer wrap">
-        <a className="wordmark" href="#main">
-          cairn<span className="brand-dot">.</span>
-        </a>
-        <span>Made by Poem.</span>
-        <a href={repo}>
-          오픈소스로 함께 만들어요 <ArrowUpRight size={15} />
-        </a>
+      <footer className="cairn-footer cairn-container">
+        <div className="footer-masthead">
+          <a href="#main" aria-label="Cairn home">
+            cairn<span>.</span>
+          </a>
+          <p>
+            A browser testing engine
+            <br />
+            made by Poem.
+          </p>
+        </div>
+        <nav aria-label="Footer">
+          <a href="#workflow">How it works</a>
+          <a href={cairnLinks.guide}>
+            Documentation <ArrowUpRight size={15} />
+          </a>
+          <a href={cairnLinks.repository}>
+            GitHub <ArrowUpRight size={15} />
+          </a>
+        </nav>
+        <p className="footer-colophon">
+          Open source. Built to run in your tools.
+        </p>
       </footer>
-    </>
+    </div>
   );
 }

@@ -1,20 +1,18 @@
-.nightHero {
-  isolation: isolate;
-}
 .sky {
   position: absolute;
   inset: 0;
   pointer-events: none;
-  overflow: hidden;
-  background:
-    radial-gradient(ellipse at 82% 13%, #526eaa19 0%, transparent 48%),
-    radial-gradient(ellipse at 51% 0%, #5557810b 0%, transparent 40%);
+  overflow: clip;
+  background: radial-gradient(
+    ellipse at 70% 30%,
+    var(--color-sky-glow),
+    var(--color-clear) 65%
+  );
   mask-image: linear-gradient(
     to bottom,
-    #000 0%,
-    #000 54%,
-    #0009 74%,
-    transparent 93%
+    var(--color-mask) 0%,
+    var(--color-mask) 60%,
+    var(--color-clear) 100%
   );
 }
 .sky img {
@@ -22,33 +20,18 @@
   height: 100%;
   object-fit: cover;
   object-position: center top;
-  opacity: 0.9;
-}
-@media (max-width: 760px) {
-  .sky {
-    mask-image: linear-gradient(
-      to bottom,
-      #0005,
-      #0008 30%,
-      #000 48%,
-      transparent 80%
-    );
-  }
-  .sky img {
-    object-position: 70% top;
-  }
+  opacity: 0.65;
 }
 .galaxy {
   position: absolute;
   inset: 0;
-  opacity: 0.88;
-  mask-image: linear-gradient(90deg, #0004, #0009 40%, #000 65%);
+  opacity: 0.8;
+  mask-image: linear-gradient(
+    to bottom,
+    var(--color-mask-soft),
+    var(--color-mask) 40%
+  );
 }
 .sky img.faintStars {
   opacity: 0.15;
-}
-@media (max-width: 760px) {
-  .galaxy {
-    mask-image: linear-gradient(to bottom, #0006, #000 40%);
-  }
 }

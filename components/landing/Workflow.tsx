@@ -6,63 +6,59 @@ import {
   FileJson,
   Play,
   RotateCcw,
-  Search,
   Wrench,
 } from 'lucide-react';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
 import { Button } from '@/components/ui/button';
-
 const phases = [
   {
     id: 'discover',
     title: 'Discover',
-    subtitle: '말에서 경로로.',
+    label: 'Find the steps',
+    subtitle: 'Start with a task.',
     description:
-      '“로그인하고 장바구니를 열어줘.” AI가 브라우저를 탐색하며 실행할 단계를 찾습니다.',
-    note: '01 / INTENT → PATH',
-    action: '경로 찾기',
+      'Tell Cairn what to do in the browser. AI works out the actions needed to complete the task.',
+    action: 'Find the steps',
     command:
       'cairn discover "log in and open the cart" \\\n  --url=https://your.app --freeze=cart.skill.json',
   },
   {
     id: 'freeze',
     title: 'Freeze',
-    subtitle: '경로에서 파일로.',
+    label: 'Save the path',
+    subtitle: 'Keep what worked.',
     description:
-      '찾아낸 단계를 JSON 파일에 남깁니다. 읽고, 변경을 비교하고, 버전 관리할 수 있는 실행 기록입니다.',
-    note: '02 / PATH → JSON',
-    action: '',
+      'Cairn saves the steps in a JSON file. Read it, compare changes, and commit it with your code.',
+    action: 'Replay the file',
     command: 'cart.skill.json',
   },
   {
     id: 'replay',
     title: 'Replay',
-    subtitle: '다음에도, 같은 길.',
+    label: 'Run it again',
+    subtitle: 'Run the saved steps.',
     description:
-      '저장된 단계를 순서대로 다시 실행합니다. 기본 재생에는 LLM 호출이 필요 없습니다.',
-    note: '03 / JSON → REPLAY',
-    action: '저장한 경로 재생',
+      'Cairn follows the recorded path. Basic replay makes no model calls, so AI does not need to find the same steps on every run.',
+    action: 'Run the steps',
     command: 'cairn replay cart.skill.json',
   },
   {
     id: 'heal',
     title: 'Heal',
-    subtitle: '달라진 길도, 이어서.',
+    label: 'Repair a change',
+    subtitle: 'Pick up where it broke.',
     description:
-      '장바구니 버튼이 바뀌어 기존 단계가 깨진 상황입니다. AI로 바뀐 단계를 복구하고 새 경로를 저장합니다.',
-    note: '04 / REPAIR → SAVE',
-    action: '바뀐 단계 복구',
+      'When a changed button breaks a step, use AI to find a replacement. Save the repaired path for the next run.',
+    action: 'Repair the step',
     command: 'cairn replay cart.skill.json --heal',
   },
 ] as const;
 type Phase = (typeof phases)[number]['id'];
-const actions = ['로그인', '상품 선택', '장바구니 열기'];
-
+const actions = ['Log in', 'Select a product', 'Open the cart'];
 export function Workflow() {
   const [phase, setPhase] = useState<Phase>('discover');
   const [progress, setProgress] = useState(0);
   const [running, setRunning] = useState(false);
-  const [run, setRun] = useState(0);
   const complete = progress === 3;
   useEffect(() => {
     if (!running) return;
@@ -80,229 +76,235 @@ export function Workflow() {
   function start() {
     setProgress(phase === 'heal' ? 2 : 0);
     setRunning(true);
-    setRun((previous) => previous + 1);
   }
   return (
     <section
-      className="workflow wrap"
+      className="flow-section cairn-container"
       id="workflow"
       aria-labelledby="workflow-title"
     >
-      <div className="section-heading">
-        <p className="eyebrow">01 / A PATH WORTH KEEPING</p>
+      <div className="flow-heading">
         <h2 id="workflow-title">
-          발견은 한 번.
+          A browser task,
           <br />
-          검증은 계속.
+          step by step.
         </h2>
         <p>
-          한 번 찾은 브라우저 흐름이 어떻게 테스트가 될까요?
-          <br />네 단계를 눌러 Cairn의 실행 방식을 따라가 보세요.
+          Follow a shopping task from the first discovery to a saved test. Then
+          see what happens when a button changes.
         </p>
       </div>
       <Tabs
         value={phase}
         onValueChange={(value) => selectPhase(value as Phase)}
-        className="engine-demo"
+        className="flow-workbench"
       >
-        <TabsList className="phase-tabs" aria-label="Cairn 실행 단계">
+        <TabsList className="flow-tabs" aria-label="Cairn workflow stages">
           {phases.map((item, index) => (
             <TabsTrigger
               key={item.id}
               value={item.id}
-              className="phase-tab"
+              className="flow-tab"
               data-phase={item.id}
             >
-              <span className="phase-number">0{index + 1}</span>
-              <span className="phase-label">{item.title}</span>
-              <ArrowRight size={16} />
+              <span className="flow-tab-index">0{index + 1}</span>
+              <span>
+                <span className="flow-tab-title">{item.title}</span>
+                <span className="flow-tab-description">{item.label}</span>
+              </span>
+              <ArrowRight size={17} />
             </TabsTrigger>
           ))}
         </TabsList>
         {phases.map((item) => (
-          <TabsContent key={item.id} value={item.id} className="phase-content">
-            <div className="phase-story">
-              <p className="phase-margin-note">{item.note}</p>
+          <TabsContent
+            key={item.id}
+            value={item.id}
+            className="flow-panel"
+            data-phase={item.id}
+          >
+            <div className="flow-story">
               <h3>{item.subtitle}</h3>
               <p>{item.description}</p>
-              <div className="demo-actions">
-                {item.id !== 'freeze' && (
-                  <Button
-                    className="button primary"
-                    onClick={start}
-                    disabled={running}
-                  >
-                    {running
-                      ? '실행 중…'
-                      : complete
-                        ? '다시 보기'
-                        : item.action}
-                    {item.id === 'heal' ? (
-                      <Wrench size={16} />
-                    ) : complete ? (
-                      <RotateCcw size={16} />
-                    ) : (
-                      <Play size={16} />
-                    )}
-                  </Button>
-                )}
-                {item.id === 'freeze' && (
-                  <Button
-                    className="button primary"
-                    onClick={() => selectPhase('replay')}
-                  >
-                    저장한 경로 재생하기 <ArrowRight size={16} />
-                  </Button>
-                )}
+              <div className="flow-actions">
+                <Button
+                  className="cairn-button"
+                  onClick={
+                    item.id === 'freeze' ? () => selectPhase('replay') : start
+                  }
+                  disabled={running}
+                  aria-busy={running}
+                >
+                  {running ? 'Running…' : complete ? 'Run again' : item.action}
+                  {item.id === 'freeze' ? (
+                    <ArrowRight size={16} />
+                  ) : item.id === 'heal' ? (
+                    <Wrench size={16} />
+                  ) : complete ? (
+                    <RotateCcw size={16} />
+                  ) : (
+                    <Play size={16} />
+                  )}
+                </Button>
                 {complete && item.id === 'discover' && (
                   <Button
                     variant="ghost"
-                    className="demo-next"
+                    className="flow-next"
                     onClick={() => selectPhase('freeze')}
                   >
-                    저장된 파일 보기 <ArrowRight size={16} />
+                    View saved steps <ArrowRight size={16} />
                   </Button>
                 )}
               </div>
-              <p className="simulation-note">
-                설명용 인터랙티브 데모 · 실제 사이트에 접속하지 않습니다.
+              <p className="flow-note">
+                Illustrated demo. No browser session is started.
               </p>
             </div>
-            <div
-              className={`demo-surface ${item.id === 'heal' ? 'healing' : item.id === 'replay' ? 'replaying' : ''}`}
-            >
-              <div className="demo-topline">
+            <div className="flow-trace">
+              <div className="flow-trace-heading">
                 <span>
-                  {item.id === 'freeze' ? (
-                    <FileJson size={15} />
-                  ) : (
-                    <Search size={15} />
-                  )}{' '}
-                  {item.id === 'freeze'
-                    ? 'cart.skill.json'
-                    : 'your.app / shopping'}
+                  {item.id === 'freeze' ? 'Saved steps' : 'Shopping task'}
                 </span>
                 <span>
                   {item.id === 'replay'
-                    ? 'BASIC REPLAY'
-                    : item.id.toUpperCase()}
+                    ? 'No model calls'
+                    : item.id === 'freeze'
+                      ? 'JSON file'
+                      : item.id === 'heal'
+                        ? 'AI repair'
+                        : 'AI discovery'}
                 </span>
               </div>
               {item.id === 'freeze' ? (
-                <div className="freeze-view">
-                  <span className="file-note">실행할 단계가 파일 안에.</span>
-                  <div className="recorded-steps">
+                <div className="flow-file">
+                  <div className="flow-file-name">
+                    <FileJson size={26} />
+                    <span>
+                      cart.skill.json<small>Step summary</small>
+                    </span>
+                  </div>
+                  <ol className="flow-steps">
                     {actions.map((action, index) => (
-                      <div key={action}>
-                        <span>0{index + 1}</span>
-                        <Check size={16} />
+                      <li key={action} className="flow-step is-finished">
+                        <span className="flow-step-index">0{index + 1}</span>
                         <span>{action}</span>
-                      </div>
+                        <span className="flow-step-status">
+                          <Check size={17} aria-label="Saved" />
+                        </span>
+                      </li>
                     ))}
-                  </div>
-                  <div className="file-bottom">
-                    <FileJson size={18} />
-                    <span>JSON으로 기록 · Git으로 버전 관리</span>
-                  </div>
+                  </ol>
+                  <p className="flow-output">
+                    A readable file to review and version in Git.
+                  </p>
                 </div>
               ) : (
-                <div className="run-view">
-                  <div
-                    className="demo-path"
-                    key={`${item.id}-${run}`}
-                    data-progress={progress}
-                    data-running={running}
-                    aria-hidden="true"
-                  >
-                    <svg viewBox="0 0 400 76" fill="none">
+                <div className="flow-run">
+                  <div className="flow-path" aria-hidden="true">
+                    <svg viewBox="0 0 460 88" fill="none">
+                      <path className="flow-path-guide" d="M20 44H440" />
                       <path
-                        className="route-guide"
-                        d="M30 38C90 9 104 63 155 38S220 9 265 38S330 63 370 38"
-                      />
-                      <path
-                        className="route-progress"
+                        className="flow-path-fill"
                         pathLength="3"
-                        d="M30 38C90 9 104 63 155 38S220 9 265 38S330 63 370 38"
+                        d="M20 44H440"
                         style={{
                           strokeDasharray: '3',
                           strokeDashoffset: 3 - progress,
                         }}
                       />
-                      {[30, 155, 265, 370].map((x, index) => (
-                        <circle
-                          key={x}
-                          cx={x}
-                          cy="38"
-                          r={index <= progress ? 5 : 3}
-                          className={index <= progress ? 'reached' : ''}
-                        />
+                      {[20, 160, 300, 440].map((x, index) => (
+                        <g key={x}>
+                          <circle
+                            cx={x}
+                            cy="44"
+                            r={index <= progress ? 7 : 4}
+                            className={index <= progress ? 'is-reached' : ''}
+                          />
+                          {index <= progress && (
+                            <circle
+                              cx={x}
+                              cy="44"
+                              r="13"
+                              className="flow-path-halo"
+                            />
+                          )}
+                        </g>
                       ))}
                     </svg>
                   </div>
-                  <div className="demo-step-list">
+                  <ol className="flow-steps">
                     {actions.map((action, index) => {
                       const done =
                         index < progress || (item.id === 'heal' && index < 2);
                       const broken =
                         item.id === 'heal' && index === 2 && !complete;
                       return (
-                        <div
+                        <li
                           key={action}
-                          className={`demo-step ${done ? 'is-done' : ''} ${broken ? 'is-broken' : ''}`}
+                          className={`flow-step ${done ? 'is-finished' : ''} ${broken ? 'needs-repair' : ''}`}
                         >
-                          <span className="demo-step-number">0{index + 1}</span>
-                          <span>
+                          <span className="flow-step-index">0{index + 1}</span>
+                          <span className="flow-step-name">
                             {item.id === 'heal' && index === 2 ? (
                               <>
-                                <del>장바구니 열기</del>
-                                <span className="new-target">쇼핑백 보기</span>
+                                <del>Open the cart</del>
+                                <span>
+                                  {complete
+                                    ? 'View shopping bag'
+                                    : 'Button changed'}
+                                </span>
                               </>
                             ) : (
                               action
                             )}
                           </span>
-                          <span className="step-status">
+                          <span className="flow-step-status">
                             {broken ? (
                               running ? (
-                                '복구 중'
+                                'Repairing'
                               ) : (
-                                '버튼 변경'
+                                'Not found'
                               )
                             ) : done ? (
-                              <Check size={17} />
+                              <Check size={17} aria-label="Completed" />
                             ) : running && index === progress ? (
-                              '실행 중'
+                              'Running'
                             ) : (
-                              '대기'
+                              'Waiting'
                             )}
                           </span>
-                        </div>
+                        </li>
                       );
                     })}
-                  </div>
+                  </ol>
                   <output
-                    className={`run-result ${complete ? 'is-complete' : ''}`}
+                    className={`flow-output ${complete ? 'is-finished' : ''}`}
+                    aria-live="polite"
                   >
                     {complete
                       ? item.id === 'heal'
-                        ? '바뀐 단계를 복구하고 새 경로를 저장했어요.'
+                        ? 'Repaired step saved. The next run uses the updated path.'
                         : item.id === 'replay'
-                          ? '기록한 세 단계를 같은 순서로 재생했어요.'
-                          : '세 단계를 찾았어요. 파일로 남길 준비가 됐어요.'
+                          ? 'All three steps replayed in order.'
+                          : 'Three steps found. Ready to save.'
                       : running
-                        ? '경로를 따라 실행하고 있어요…'
+                        ? 'Following the path…'
                         : item.id === 'heal'
-                          ? '기존 버튼을 찾지 못했어요. 복구를 눌러 이어보세요.'
-                          : '실행 버튼을 눌러 경로를 따라가 보세요.'}
+                          ? 'The cart button has changed. Repair this step to continue.'
+                          : 'Run the demo to follow each step.'}
                   </output>
                 </div>
               )}
-              <div className="demo-command">
-                <span>{item.id === 'freeze' ? 'OUTPUT' : 'CLI'}</span>
-                <pre>
-                  <code>{item.command}</code>
-                </pre>
-              </div>
+            </div>
+            <div className="flow-command">
+              <span>
+                {item.id === 'freeze'
+                  ? 'Saved as'
+                  : 'Try this in your terminal'}
+              </span>
+              <pre>
+                <code>{item.command}</code>
+              </pre>
             </div>
           </TabsContent>
         ))}
