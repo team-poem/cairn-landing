@@ -109,10 +109,10 @@
 }
 .sculpture-hit[data-slot='button'] {
   position: absolute;
-  left: 6%;
-  top: 3%;
-  width: 85%;
-  height: 88%;
+  left: 7%;
+  top: 21%;
+  width: 83%;
+  height: 72%;
   min-height: 44px;
   border: 0;
   background: transparent;

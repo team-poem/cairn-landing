@@ -1,19 +1,10 @@
+/* .sky 에 mask 를 걸면 스택 컨텍스트가 생겨 .galaxy 의 screen 블렌드가
+   히어로 배경까지 닿지 않는다. 마스크와 광채는 각 레이어에 직접 건다. */
 .sky {
   position: absolute;
   inset: 0;
   pointer-events: none;
   overflow: clip;
-  background: radial-gradient(
-    ellipse at 70% 30%,
-    var(--color-sky-glow),
-    var(--color-clear) 65%
-  );
-  mask-image: linear-gradient(
-    to bottom,
-    var(--color-mask) 0%,
-    var(--color-mask) 74%,
-    var(--color-clear) 100%
-  );
 }
 .sky img {
   width: 100%;
@@ -21,16 +12,21 @@
   object-fit: cover;
   object-position: center top;
   opacity: 0.65;
+  mask-image: linear-gradient(
+    to bottom,
+    var(--color-mask) 0%,
+    var(--color-mask) 74%,
+    var(--color-clear) 100%
+  );
 }
 .galaxy {
   position: absolute;
   inset: 0;
-  opacity: 1;
   mix-blend-mode: screen;
   mask-image: linear-gradient(
     to bottom,
     var(--color-mask) 0%,
-    var(--color-mask) 62%,
+    var(--color-mask) 66%,
     var(--color-mask-soft) 100%
   );
 }
