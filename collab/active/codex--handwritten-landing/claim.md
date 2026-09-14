@@ -28,3 +28,5 @@ next: .github/workflows/landing.yml README.md
 - 사용자 요청: 푸터 made by Poem 문구에 team-poem GitHub 링크 추가.
 
 - 사용자 요청: team-poem.github.io 조직 Pages 생성 및 main 변경 자동 재배포 CI 구성. 원격 foundation은 없고 현재 작업과 충돌하는 동료 수정 없음.
+
+- 2026-09-14 사용자 승인: PR #2 충돌 해결을 별도 클론에서 진행한다. PR #1 squash 이전 기반과 main의 파일 내용이 같음을 확인했으며, 현재 랜딩과 진행 중인 Pages 작업 선언을 유지하고 main을 병합한다.
