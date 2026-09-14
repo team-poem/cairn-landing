@@ -20,7 +20,10 @@ const en = {
     language: 'Language',
   },
   hero: {
-    eyebrow: 'Agentic testing, by Poem.',
+    name: 'Cairn',
+    eyebrow: ', an agentic testing engine.',
+    nameMeaning:
+      'A cairn is a stack of stones hikers leave on a trail to mark the way. This one marks a path through your app so the next run can follow it.',
     titleTop: 'Find a path.',
     titleBottom: 'Run it again.',
     description:
@@ -187,7 +190,10 @@ const ko: Copy = {
     language: '언어',
   },
   hero: {
-    eyebrow: '에이전틱 테스트, Poem.',
+    name: '케언',
+    eyebrow: ', 에이전틱 테스팅 엔진.',
+    nameMeaning:
+      '케언(cairn)은 산길에 길을 표시하려고 쌓아 둔 돌무더기입니다. 이 케언은 앱을 지나는 경로를 찾아 표시해 두고, 다음 실행이 그 길을 따라가게 합니다.',
     titleTop: '경로를 찾고,',
     titleBottom: '다시 실행한다.',
     description:
@@ -298,7 +304,7 @@ const ko: Copy = {
     model: 'Model',
     modelRole: '탐색과 복구',
     core: 'Cairn',
-    coreRole: '에이전틱 테스트 엔진',
+    coreRole: '에이전틱 테스팅 엔진',
     coreLabel: 'Cairn 엔진의 동작 보기',
     browser: 'Browser',
     browserRole: '단계 실행',
@@ -336,7 +342,7 @@ const ko: Copy = {
     note: '탐색, 복구, AI 판정은 모델을 호출할 수 있습니다.',
   },
   footer: {
-    taglineTop: '에이전틱 테스트 엔진',
+    taglineTop: '에이전틱 테스팅 엔진',
     taglineBottom: 'Poem이 만듭니다.',
     navLabel: '푸터',
     howItWorks: '동작 방식',

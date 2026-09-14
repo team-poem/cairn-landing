@@ -3,6 +3,12 @@ import { useEffect, useState } from 'react';
 import { CairnSculpture } from './CairnSculpture';
 import { ArrowDown, ArrowUpRight, Pause, Play } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from '@/components/ui/tooltip';
 import { cairnLinks } from '@/lib/cairn';
 import { GalaxyBackdrop } from './GalaxyBackdrop';
 import { useI18n } from './LocaleProvider';
@@ -26,7 +32,24 @@ export function Hero() {
       <div className="night-composition cairn-container">
         <CairnSculpture animated={animated} />
         <div className="night-copy">
-          <p className="night-eyebrow">{t.hero.eyebrow}</p>
+          <p className="night-eyebrow">
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger className="night-name">
+                  {t.hero.name}
+                </TooltipTrigger>
+                <TooltipContent
+                  side="bottom"
+                  align="start"
+                  sideOffset={8}
+                  className="night-name-tip"
+                >
+                  {t.hero.nameMeaning}
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
+            {t.hero.eyebrow}
+          </p>
           <h1 id="hero-title">
             {t.hero.titleTop}
             <br />

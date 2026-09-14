@@ -274,6 +274,38 @@ body {
   margin: 0;
   color: var(--color-ink-2);
 }
+/* 이름은 사전 항목처럼 점선 밑줄. 올리면 뜻이 뜬다. */
+.night-name[data-slot='tooltip-trigger'] {
+  font: inherit;
+  color: var(--color-ink);
+  text-decoration: underline dotted;
+  text-decoration-color: var(--color-accent);
+  text-underline-offset: 0.28em;
+  text-decoration-thickness: 1.5px;
+  cursor: help;
+  transition: color 120ms ease;
+}
+.night-name[data-slot='tooltip-trigger']:hover,
+.night-name[data-slot='tooltip-trigger'][data-popup-open] {
+  color: var(--color-accent);
+}
+.night-name-tip[data-slot='tooltip-content'] {
+  max-width: 24rem;
+  padding: 10px 14px;
+  border: 1px solid var(--color-paper-3);
+  background: var(--color-paper-2);
+  color: var(--color-ink-2);
+  font-size: var(--text-sm);
+  line-height: 1.55;
+  box-shadow: 0 12px 32px -8px var(--color-mask-soft);
+}
+.night-name-tip[data-slot='tooltip-content'] svg {
+  fill: var(--color-paper-2);
+  color: var(--color-paper-2);
+}
+:lang(ko) .night-name-tip[data-slot='tooltip-content'] {
+  word-break: keep-all;
+}
 .night-copy h1 {
   font-size: var(--text-display);
   line-height: 1.04;
