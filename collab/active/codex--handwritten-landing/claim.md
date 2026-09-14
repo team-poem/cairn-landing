@@ -2,9 +2,9 @@
 branch: codex/handwritten-landing
 owner: Kangmin_Kim
 started: 2026-09-14
-status: done
-goal: README의 밤하늘과 돌무더기 배너를 확장한 Cairn 랜딩을 만든다
-next:
+status: active
+goal: 밤하늘 컨셉을 유지하고 Hallmark로 Cairn 영문 랜딩을 재구성한다
+next: app/page.tsx app/layout.tsx app/hallmark.css tokens.css components/landing/ public/fonts/ docs/content-sources.md .hallmark/
 ---
 
 ## 메모
@@ -18,3 +18,5 @@ next:
 - 사용자 요청: 기존 배너 컨셉을 유지하며 히어로 전체의 밤하늘 별빛과 반짝임을 보강한다. 공용 CSS는 수정하지 않는다.
 
 - 사용자 요청: React Bits Galaxy와 Aero Shards를 실제 원본 컴포넌트로 적용한다. 공식 의존성 ogl·vgpu를 추가한다. 동료 미커밋 변경 없음과 foundation 대체 기록을 재확인했다.
+
+- 사용자 요청: Hallmark 스킬을 적용해 현 컨셉을 유지하며 전면 재구성하고 GeekNews 32970 글을 참고해 영어 문구를 다듬는다. foundation이 원격에 없고 bootstrap 완료 기록이 대체를 명시함을 재확인. 단일 작업 트리이며 남의 미커밋 변경 없음.
