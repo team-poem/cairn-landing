@@ -512,7 +512,11 @@ body {
   margin-bottom: var(--space-xl);
 }
 .flow-heading h2,
-.engine-intro h2,
+.engine-intro h2 {
+  font-size: var(--text-heading);
+  line-height: 1.12;
+  margin: 0;
+}
 .flow-heading > p {
   color: var(--color-ink-2);
   font-size: var(--text-body);
@@ -896,7 +900,7 @@ body {
     column-gap: var(--space-2xl);
     align-items: center;
   }
-      .start-command pre {
+  .start-command pre {
     font-size: var(--text-body);
   }
 }
