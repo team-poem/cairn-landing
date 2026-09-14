@@ -60,17 +60,17 @@
   position: absolute;
   inset-inline: 0;
   inset-block-end: 0;
-  height: clamp(320px, 54vh, 700px);
+  height: clamp(360px, 62vh, 800px);
   overflow: clip;
   pointer-events: none;
   z-index: 0;
   mask-image: linear-gradient(
     to bottom,
     var(--color-clear) 0%,
-    var(--color-mask-soft) 28%,
-    var(--color-mask) 52%,
-    var(--color-mask) 66%,
-    var(--color-mask-soft) 84%,
+    var(--color-mask-soft) 40%,
+    var(--color-mask) 60%,
+    var(--color-mask) 70%,
+    var(--color-mask-soft) 86%,
     var(--color-clear) 100%
   );
 }
@@ -88,13 +88,13 @@
 .mist::before {
   background-image: url('/cairn-mist-a.png');
   background-size: 50% 100%;
-  opacity: 0.55;
+  opacity: 0.5;
   animation: mist-drift 80s linear infinite;
 }
 .mist::after {
   background-image: url('/cairn-mist-b.png');
   background-size: 40% 100%;
-  opacity: 0.42;
+  opacity: 0.36;
   animation: mist-drift 125s linear infinite reverse;
 }
 @keyframes mist-drift {
