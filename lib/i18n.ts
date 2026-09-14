@@ -136,23 +136,77 @@ const en = {
   features: {
     titleTop: 'Your tools.',
     titleBottom: 'Cairn underneath.',
-    lead: 'Run it from a terminal, wire it into CI, or embed it in your own tool. The details live in the docs.',
+    lead: 'Run it from the CLI, or embed it in a QA tool, a CI check, or a monitor. Nothing app-specific lives inside — every variable behavior arrives through a port.',
     link: 'Explore the engine API',
+    pipelineLabel: 'Pipeline',
+    stages: {
+      context: { name: 'Context', role: 'Assembles grounding' },
+      plan: { name: 'Plan', role: 'Intent to Scenario' },
+      execute: { name: 'Execute', role: 'Drives the browser' },
+      judge: { name: 'Judge', role: 'Rules on evidence' },
+      report: { name: 'Report', role: 'Emits the result' },
+    },
+    portsLabel: 'Six ports. Pick one to see where it plugs in.',
+    ports: {
+      ContextProvider: {
+        stage: 'context',
+        description:
+          'Gathers what the run should know — the intent now; a git diff, a ticket, or docs later.',
+      },
+      Planner: {
+        stage: 'plan',
+        description:
+          'Turns intent into a Scenario. A static planner replays a frozen file; an LLM loop discovers a new one.',
+      },
+      SkillStore: {
+        stage: 'plan',
+        description:
+          'Where frozen *.skill.json files live. A folder on disk by default, or your own store.',
+      },
+      Driver: {
+        stage: 'execute',
+        description:
+          'Drives the browser and waits for the page to settle. Chrome DevTools ships; bring Playwright or your own.',
+      },
+      Critic: {
+        stage: 'judge',
+        description:
+          'Decides pass or fail from three layers of evidence — execution, perception, logic — not a screenshot guess.',
+      },
+      Reporter: {
+        stage: 'report',
+        description:
+          'Sends the result anywhere: console, JSON, or the tracker your team already uses.',
+      },
+    },
   },
   engine: {
-    tabsLabel: 'Where it runs',
-    hosts: {
-      cli: { tab: 'Terminal', node: 'Terminal', role: 'You, at a prompt' },
-      ci: { tab: 'CI', node: 'CI check', role: 'Every pull request' },
-      app: { tab: 'Your app', node: 'Your app', role: 'A QA tool, a monitor' },
+    tabsLabel: 'Engine ports',
+    run: 'Run a replay',
+    pause: 'Pause',
+    runAgain: 'Run again',
+    reset: 'Reset',
+    codeLabel: 'What you wire',
+    illustrative: 'Illustrative code',
+    outputLabel: 'Output',
+    idle: 'Press run to send a frozen scenario through the pipeline.',
+    stageOutput: {
+      context: 'context · intent + cart.skill.json loaded',
+      plan: 'plan · StaticPlanner → 6 steps, no model',
+      execute: 'execute · 6 actions · 34 requests · settled',
+      judge: 'judge · ✓ navigated /cart · ✓ no-failed-requests',
+      report: 'report · ✓ pass — llm: 0 call(s)',
     },
-    core: 'Cairn',
-    coreRole: 'Replays the frozen file',
-    browser: 'Browser',
-    browserRole: 'Runs the steps',
-    result: '✓ pass · llm: 0 call(s)',
-    caption: 'Same engine, same frozen file, wherever it runs.',
-    illustrative: 'Illustrative',
+    done: 'Same input, same verdict, zero model calls. Swap any port and run it again.',
+    note: 'Simulated run. Stage output mirrors what cairn replay prints.',
+    portRole: {
+      ContextProvider: 'What the run should know',
+      Planner: 'Intent to Scenario',
+      SkillStore: 'Where frozen files live',
+      Driver: 'Drives the browser',
+      Critic: 'Rules on evidence',
+      Reporter: 'Emits the result',
+    },
   },
   start: {
     title: 'Give it a task.',
@@ -311,23 +365,71 @@ const ko: Copy = {
   features: {
     titleTop: '쓰던 도구 그대로,',
     titleBottom: '그 아래에 Cairn.',
-    lead: '터미널에서 돌리거나, CI 에 넣거나, 직접 만드는 도구 안에 심습니다. 자세한 건 문서에 있습니다.',
+    lead: 'CLI로 실행하거나 QA 도구, CI 검사, 모니터 안에 넣어 씁니다. 앱에 특정한 로직은 엔진 안에 없고, 달라지는 동작은 전부 포트로 들어옵니다.',
     link: '엔진 API 살펴보기',
+    pipelineLabel: '파이프라인',
+    stages: {
+      context: { name: 'Context', role: '근거를 모은다' },
+      plan: { name: 'Plan', role: '의도를 시나리오로' },
+      execute: { name: 'Execute', role: '브라우저를 움직인다' },
+      judge: { name: 'Judge', role: '증거로 판정한다' },
+      report: { name: 'Report', role: '결과를 내보낸다' },
+    },
+    portsLabel: '포트 여섯. 하나를 고르면 어디에 꽂히는지 보입니다.',
+    ports: {
+      ContextProvider: {
+        stage: 'context',
+        description: '실행이 알아야 할 것을 모읍니다. 지금은 의도, 앞으로는 git diff·티켓·문서.',
+      },
+      Planner: {
+        stage: 'plan',
+        description: '의도를 시나리오로 바꿉니다. 정적 플래너는 저장된 파일을 재생하고, LLM 루프는 새로 탐색합니다.',
+      },
+      SkillStore: {
+        stage: 'plan',
+        description: '저장된 *.skill.json 이 사는 곳. 기본은 디스크의 폴더, 원하면 직접 만든 저장소.',
+      },
+      Driver: {
+        stage: 'execute',
+        description: '브라우저를 움직이고 화면이 안정될 때까지 기다립니다. Chrome DevTools 가 기본, Playwright 나 직접 만든 드라이버도 됩니다.',
+      },
+      Critic: {
+        stage: 'judge',
+        description: '실행·인식·로직 세 겹의 증거로 통과 여부를 정합니다. 스크린샷 추측이 아닙니다.',
+      },
+      Reporter: {
+        stage: 'report',
+        description: '결과를 어디로든 보냅니다. 콘솔, JSON, 팀이 쓰는 트래커.',
+      },
+    },
   },
   engine: {
-    tabsLabel: '어디서 도는가',
-    hosts: {
-      cli: { tab: '터미널', node: '터미널', role: '프롬프트 앞의 당신' },
-      ci: { tab: 'CI', node: 'CI 검사', role: '모든 PR 마다' },
-      app: { tab: '내 앱', node: '내 앱', role: 'QA 도구, 모니터' },
+    tabsLabel: '엔진 포트',
+    run: '재생 실행',
+    pause: '일시정지',
+    runAgain: '다시 실행',
+    reset: '초기화',
+    codeLabel: '실제로 연결하는 것',
+    illustrative: '설명용 코드',
+    outputLabel: '출력',
+    idle: '실행을 누르면 저장된 시나리오가 파이프라인을 지나갑니다.',
+    stageOutput: {
+      context: 'context · 의도 + cart.skill.json 로드',
+      plan: 'plan · StaticPlanner → 6단계, 모델 없음',
+      execute: 'execute · 동작 6 · 요청 34 · 안정됨',
+      judge: 'judge · ✓ /cart 로 이동 · ✓ 실패한 요청 없음',
+      report: 'report · ✓ pass — llm: 0 call(s)',
     },
-    core: 'Cairn',
-    coreRole: '저장된 파일을 재생한다',
-    browser: '브라우저',
-    browserRole: '단계를 실행한다',
-    result: '✓ pass · llm: 0 call(s)',
-    caption: '같은 엔진, 같은 저장 파일 — 어디서 돌든.',
-    illustrative: '설명용',
+    done: '같은 입력, 같은 판정, 모델 호출 0. 포트 하나를 바꾸고 다시 돌려 보세요.',
+    note: '설명용 실행입니다. 단계 출력은 cairn replay 가 찍는 것을 따랐습니다.',
+    portRole: {
+      ContextProvider: '실행이 알아야 할 것',
+      Planner: '의도를 시나리오로',
+      SkillStore: '저장된 파일이 사는 곳',
+      Driver: '브라우저를 움직인다',
+      Critic: '증거로 판정한다',
+      Reporter: '결과를 내보낸다',
+    },
   },
   start: {
     title: '할 일을 알려주세요.',

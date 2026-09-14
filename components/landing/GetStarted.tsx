@@ -1,30 +1,46 @@
 'use client';
-import { useState } from 'react';
-import {
-  AppWindow,
-  ArrowUpRight,
-  Cpu,
-  GitPullRequestArrow,
-  Monitor,
-  Terminal,
-} from 'lucide-react';
+import { useEffect, useState } from 'react';
+import { ArrowRight, ArrowUpRight, Pause, Play, RotateCcw } from 'lucide-react';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Button } from '@/components/ui/button';
 import { cairnLinks } from '@/lib/cairn';
 import { useI18n } from './LocaleProvider';
-const hosts = ['cli', 'ci', 'app'] as const;
-type Host = (typeof hosts)[number];
-const icons = { cli: Terminal, ci: GitPullRequestArrow, app: AppWindow };
-/* 명령은 README 의 예제를 줄인 것이다. 어디서 돌든 같은 파일을 재생한다. */
-const commands: Record<Host, string> = {
-  cli: '$ cairn replay cart.skill.json',
-  ci: '- run: npm i -g cairn-engine\n- run: cairn replay cart.skill.json --heal',
-  app: 'const { result } = await runScenario(scenario, { heal: true });\nif (!result.verdict.passed) process.exit(1);',
-};
-/* 3번 섹션은 그림 하나다: 내 도구 → Cairn → 브라우저. 도구만 바꿔 본다. */
+const stages = ['context', 'plan', 'execute', 'judge', 'report'] as const;
+type Stage = (typeof stages)[number];
+const ports = [
+  'ContextProvider',
+  'Planner',
+  'SkillStore',
+  'Driver',
+  'Critic',
+  'Reporter',
+] as const;
+type Port = (typeof ports)[number];
+const TICK = 820;
 export function GetStarted() {
   const { t } = useI18n();
-  const [host, setHost] = useState<Host>('cli');
-  const HostIcon = icons[host];
+  const [port, setPort] = useState<Port>('Driver');
+  const [running, setRunning] = useState(false);
+  const [reached, setReached] = useState(-1); // 실행이 지나간 마지막 단계
+  const done = reached === stages.length - 1;
+  useEffect(() => {
+    if (!running || done) return;
+    const timer = window.setTimeout(() => {
+      const next = reached + 1;
+      setReached(next);
+      if (next === stages.length - 1) setRunning(false);
+    }, TICK);
+    return () => window.clearTimeout(timer);
+  }, [running, reached, done]);
+  const play = () => {
+    if (done) setReached(-1);
+    setRunning(true);
+  };
+  const reset = () => {
+    setRunning(false);
+    setReached(-1);
+  };
+  const portStage = t.features.ports[port].stage as Stage;
   return (
     <section
       className="start-section"
@@ -46,55 +62,109 @@ export function GetStarted() {
           </p>
         </div>
         <Tabs
-          value={host}
-          onValueChange={(value) => setHost(value as Host)}
-          className="flow-workbench host-workbench"
+          value={port}
+          onValueChange={(value) => setPort(value as Port)}
+          orientation="vertical"
+          className="flow-workbench engine-workbench"
         >
-          <TabsList className="host-tabs" aria-label={t.engine.tabsLabel}>
-            {hosts.map((key) => {
-              const Icon = icons[key];
-              return (
-                <TabsTrigger key={key} value={key} className="host-tab">
-                  <Icon size={15} />
-                  {t.engine.hosts[key].tab}
-                </TabsTrigger>
-              );
-            })}
+          <TabsList className="engine-port-list" aria-label={t.engine.tabsLabel}>
+            {ports.map((name, index) => (
+              <TabsTrigger
+                key={name}
+                value={name}
+                className="flow-tab engine-port"
+                data-stage={t.features.ports[name].stage}
+              >
+                <span className="flow-tab-index">0{index + 1}</span>
+                <span>
+                  <span className="flow-tab-title">{name}</span>
+                  <span className="flow-tab-description">
+                    {t.engine.portRole[name]}
+                  </span>
+                </span>
+                <ArrowRight size={17} />
+              </TabsTrigger>
+            ))}
           </TabsList>
-          {/* key 로 다시 그려 선의 흐름과 결과 배지가 탭마다 처음부터 돈다 */}
-          <div className="host-scene" key={host}>
-            <div className="engine-network" aria-label={t.engine.caption}>
-              <div className="network-node network-model">
-                <HostIcon size={20} />
-                <strong>{t.engine.hosts[host].node}</strong>
-                <span>{t.engine.hosts[host].role}</span>
-              </div>
-              <div className="network-wire wire-in" aria-hidden="true">
-                <i />
-              </div>
-              <div className="network-node network-core">
-                <Cpu size={28} />
-                <strong>{t.engine.core}</strong>
-                <span>{t.engine.coreRole}</span>
-              </div>
-              <div className="network-wire wire-out" aria-hidden="true">
-                <i />
-              </div>
-              <div className="network-node network-browser">
-                <Monitor size={20} />
-                <strong>{t.engine.browser}</strong>
-                <span>{t.engine.browserRole}</span>
+          <div className="engine-stage-panel" data-running={running}>
+            {/* 파이프라인. 고른 포트의 단계가 켜지고, 실행이 지나간 단계는 불이 남는다. */}
+            <div className="pipe">
+              <span className="fit-label">{t.features.pipelineLabel}</span>
+              <ol className="pipe-stages">
+                {stages.map((stage, index) => (
+                  <li
+                    key={stage}
+                    className="pipe-stage"
+                    data-port={portStage === stage}
+                    data-lit={index <= reached}
+                    data-current={running && index === reached + 1}
+                  >
+                    <strong>{t.features.stages[stage].name}</strong>
+                    <span>{t.features.stages[stage].role}</span>
+                  </li>
+                ))}
+              </ol>
+              <svg className="pipe-track" viewBox="0 0 500 24" aria-hidden="true" fill="none">
+                <path className="flow-path-guide" d="M12 12H488" />
+                <path
+                  className="flow-path-fill"
+                  pathLength="4"
+                  d="M12 12H488"
+                  style={{
+                    strokeDasharray: '4',
+                    strokeDashoffset: 4 - Math.max(0, reached),
+                  }}
+                />
+                {[12, 131, 250, 369, 488].map((x, index) => (
+                  <circle
+                    key={x}
+                    cx={x}
+                    cy="12"
+                    r="4"
+                    className={index <= reached ? 'route-lit' : ''}
+                  />
+                ))}
+                <circle
+                  className="route-runner"
+                  cx="12"
+                  cy="12"
+                  r="6"
+                  style={{
+                    transform: `translateX(${Math.max(0, reached) * 119}px)`,
+                  }}
+                />
+              </svg>
+              <p className="pipe-note" aria-live="polite">
+                <strong>{port}</strong> — {t.features.ports[port].description}
+              </p>
+            </div>
+            <div className="engine-output">
+              <span className="fit-label">{t.engine.outputLabel}</span>
+              <output className="engine-log" aria-live="polite">
+                {reached < 0 ? (
+                  <span className="engine-log-idle">{t.engine.idle}</span>
+                ) : (
+                  stages.slice(0, reached + 1).map((stage) => (
+                    <span key={stage} className="engine-log-line" data-stage={stage}>
+                      {t.engine.stageOutput[stage]}
+                    </span>
+                  ))
+                )}
+                {done && <span className="engine-log-done">{t.engine.done}</span>}
+              </output>
+              <div className="flow-actions">
+                <Button className="cairn-button" onClick={running ? () => setRunning(false) : play}>
+                  {running ? t.engine.pause : done ? t.engine.runAgain : t.engine.run}
+                  {running ? <Pause size={16} /> : <Play size={16} />}
+                </Button>
+                {reached >= 0 && (
+                  <Button variant="ghost" className="flow-next" onClick={reset}>
+                    <RotateCcw size={15} />
+                    {t.engine.reset}
+                  </Button>
+                )}
               </div>
             </div>
-            <div className="host-command">
-              <pre>
-                <code>{commands[host]}</code>
-              </pre>
-              <output className="host-result">{t.engine.result}</output>
-            </div>
-            <p className="network-caption">
-              {t.engine.caption} <span>{t.engine.illustrative}</span>
-            </p>
           </div>
           <div className="flow-command engine-install">
             <span>{t.start.title}</span>

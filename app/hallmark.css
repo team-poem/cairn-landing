@@ -971,91 +971,153 @@ body {
   }
 }
 
-/* ── 3번 섹션: 내 도구 → Cairn → 브라우저 그림 하나 ── */
-.host-workbench[data-slot='tabs'] {
+/* ── 3번 섹션 작업대: 포트 탭 · 파이프라인 · 코드 · 출력 · 설치 ── */
+.engine-workbench[data-slot='tabs'] {
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
   gap: var(--space-md);
 }
-.host-tabs[data-slot='tabs-list'] {
-  display: inline-flex;
-  gap: 4px;
-  width: fit-content;
+.engine-port-list[data-slot='tabs-list'] {
+  display: grid;
+  gap: 6px;
+  width: 100%;
   height: auto;
-  padding: 3px;
-  border-radius: var(--radius-button);
-  background: var(--color-paper);
-}
-.host-tab[data-slot='tabs-trigger'] {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  min-height: 36px;
-  padding: 0 14px;
-  border: 0;
-  border-radius: calc(var(--radius-button) - 1px);
+  padding: 0;
+  border-radius: 0;
   background: var(--color-clear);
-  color: var(--color-ink-2);
-  font: 500 var(--text-sm) / 1 var(--font-body);
-  box-shadow: none;
 }
-.host-tab[data-slot='tabs-trigger'][data-active] {
-  background: var(--color-paper-3);
-  color: var(--color-ink);
+.engine-stage-panel,
+.engine-install {
+  min-width: 0;
 }
-.host-tab[data-slot='tabs-trigger']::after {
-  display: none;
+.engine-port[data-slot='tabs-trigger'] {
+  min-height: 60px;
 }
-.host-scene {
+.engine-stage-panel {
   display: grid;
-  gap: var(--space-md);
-  padding: var(--space-lg) var(--space-sm) var(--space-sm);
+  gap: var(--space-lg);
+  min-width: 0;
 }
-.host-scene .engine-network {
-  animation: host-in 360ms var(--ease-out) both;
-}
-.host-command {
+.pipe {
   display: grid;
   gap: 10px;
-  justify-items: start;
 }
-.host-command pre {
+.pipe-stages {
+  list-style: none;
   margin: 0;
-  padding: var(--space-sm) var(--space-md);
-  font: 400 var(--text-sm) / 1.7 var(--font-code);
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 6px;
+}
+.pipe-stage {
+  display: grid;
+  gap: 2px;
+  padding: 12px 10px;
+  border: 1px solid var(--color-rule);
+  border-radius: var(--radius-button);
+  background: var(--color-paper);
+  transition:
+    border-color 220ms ease,
+    background-color 220ms ease,
+    box-shadow 220ms ease;
+}
+.pipe-stage strong {
+  font: 500 var(--text-sm) / 1.3 var(--font-body);
   color: var(--color-ink);
+}
+.pipe-stage span {
+  font-size: 11px;
+  line-height: 1.4;
+  color: var(--color-muted);
+}
+/* 고른 포트가 꽂히는 단계: 황금 테두리. 실행이 지나간 단계: 옅은 채움. 지금 도는 단계: 맥동 */
+.pipe-stage[data-port='true'] {
+  border-color: var(--color-accent);
+}
+.pipe-stage[data-lit='true'] {
+  background: color-mix(in oklch, var(--color-accent) 10%, var(--color-paper));
+}
+.pipe-stage[data-current='true'] {
+  box-shadow: 0 0 0 4px color-mix(in oklch, var(--color-accent) 22%, transparent);
+  animation: pipe-pulse 820ms ease-in-out infinite;
+}
+@keyframes pipe-pulse {
+  50% {
+    box-shadow: 0 0 0 8px color-mix(in oklch, var(--color-accent) 8%, transparent);
+  }
+}
+.pipe-track {
+  width: 100%;
+  height: 24px;
+  display: block;
+}
+.pipe-track .route-runner {
+  transition: transform 700ms cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+.pipe-note {
+  margin: 2px 0 0;
+  min-height: 3em;
+  font-size: var(--text-sm);
+  line-height: 1.6;
+  color: var(--color-ink-2);
+}
+.pipe-note strong {
+  font-family: var(--font-code);
+  font-weight: 500;
+  color: var(--color-ink);
+}
+.engine-split {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--space-md);
+  min-width: 0;
+}
+.engine-code pre {
+  overflow-x: auto;
+}
+.engine-output {
+  display: grid;
+  align-content: start;
+  gap: 10px;
+  min-width: 0;
+}
+.engine-log {
+  display: grid;
+  gap: 6px;
+  min-height: 9.5em;
+  padding: var(--space-sm) var(--space-md);
+  font: 400 12.5px / 1.6 var(--font-code);
+  color: var(--color-ink-2);
   background: var(--color-paper);
   border: 1px solid var(--color-rule);
   border-radius: var(--radius-panel);
-  white-space: pre-wrap;
-  overflow-wrap: anywhere;
-  animation: host-in 360ms var(--ease-out) both;
 }
-/* 결과는 선이 한 번 흘러간 뒤 나타난다 */
-.host-result {
-  display: inline-block;
-  padding: 6px 12px;
-  border-radius: 999px;
-  font: 500 var(--text-xs) / 1 var(--font-code);
-  color: var(--color-accent-ink);
-  background: var(--color-accent);
-  animation: host-result 420ms var(--ease-out) 1300ms both;
-}
-@keyframes host-in {
-  from {
-    opacity: 0;
-    transform: translateY(6px);
-  }
-}
-@keyframes host-result {
-  from {
-    opacity: 0;
-    transform: translateY(6px) scale(0.96);
-  }
-}
-.host-scene .network-caption span {
-  margin-left: 8px;
+.engine-log-idle {
   color: var(--color-muted);
-  opacity: 0.8;
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+}
+.engine-log-line {
+  animation: engine-log-in 260ms var(--ease-out) both;
+}
+.engine-log-line[data-stage='report'] {
+  color: var(--color-accent);
+}
+.engine-log-done {
+  margin-top: 4px;
+  padding-top: 8px;
+  border-top: 1px solid var(--color-rule);
+  color: var(--color-ink);
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  animation: engine-log-in 320ms var(--ease-out) both;
+}
+@keyframes engine-log-in {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
 }
 .engine-install {
   display: grid;
@@ -1068,21 +1130,25 @@ body {
   font-size: var(--text-xs);
   color: var(--color-muted);
 }
-@media (min-width: 60rem) {
-  .host-scene {
-    grid-template-columns: minmax(0, 1.25fr) minmax(0, 0.75fr);
-    align-items: center;
-    column-gap: var(--space-2xl);
-    padding: var(--space-xl) var(--space-md) var(--space-md);
-  }
-  .host-scene .network-caption {
-    grid-column: 1 / -1;
+@media (min-width: 40rem) {
+  .engine-port-list[data-slot='tabs-list'] {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 }
-@media (prefers-reduced-motion: reduce) {
-  .host-result,
-  .host-scene .engine-network,
-  .host-command pre {
-    animation: none !important;
+@media (min-width: 60rem) {
+  .engine-workbench[data-slot='tabs'] {
+    grid-template-columns: minmax(0, 0.34fr) minmax(0, 1fr);
+    column-gap: var(--space-xl);
+  }
+  .engine-port-list[data-slot='tabs-list'] {
+    grid-template-columns: minmax(0, 1fr);
+    align-content: start;
+  }
+  .engine-split {
+    grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+    gap: var(--space-lg);
+  }
+  .engine-install {
+    grid-column: 1 / -1;
   }
 }
