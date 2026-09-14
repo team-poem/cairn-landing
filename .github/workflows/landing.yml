@@ -21,3 +21,14 @@ jobs:
       - run: npm run lint
       - run: npm run test:demo
       - run: npm run build
+      - run: python3 tests/check-static-paths.py dist/client
+      - name: GitHub Pages 하위 경로 빌드
+        env:
+          NEXT_PUBLIC_BASE_PATH: /cairn-engine
+        run: npm run build
+      - name: Pages 산출물 포장 및 경로 검증
+        env:
+          SOURCE_SHA: ${{ github.sha }}
+        run: |
+          python3 scripts/prepare-pages.py
+          python3 tests/check-static-paths.py dist/pages /cairn-engine
