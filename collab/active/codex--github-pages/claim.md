@@ -2,9 +2,9 @@
 branch: codex/github-pages
 owner: Kangmin_Kim
 started: 2026-09-14
-status: active
+status: done
 goal: 조직 GitHub Pages 자동 배포 운영 절차를 문서화한다
-next: README.md .github/workflows/landing.yml
+next:
 ---
 
 ## 메모
