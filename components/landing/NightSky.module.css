@@ -64,8 +64,6 @@
   overflow: clip;
   pointer-events: none;
   z-index: 0;
-  /* 덮는 대신 빛을 더한다. 옅은 안개가 회색 얼룩이 아니라 밝기 차이로만 남는다 */
-  mix-blend-mode: screen;
   mask-image: linear-gradient(
     to bottom,
     var(--color-clear) 0%,
@@ -90,13 +88,13 @@
 .mist::before {
   background-image: url('/cairn-mist-a.png');
   background-size: 50% 100%;
-  opacity: 0.6;
+  opacity: 0.5;
   animation: mist-drift 80s linear infinite;
 }
 .mist::after {
   background-image: url('/cairn-mist-b.png');
   background-size: 40% 100%;
-  opacity: 0.45;
+  opacity: 0.36;
   animation: mist-drift 125s linear infinite reverse;
 }
 @keyframes mist-drift {
