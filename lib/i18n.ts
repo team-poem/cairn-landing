@@ -136,7 +136,7 @@ const en = {
   features: {
     titleTop: 'Your tools.',
     titleBottom: 'Cairn underneath.',
-    lead: 'Run it from the CLI, or embed it in a QA tool, a CI check, or a monitor. Nothing app-specific lives inside — every variable behavior arrives through a port.',
+    lead: 'Run it from a terminal, wire it into CI, or embed it in your own tool. Anything that varies comes in through a port.',
     link: 'Explore the engine API',
     pipelineLabel: 'Pipeline',
     stages: {
@@ -146,7 +146,7 @@ const en = {
       judge: { name: 'Judge', role: 'Rules on evidence' },
       report: { name: 'Report', role: 'Emits the result' },
     },
-    portsLabel: 'Six ports. Pick one to see where it plugs in.',
+    portsLabel: 'Pick a port to see where it plugs in.',
     ports: {
       ContextProvider: {
         stage: 'context',
@@ -186,19 +186,16 @@ const en = {
     pause: 'Pause',
     runAgain: 'Run again',
     reset: 'Reset',
-    codeLabel: 'What you wire',
-    illustrative: 'Illustrative code',
     outputLabel: 'Output',
-    idle: 'Press run to send a frozen scenario through the pipeline.',
+    idle: 'Run a frozen scenario through the pipeline.',
     stageOutput: {
-      context: 'context · intent + cart.skill.json loaded',
-      plan: 'plan · StaticPlanner → 6 steps, no model',
-      execute: 'execute · 6 actions · 34 requests · settled',
-      judge: 'judge · ✓ navigated /cart · ✓ no-failed-requests',
-      report: 'report · ✓ pass — llm: 0 call(s)',
+      context: 'Context — loaded cart.skill.json',
+      plan: 'Plan — 6 steps, no model',
+      execute: 'Execute — 6 actions, page settled',
+      judge: 'Judge — ✓ navigated to /cart',
+      report: 'Report — ✓ pass · llm: 0 call(s)',
     },
-    done: 'Same input, same verdict, zero model calls. Swap any port and run it again.',
-    note: 'Simulated run. Stage output mirrors what cairn replay prints.',
+    done: 'Same input, same verdict, no model calls.',
     portRole: {
       ContextProvider: 'What the run should know',
       Planner: 'Intent to Scenario',
@@ -365,7 +362,7 @@ const ko: Copy = {
   features: {
     titleTop: '쓰던 도구 그대로,',
     titleBottom: '그 아래에 Cairn.',
-    lead: 'CLI로 실행하거나 QA 도구, CI 검사, 모니터 안에 넣어 씁니다. 앱에 특정한 로직은 엔진 안에 없고, 달라지는 동작은 전부 포트로 들어옵니다.',
+    lead: '터미널에서 돌리거나, CI 에 넣거나, 직접 만드는 도구 안에 심습니다. 달라지는 것은 전부 포트로 들어옵니다.',
     link: '엔진 API 살펴보기',
     pipelineLabel: '파이프라인',
     stages: {
@@ -375,7 +372,7 @@ const ko: Copy = {
       judge: { name: 'Judge', role: '증거로 판정한다' },
       report: { name: 'Report', role: '결과를 내보낸다' },
     },
-    portsLabel: '포트 여섯. 하나를 고르면 어디에 꽂히는지 보입니다.',
+    portsLabel: '포트를 고르면 어디에 꽂히는지 보입니다.',
     ports: {
       ContextProvider: {
         stage: 'context',
@@ -409,19 +406,16 @@ const ko: Copy = {
     pause: '일시정지',
     runAgain: '다시 실행',
     reset: '초기화',
-    codeLabel: '실제로 연결하는 것',
-    illustrative: '설명용 코드',
     outputLabel: '출력',
-    idle: '실행을 누르면 저장된 시나리오가 파이프라인을 지나갑니다.',
+    idle: '저장된 시나리오를 파이프라인에 흘려 봅니다.',
     stageOutput: {
-      context: 'context · 의도 + cart.skill.json 로드',
-      plan: 'plan · StaticPlanner → 6단계, 모델 없음',
-      execute: 'execute · 동작 6 · 요청 34 · 안정됨',
-      judge: 'judge · ✓ /cart 로 이동 · ✓ 실패한 요청 없음',
-      report: 'report · ✓ pass — llm: 0 call(s)',
+      context: 'Context — cart.skill.json 로드',
+      plan: 'Plan — 6단계, 모델 없음',
+      execute: 'Execute — 동작 6, 화면 안정',
+      judge: 'Judge — ✓ /cart 로 이동',
+      report: 'Report — ✓ pass · llm: 0 call(s)',
     },
-    done: '같은 입력, 같은 판정, 모델 호출 0. 포트 하나를 바꾸고 다시 돌려 보세요.',
-    note: '설명용 실행입니다. 단계 출력은 cairn replay 가 찍는 것을 따랐습니다.',
+    done: '같은 입력, 같은 판정, 모델 호출 없음.',
     portRole: {
       ContextProvider: '실행이 알아야 할 것',
       Planner: '의도를 시나리오로',
