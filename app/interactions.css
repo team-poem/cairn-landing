@@ -601,15 +601,16 @@
   color: var(--store-success);
   margin-top: 20px;
 }
+/* 커서는 ShopDemo 가 지금 겨누는 버튼을 재서 px 로 옮긴다(--cursor-x/y).
+   화면 비율에 따라 버튼 위치가 달라져 고정 퍼센트로는 맞지 않는다. */
 .sample-cursor {
   position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
+  left: 0;
+  top: 0;
   z-index: 4;
   pointer-events: none;
   color: var(--store-ink);
-  transform: translate(55%, 70%);
+  transform: translate(var(--cursor-x, 50%), var(--cursor-y, 60%));
   opacity: 0;
   transition:
     transform 650ms cubic-bezier(0.25, 0.8, 0.25, 1),
@@ -618,14 +619,56 @@
 .sample-app[data-running='true'] .sample-cursor {
   opacity: 1;
 }
-.sample-app[data-step='1'] .sample-cursor {
-  transform: translate(70%, 75%);
+/* 복구 단계: 탐색 광선이 화면을 훑는다 */
+.store-scan {
+  position: absolute;
+  inset-block: 0;
+  left: -18%;
+  width: 18%;
+  pointer-events: none;
+  z-index: 3;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    color-mix(in oklch, var(--color-accent) 28%, transparent) 50%,
+    transparent
+  );
+  animation: demo-scan 1.2s ease-in-out infinite;
 }
-.sample-app[data-step='2'] .sample-cursor {
-  transform: translate(84%, 12%);
+@keyframes demo-scan {
+  to {
+    left: 100%;
+  }
 }
-.sample-app[data-step='2'][data-changed='true'] .sample-cursor {
-  transform: translate(22%, 12%);
+.store-cart.cart-moved.cart-found {
+  outline: 2px solid var(--store-success);
+  outline-offset: 4px;
+  box-shadow: 0 0 0 6px color-mix(in oklch, var(--store-success) 18%, transparent);
+}
+/* 코드 줄 상태: 실패한 줄, 고친 줄 */
+.sync-code-line.code-failed {
+  color: var(--color-danger, oklch(72% 0.17 25));
+}
+.sync-code-line .code-old {
+  text-decoration: line-through;
+  opacity: 0.5;
+  margin-right: 8px;
+}
+.sync-code-line .code-new {
+  color: var(--color-accent);
+}
+.code-state.state-failed {
+  color: var(--color-danger, oklch(72% 0.17 25));
+}
+.code-state.state-repaired {
+  color: var(--color-accent);
+}
+.flow-step-label {
+  display: block;
+  font-size: var(--text-xs);
+  letter-spacing: 0.04em;
+  color: var(--color-muted);
+  margin-bottom: 6px;
 }
 .sample-cursor > svg {
   filter: drop-shadow(0 2px 2px var(--color-shadow));

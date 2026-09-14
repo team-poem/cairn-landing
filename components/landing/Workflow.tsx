@@ -1,6 +1,14 @@
 'use client';
 import { useEffect, useReducer } from 'react';
-import { ArrowRight, Check, Pause, Play, RotateCcw } from 'lucide-react';
+import {
+  ArrowRight,
+  ArrowUpRight,
+  Check,
+  Pause,
+  Play,
+  RotateCcw,
+  X,
+} from 'lucide-react';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
 import { Button } from '@/components/ui/button';
 import {
@@ -9,6 +17,7 @@ import {
   initialDemo,
   type DemoPhase,
 } from '@/lib/demo-state';
+import { cairnLinks } from '@/lib/cairn';
 import { ShopDemo } from './ShopDemo';
 import { useI18n } from './LocaleProvider';
 /* 단계 이름과 명령은 실제 CLI 를 그대로 적은 것이라 언어와 무관하다.
@@ -36,6 +45,12 @@ const phases = [
     command: 'cairn replay cart.skill.json --heal',
   },
 ] as const;
+const nextPhase: Record<DemoPhase, DemoPhase | null> = {
+  discover: 'freeze',
+  freeze: 'replay',
+  replay: 'heal',
+  heal: null,
+};
 export function Workflow() {
   const { t } = useI18n();
   const [state, dispatch] = useReducer(demoReducer, initialDemo);
@@ -49,14 +64,10 @@ export function Workflow() {
     return () => window.clearTimeout(timer);
   }, [state.running, state.completed, state.runId, state.phase]);
   const selectPhase = (phase: DemoPhase) => dispatch({ type: 'select', phase });
-  const lines = [
-    'click("Log in")',
-    'click("Add to bag")',
-    frame.changed && (frame.repairing || frame.done)
-      ? 'click("View bag")'
-      : 'click("Cart")',
-  ];
   const steps = t.workflow.steps;
+  /* 복구 단계의 셋째 줄: 들어가면 실패, 재생하면 옛 줄을 지우고 새 줄이 온다 */
+  const healBroken = frame.changed && !state.running && !frame.done;
+  const healFixed = frame.changed && (frame.repairing || frame.done);
   return (
     <section
       className="flow-section cairn-container"
@@ -95,8 +106,25 @@ export function Workflow() {
             </TabsTrigger>
           ))}
         </TabsList>
-        {phases.map((item) => {
+        {phases.map((item, index) => {
           const phase = t.workflow.phases[item.id];
+          const next = nextPhase[item.id];
+          const isFreeze = item.id === 'freeze';
+          /* 주 버튼은 하나다: 실행 전엔 실행, 실행 중엔 일시정지,
+           * 끝나면 다음 단계. 다시 실행·초기화는 보조로 내린다. */
+          const primary = isFreeze
+            ? { label: phase.action, icon: <ArrowRight size={16} />, onClick: () => selectPhase('replay') }
+            : frame.done && next
+              ? { label: t.workflow.next[next as keyof typeof t.workflow.next], icon: <ArrowRight size={16} />, onClick: () => selectPhase(next) }
+              : frame.done
+                ? { label: t.workflow.runAgain, icon: <Play size={16} />, onClick: () => dispatch({ type: 'play' }) }
+                : state.running
+                  ? { label: t.workflow.pause, icon: <Pause size={16} />, onClick: () => dispatch({ type: 'pause' }) }
+                  : {
+                      label: state.completed > (item.id === 'heal' ? 2 : 0) ? t.workflow.resume : phase.action,
+                      icon: <Play size={16} />,
+                      onClick: () => dispatch({ type: 'play' }),
+                    };
           return (
             <TabsContent
               key={item.id}
@@ -106,36 +134,27 @@ export function Workflow() {
               data-running={state.running}
             >
               <div className="flow-story">
+                <span className="flow-step-label">
+                  {t.workflow.stepOf(index + 1)}
+                </span>
                 <h3>{phase.subtitle}</h3>
                 <p>{phase.description}</p>
                 <div className="flow-actions">
-                  <Button
-                    className="cairn-button"
-                    onClick={
-                      item.id === 'freeze'
-                        ? () => selectPhase('replay')
-                        : () =>
-                            dispatch({ type: state.running ? 'pause' : 'play' })
-                    }
-                  >
-                    {state.running
-                      ? t.workflow.pause
-                      : frame.done
-                        ? item.id === 'freeze'
-                          ? phase.action
-                          : t.workflow.runAgain
-                        : state.completed > 0 && item.id !== 'heal'
-                          ? t.workflow.resume
-                          : phase.action}
-                    {state.running ? (
-                      <Pause size={16} />
-                    ) : item.id === 'freeze' ? (
-                      <ArrowRight size={16} />
-                    ) : (
-                      <Play size={16} />
-                    )}
+                  <Button className="cairn-button" onClick={primary.onClick}>
+                    {primary.label}
+                    {primary.icon}
                   </Button>
-                  {item.id !== 'freeze' && (
+                  {!isFreeze && frame.done && next && (
+                    <Button
+                      variant="ghost"
+                      className="flow-next"
+                      onClick={() => dispatch({ type: 'play' })}
+                    >
+                      <RotateCcw size={15} />
+                      {t.workflow.runAgain}
+                    </Button>
+                  )}
+                  {!isFreeze && !frame.done && (state.running || state.completed > (item.id === 'heal' ? 2 : 0)) && (
                     <Button
                       variant="ghost"
                       className="flow-next"
@@ -146,14 +165,20 @@ export function Workflow() {
                       {t.workflow.reset}
                     </Button>
                   )}
-                  {frame.done && item.id === 'discover' && (
-                    <Button
-                      variant="ghost"
-                      className="flow-next"
-                      onClick={() => selectPhase('freeze')}
-                    >
-                      {t.workflow.savePath} <ArrowRight size={15} />
-                    </Button>
+                  {item.id === 'heal' && frame.done && (
+                    <>
+                      <Button
+                        variant="ghost"
+                        className="flow-next"
+                        onClick={() => selectPhase('discover')}
+                      >
+                        <RotateCcw size={15} />
+                        {t.workflow.startOver}
+                      </Button>
+                      <a className="cairn-link" href={cairnLinks.guide}>
+                        {t.hero.secondary} <ArrowUpRight size={15} />
+                      </a>
+                    </>
                   )}
                 </div>
                 <p className="flow-note">{t.workflow.note}</p>
@@ -170,24 +195,48 @@ export function Workflow() {
                     <span>{t.workflow.illustrative}</span>
                   </div>
                   <pre aria-label={t.workflow.codeLabel}>
-                    {lines.map((line, index) => (
-                      <code
-                        key={index}
-                        className={`sync-code-line ${!frame.done && index === frame.activeStep ? 'code-active' : ''} ${index < state.completed ? 'code-done' : ''}`}
-                      >
-                        <span>{index + 1}</span>
-                        <span>{line}</span>
-                        {index < state.completed ? (
-                          <Check size={14} aria-label={t.workflow.completedLabel} />
-                        ) : index === frame.activeStep ? (
-                          <span className="code-state">
-                            {state.running
-                              ? t.workflow.running
-                              : t.workflow.ready}
-                          </span>
-                        ) : null}
-                      </code>
-                    ))}
+                    {['click("Log in")', 'click("Add to bag")', 'click("Cart")'].map(
+                      (line, i) => {
+                        const isThird = i === 2;
+                        const failed = isThird && healBroken;
+                        const fixed = isThird && healFixed;
+                        return (
+                          <code
+                            key={i}
+                            className={`sync-code-line ${!frame.done && i === frame.activeStep ? 'code-active' : ''} ${i < state.completed ? 'code-done' : ''} ${failed ? 'code-failed' : ''}`}
+                          >
+                            <span>{i + 1}</span>
+                            <span>
+                              {fixed ? (
+                                <>
+                                  <span className="code-old">{line}</span>
+                                  <span className="code-new">{'click("View bag")'}</span>
+                                </>
+                              ) : (
+                                line
+                              )}
+                            </span>
+                            {i < state.completed ? (
+                              fixed ? (
+                                <span className="code-state state-repaired">
+                                  {t.workflow.repaired}
+                                </span>
+                              ) : (
+                                <Check size={14} aria-label={t.workflow.completedLabel} />
+                              )
+                            ) : failed ? (
+                              <span className="code-state state-failed">
+                                <X size={12} /> {t.workflow.notFound}
+                              </span>
+                            ) : i === frame.activeStep ? (
+                              <span className="code-state">
+                                {state.running ? t.workflow.running : t.workflow.ready}
+                              </span>
+                            ) : null}
+                          </code>
+                        );
+                      },
+                    )}
                   </pre>
                 </div>
                 <div className="sync-path">
@@ -202,13 +251,13 @@ export function Workflow() {
                         strokeDashoffset: 3 - state.completed,
                       }}
                     />
-                    {[20, 160, 300, 440].map((x, index) => (
+                    {[20, 160, 300, 440].map((x, i) => (
                       <circle
                         key={x}
                         cx={x}
                         cy="32"
                         r="5"
-                        className={index <= state.completed ? 'route-lit' : ''}
+                        className={i <= state.completed ? 'route-lit' : ''}
                       />
                     ))}
                     <circle
@@ -222,22 +271,16 @@ export function Workflow() {
                     />
                   </svg>
                   <ol>
-                    {steps.map((step, index) => (
+                    {steps.map((step, i) => (
                       <li
                         key={step}
-                        data-active={!frame.done && index === frame.activeStep}
-                        data-done={index < state.completed}
+                        data-active={!frame.done && i === frame.activeStep}
+                        data-done={i < state.completed}
                       >
                         <span>
-                          {index < state.completed ? (
-                            <Check size={13} />
-                          ) : (
-                            `0${index + 1}`
-                          )}
+                          {i < state.completed ? <Check size={13} /> : `0${i + 1}`}
                         </span>
-                        {frame.changed && index === 2
-                          ? t.workflow.findNewButton
-                          : step}
+                        {frame.changed && i === 2 ? t.workflow.findNewButton : step}
                       </li>
                     ))}
                   </ol>
@@ -246,7 +289,7 @@ export function Workflow() {
                   {frame.done
                     ? item.id === 'heal'
                       ? t.workflow.outputHealed
-                      : item.id === 'freeze'
+                      : isFreeze
                         ? t.workflow.outputFrozen
                         : t.workflow.outputDone
                     : state.running
@@ -259,11 +302,7 @@ export function Workflow() {
                 </output>
               </div>
               <div className="flow-command">
-                <span>
-                  {item.id === 'freeze'
-                    ? t.workflow.savedAs
-                    : t.workflow.tryInTerminal}
-                </span>
+                <span>{isFreeze ? t.workflow.savedAs : t.workflow.tryInTerminal}</span>
                 <pre>
                   <code>{item.command}</code>
                 </pre>
