@@ -26,6 +26,8 @@
   --font-display: 'Space Grotesk', 'Cairn Display Fallback', sans-serif;
   --font-body: 'Geist', 'Cairn Body Fallback', sans-serif;
   --font-code: 'SFMono-Regular', Consolas, monospace;
+  --font-ko: 'Pretendard Variable', Pretendard, 'Apple SD Gothic Neo',
+    'Noto Sans KR', 'Malgun Gothic', sans-serif;
   --font-sans: var(--font-body);
   --font-mono: var(--font-code);
   --space-xs: 0.5rem;

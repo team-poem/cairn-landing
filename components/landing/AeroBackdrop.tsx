@@ -4,8 +4,10 @@ import { Pause, Play } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { EffectBoundary } from './EffectBoundary';
 import styles from './AeroBackdrop.module.css';
+import { useI18n } from './LocaleProvider';
 const AeroShards = lazy(() => import('./reactbits/AeroShards'));
 export function AeroBackdrop() {
+  const { t } = useI18n();
   const container = useRef<HTMLDivElement>(null);
   const [seen, setSeen] = useState(false);
   const [supported, setSupported] = useState(false);
@@ -75,10 +77,16 @@ export function AeroBackdrop() {
           disabled={reduced}
           onClick={() => setPaused((value) => !value)}
           aria-pressed={paused || reduced}
-          aria-label={paused ? 'Play shard animation' : 'Pause shard animation'}
+          aria-label={
+            paused ? t.features.motionPlayLabel : t.features.motionPauseLabel
+          }
         >
           {paused || reduced ? <Play size={14} /> : <Pause size={14} />}{' '}
-          {reduced ? 'Reduced motion' : paused ? 'Play shards' : 'Pause shards'}
+          {reduced
+            ? t.features.motionReduced
+            : paused
+              ? t.features.motionPlay
+              : t.features.motionPause}
         </Button>
       )}
     </>

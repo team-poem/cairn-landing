@@ -5,7 +5,9 @@ import { ArrowDown, ArrowUpRight, Pause, Play } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { cairnLinks } from '@/lib/cairn';
 import { GalaxyBackdrop } from './GalaxyBackdrop';
+import { useI18n } from './LocaleProvider';
 export function Hero() {
+  const { t } = useI18n();
   const [animated, setAnimated] = useState(false);
   const [reducedMotion, setReducedMotion] = useState(true);
   useEffect(() => {
@@ -23,45 +25,44 @@ export function Hero() {
       <GalaxyBackdrop animated={animated} />
       <div className="night-composition cairn-container">
         <div className="night-heading">
-          <p>Browser testing, by Poem.</p>
+          <p>{t.hero.eyebrow}</p>
           <h1 id="hero-title">
-            Find a path.
+            {t.hero.titleTop}
             <br />
-            Run it again.
+            {t.hero.titleBottom}
           </h1>
         </div>
-        <p className="night-description">
-          Describe a browser task. Cairn uses AI to find the steps, saves them
-          as JSON, and runs them again without a model call.
-        </p>
+        <p className="night-description">{t.hero.description}</p>
         <CairnSculpture animated={animated} />
         <div className="night-actions">
           <a className="cairn-button" href="#workflow">
-            See it run <ArrowDown size={17} />
+            {t.hero.primary} <ArrowDown size={17} />
           </a>
           <a
             className="cairn-link"
             href={`${cairnLinks.guide}#try-it-in-60-seconds`}
           >
-            Read the guide <ArrowUpRight size={16} />
+            {t.hero.secondary} <ArrowUpRight size={16} />
           </a>
         </div>
         <div className="night-footnote">
-          <p>Basic replay makes no model calls.</p>
+          <p>{t.hero.footnote}</p>
           <Button
             variant="ghost"
             className="cairn-motion"
             disabled={reducedMotion}
             onClick={() => setAnimated((value) => !value)}
             aria-pressed={!animated}
-            aria-label={animated ? 'Pause sky animation' : 'Play sky animation'}
+            aria-label={
+              animated ? t.hero.motionPauseLabel : t.hero.motionPlayLabel
+            }
           >
             {animated ? <Pause size={14} /> : <Play size={14} />}
             {reducedMotion
-              ? 'Reduced motion'
+              ? t.hero.motionReduced
               : animated
-                ? 'Pause sky'
-                : 'Play sky'}
+                ? t.hero.motionPause
+                : t.hero.motionPlay}
           </Button>
         </div>
       </div>

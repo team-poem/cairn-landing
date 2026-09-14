@@ -1,6 +1,9 @@
+'use client';
 import { ArrowUpRight } from 'lucide-react';
 import { cairnLinks } from '@/lib/cairn';
+import { useI18n } from './LocaleProvider';
 export function GetStarted() {
+  const { t } = useI18n();
   return (
     <section
       className="start-section"
@@ -9,15 +12,15 @@ export function GetStarted() {
     >
       <div className="start-layout cairn-container">
         <div>
-          <h2 id="start-title">Give it a task.</h2>
+          <h2 id="start-title">{t.start.title}</h2>
           <p>
-            Bring Node.js 20+, Chrome, and a model.
+            {t.start.leadTop}
             <br />
-            The guide takes you from installation to your first replay.
+            {t.start.leadBottom}
           </p>
         </div>
         <div className="start-command">
-          <pre aria-label="Install Cairn">
+          <pre aria-label={t.start.installLabel}>
             <code>
               <span aria-hidden="true">$ </span>npm install -g cairn-engine
             </code>
@@ -27,15 +30,13 @@ export function GetStarted() {
               className="cairn-button"
               href={`${cairnLinks.guide}#try-it-in-60-seconds`}
             >
-              Start with the guide <ArrowUpRight size={17} />
+              {t.start.primary} <ArrowUpRight size={17} />
             </a>
             <a className="cairn-link" href={cairnLinks.quickstart}>
-              Example project <ArrowUpRight size={16} />
+              {t.start.secondary} <ArrowUpRight size={16} />
             </a>
           </div>
-          <p className="start-note">
-            Discovery, repair, and AI checks may call a model.
-          </p>
+          <p className="start-note">{t.start.note}</p>
         </div>
       </div>
     </section>

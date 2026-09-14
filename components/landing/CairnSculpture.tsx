@@ -2,8 +2,10 @@
 import { useEffect, useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { cairnArtwork } from '@/lib/cairn-artwork';
+import { useI18n } from './LocaleProvider';
 type Stage = 'arriving' | 'ready' | 'fallen' | 'repairing';
 export function CairnSculpture({ animated }: { animated: boolean }) {
+  const { t } = useI18n();
   const [stage, setStage] = useState<Stage>('arriving');
   const [countdown, setCountdown] = useState(3);
   useEffect(() => {
@@ -24,12 +26,12 @@ export function CairnSculpture({ animated }: { animated: boolean }) {
   }, [stage]);
   const message =
     stage === 'fallen'
-      ? `Rebuilding in ${countdown}…`
+      ? t.sculpture.rebuilding(countdown)
       : stage === 'repairing'
-        ? 'Finding its balance again.'
+        ? t.sculpture.repairing
         : stage === 'arriving'
-          ? 'One stone at a time.'
-          : 'Knock it down. It finds its way back.';
+          ? t.sculpture.arriving
+          : t.sculpture.ready;
   return (
     <figure
       className="night-landmark cairn-sculpture"
@@ -51,10 +53,10 @@ export function CairnSculpture({ animated }: { animated: boolean }) {
           setStage('fallen');
         }}
         disabled={stage !== 'ready'}
-        aria-label="Knock down the cairn. It rebuilds after three seconds."
+        aria-label={t.sculpture.label}
         aria-describedby="sculpture-status"
       >
-        <span className="sculpture-hint">Tap to topple</span>
+        <span className="sculpture-hint">{t.sculpture.hint}</span>
       </Button>
       <figcaption id="sculpture-status" aria-live="polite">
         {message}

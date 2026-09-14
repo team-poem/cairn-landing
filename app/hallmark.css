@@ -83,6 +83,66 @@ body {
   position: relative;
   z-index: 2;
 }
+.cairn-header-end {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+}
+.cairn-sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+.cairn-language {
+  display: inline-flex;
+  align-items: center;
+  padding: 3px;
+  gap: 2px;
+  margin: 0;
+  min-inline-size: 0;
+  border: 1px solid var(--color-paper-3);
+  border-radius: var(--radius-button);
+  background: var(--color-paper-2);
+}
+.cairn-language-option {
+  min-height: 32px;
+  padding-inline: 12px;
+  border-radius: calc(var(--radius-button) - 1px);
+  color: var(--color-muted);
+  font: 500 var(--text-xs) / 1 var(--font-body);
+  letter-spacing: 0.04em;
+  cursor: pointer;
+  transition: color 120ms ease, background-color 120ms ease;
+}
+.cairn-language-option:hover {
+  color: var(--color-ink);
+}
+.cairn-language-option[aria-pressed='true'] {
+  background: var(--color-paper-3);
+  color: var(--color-ink);
+}
+/* 자체 호스팅한 Space Grotesk·Geist 는 라틴 서브셋이라
+ * 한국어는 사용자 기기의 한글 글꼴로 떨어진다. 스택을 명시해 둔다. */
+:root:lang(ko) {
+  --font-display: 'Space Grotesk', var(--font-ko);
+  --font-body: 'Geist', var(--font-ko);
+}
+:lang(ko) .cairn-site :is(h1, h2, h3) {
+  letter-spacing: -0.02em;
+  overflow-wrap: normal;
+  word-break: keep-all;
+}
+:lang(ko) .night-description,
+:lang(ko) .flow-heading p,
+:lang(ko) .engine-intro p {
+  word-break: keep-all;
+}
 .cairn-wordmark {
   display: inline-flex;
   align-items: center;

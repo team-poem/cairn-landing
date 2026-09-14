@@ -8,7 +8,9 @@ import {
   UserRound,
 } from 'lucide-react';
 import { demoFrame, type DemoState } from '@/lib/demo-state';
+import { useI18n } from './LocaleProvider';
 export function ShopDemo({ state }: { state: DemoState }) {
+  const { t } = useI18n();
   const frame = demoFrame(state);
   return (
     <div
@@ -20,22 +22,22 @@ export function ShopDemo({ state }: { state: DemoState }) {
       data-complete={frame.done}
     >
       <div className="sample-caption">
-        <span>Sample app</span>
+        <span>{t.shop.caption}</span>
         <span>
           {frame.saved
-            ? 'Path saved'
+            ? t.shop.statusSaved
             : frame.repairing
-              ? 'Finding the new button…'
+              ? t.shop.statusRepairing
               : state.running
-                ? 'Cairn is running'
+                ? t.shop.statusRunning
                 : frame.done
-                  ? 'Task complete'
-                  : 'Ready to run'}
+                  ? t.shop.statusDone
+                  : t.shop.statusIdle}
         </span>
       </div>
       <div
         className="sample-store"
-        aria-label="Illustrated Trail Supply shopping app"
+        aria-label={t.shop.storeLabel}
       >
         <div className="store-header">
           <strong>
@@ -43,7 +45,7 @@ export function ShopDemo({ state }: { state: DemoState }) {
           </strong>
           <span className="store-account">
             <UserRound size={14} />
-            {frame.loggedIn ? 'Alex' : 'Guest'}
+            {frame.loggedIn ? 'Alex' : t.shop.guest}
           </span>
         </div>
         <div className="store-viewport">
@@ -75,7 +77,7 @@ export function ShopDemo({ state }: { state: DemoState }) {
               <b>{frame.itemAdded ? '1' : '0'}</b>
             </div>
             {frame.changed && !frame.done && (
-              <span className="store-old-target">Cart · not found</span>
+              <span className="store-old-target">{t.shop.cartNotFound}</span>
             )}
             <div className="store-product">
               <div className="store-product-icon">
@@ -112,20 +114,20 @@ export function ShopDemo({ state }: { state: DemoState }) {
           >
             <div className="store-bag-title">
               <ShoppingBag size={20} />
-              <h4>Your bag</h4>
-              <span>1 item</span>
+              <h4>{t.shop.bagTitle}</h4>
+              <span>{t.shop.bagCount}</span>
             </div>
             <div className="bag-item">
               <Backpack size={49} strokeWidth={1} />
               <div>
                 <strong>Daypack</strong>
-                <span>Slate / One size</span>
+                <span>{t.shop.bagVariant}</span>
               </div>
               <b>× 1</b>
             </div>
             <div className="store-done">
               <Check size={17} />
-              <span>Login, add, and open. All done.</span>
+              <span>{t.shop.bagDone}</span>
             </div>
           </div>
           {!frame.done && (
@@ -133,12 +135,10 @@ export function ShopDemo({ state }: { state: DemoState }) {
               <MousePointer2 size={23} fill="currentColor" />
               <span>
                 {frame.repairing
-                  ? 'Find replacement'
-                  : [
-                      'Log in',
-                      'Add item',
-                      frame.changed ? 'View bag' : 'Open cart',
-                    ][frame.activeStep]}
+                  ? t.shop.cursorRepair
+                  : frame.changed && frame.activeStep === 2
+                    ? t.shop.cursorViewBag
+                    : t.shop.cursorSteps[frame.activeStep]}
               </span>
               <i />
             </div>
