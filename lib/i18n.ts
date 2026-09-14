@@ -136,7 +136,7 @@ const en = {
   features: {
     titleTop: 'Your tools.',
     titleBottom: 'Cairn underneath.',
-    lead: 'Run Cairn from the CLI or embed it in a QA tool, a CI check, or a browser monitor. One pipeline, six ports — nothing app-specific lives inside.',
+    lead: 'Run it from the CLI, or embed it in a QA tool, a CI check, or a monitor. Nothing app-specific lives inside — every variable behavior arrives through a port.',
     link: 'Explore the engine API',
     pipelineLabel: 'Pipeline',
     stages: {
@@ -179,40 +179,6 @@ const en = {
           'Sends the result anywhere: console, JSON, or the tracker your team already uses.',
       },
     },
-    compareLabel: 'Where it sits',
-    compare: {
-      columns: ['Scripted (Playwright, Cypress)', 'LLM browser agents', 'Cairn'],
-      rows: [
-        { label: 'Authoring', cells: ['Hand-written selectors and code', 'Plain language', 'Plain language'] },
-        { label: 'Every run', cells: ['Deterministic, cheap', 'LLM in the loop — slow, costly, flaky', 'Deterministic, cheap'] },
-        { label: 'UI changes', cells: ['You fix the selectors', 'Re-reasons, may drift', 'Self-heals, then re-freezes'] },
-        { label: 'LLM calls', cells: ['None', 'Every run', 'Once to discover, again only to heal'] },
-      ],
-    },
-    codeLabel: 'What you actually write',
-    codeTabs: {
-      skill: 'A frozen scenario',
-      embed: 'Embed the engine',
-      suite: 'A case list',
-    },
-    codeNotes: {
-      skill: 'Just data. Flat, readable, diffable. Each target keeps several locators — text first, role and index as a rename-resilient fallback, a CSS selector as the escape hatch.',
-      embed: 'Replay with no model in the loop. Pass heal: true and a broken step is repaired instead of going red; write the healed path back.',
-      suite: 'Hand it your QA cases with your own success criteria. Cached skills replay; misses are discovered once and frozen with the criteria merged in.',
-    },
-    measuredLabel: 'Measured, not claimed',
-    measured:
-      'On the multi-step checkout in bench/, replayed four times with Claude via Claude Code: 4 of 4 replays deterministic, 0 model calls on replay, discovery paid once. Every result carries its own count in result.usage.',
-    measuredLink: 'See the bench',
-    modelsLabel: 'Bring a model',
-    models: 'Set a key and Cairn picks the backend — Anthropic, OpenAI, or Gemini. No key? A local Claude Code or Codex CLI login works too. Or implement the LlmClient port.',
-    buildLabel: 'Things it powers',
-    builds: [
-      { term: 'A QA tool', description: 'Non-developers write flows in plain language, then watch them replay and self-heal.' },
-      { term: 'A CI regression gate', description: 'Frozen flows run on every PR. Drift heals instead of going red.' },
-      { term: 'A synthetic monitor', description: 'Replay critical paths against production. Alert only when one truly breaks.' },
-      { term: 'A visual-replay app', description: 'The engine streams per-step progress and screenshots. You draw the UI.' },
-    ],
   },
   start: {
     title: 'Give it a task.',
@@ -371,7 +337,7 @@ const ko: Copy = {
   features: {
     titleTop: '쓰던 도구 그대로,',
     titleBottom: '그 아래에 Cairn.',
-    lead: 'CLI로 실행하거나 QA 도구, CI 검사, 브라우저 모니터 안에 넣어 쓸 수 있습니다. 파이프라인 하나, 포트 여섯 — 앱에 특정한 로직은 엔진 안에 없습니다.',
+    lead: 'CLI로 실행하거나 QA 도구, CI 검사, 모니터 안에 넣어 씁니다. 앱에 특정한 로직은 엔진 안에 없고, 달라지는 동작은 전부 포트로 들어옵니다.',
     link: '엔진 API 살펴보기',
     pipelineLabel: '파이프라인',
     stages: {
@@ -408,40 +374,6 @@ const ko: Copy = {
         description: '결과를 어디로든 보냅니다. 콘솔, JSON, 팀이 쓰는 트래커.',
       },
     },
-    compareLabel: '어디에 있는 도구인가',
-    compare: {
-      columns: ['스크립트 (Playwright, Cypress)', 'LLM 브라우저 에이전트', 'Cairn'],
-      rows: [
-        { label: '작성', cells: ['셀렉터와 코드를 직접', '자연어', '자연어'] },
-        { label: '매 실행', cells: ['결정적, 저렴', '매번 LLM — 느리고 비싸고 흔들림', '결정적, 저렴'] },
-        { label: 'UI 변경', cells: ['셀렉터를 고친다', '다시 추론, 흔들릴 수 있음', '스스로 고치고 다시 저장'] },
-        { label: 'LLM 호출', cells: ['없음', '매 실행', '탐색에 한 번, 복구할 때만 다시'] },
-      ],
-    },
-    codeLabel: '실제로 쓰게 되는 것',
-    codeTabs: {
-      skill: '저장된 시나리오',
-      embed: '엔진 임베드',
-      suite: '케이스 목록',
-    },
-    codeNotes: {
-      skill: '그냥 데이터입니다. 평평하고, 읽히고, diff 됩니다. 각 target 은 여러 로케이터를 갖습니다 — 텍스트 먼저, 이름이 바뀌어도 버티는 role·index, 마지막 탈출구로 CSS 셀렉터.',
-      embed: '모델 없이 재생합니다. heal: true 를 주면 깨진 단계를 빨간불 대신 고치고, 고친 경로를 다시 씁니다.',
-      suite: 'QA 케이스와 팀의 성공 기준을 그대로 넘깁니다. 캐시된 스킬은 재생하고, 없는 것만 한 번 탐색해 기준을 합쳐 저장합니다.',
-    },
-    measuredLabel: '주장이 아니라 측정',
-    measured:
-      'bench/ 의 다단계 결제 흐름을 Claude Code 의 Claude 로 네 번 재생: 4/4 결정적 재생, 재생 중 모델 호출 0, 탐색 비용은 한 번. 모든 결과가 result.usage 에 자기 호출 수를 담습니다.',
-    measuredLink: '벤치 보기',
-    modelsLabel: '모델은 가져오세요',
-    models: '키를 넣으면 Cairn 이 백엔드를 고릅니다 — Anthropic, OpenAI, Gemini. 키가 없으면 로컬 Claude Code 나 Codex CLI 로그인으로도 됩니다. 아니면 LlmClient 포트를 구현하세요.',
-    buildLabel: '위에 지을 수 있는 것',
-    builds: [
-      { term: 'QA 도구', description: '개발자가 아니어도 자연어로 흐름을 쓰고, 재생과 자가 복구를 지켜봅니다.' },
-      { term: 'CI 회귀 게이트', description: '저장된 흐름이 PR 마다 돕니다. 어긋나면 빨간불 대신 고칩니다.' },
-      { term: '합성 모니터', description: '핵심 경로를 프로덕션에 재생합니다. 진짜 깨졌을 때만 알립니다.' },
-      { term: '시각 재생 앱', description: '엔진이 단계별 진행과 스크린샷을 흘려줍니다. UI 는 당신이 그립니다.' },
-    ],
   },
   start: {
     title: '할 일을 알려주세요.',

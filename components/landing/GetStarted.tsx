@@ -1,7 +1,6 @@
 'use client';
 import { useState } from 'react';
 import { ArrowRight, ArrowUpRight } from 'lucide-react';
-import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
 import { cairnLinks } from '@/lib/cairn';
 import { useI18n } from './LocaleProvider';
 const stages = ['context', 'plan', 'execute', 'judge', 'report'] as const;
@@ -14,43 +13,8 @@ const ports = [
   'Reporter',
 ] as const;
 type Port = (typeof ports)[number];
-/* 코드는 README 에서 가져온 사용 예제이며 실제 스키마 전체가 아니다. */
-const samples = {
-  skill: `{
-  "name": "cart",
-  "steps": [
-    { "kind": "goto", "url": "https://shop.example" },
-    { "kind": "type", "target": { "text": "Email" }, "text": "you@shop.example" },
-    { "kind": "click", "target": { "text": "Log in", "role": "button" },
-      "expect": { "requestStatus": { "urlIncludes": "/auth", "status": 200 } } },
-    { "kind": "click", "target": { "text": "Add to cart" } },
-    { "kind": "click", "target": { "text": "Cart", "role": "link" } }
-  ],
-  "assertions": [
-    { "kind": "navigated", "to": "/cart" },
-    { "kind": "no-failed-requests" }
-  ]
-}`,
-  embed: `import { runScenario, loadSkillFile, saveSkillFile } from "cairn-engine";
-
-const scenario = await loadSkillFile("cart.skill.json");
-const { result, healedScenario } = await runScenario(scenario, {
-  heal: true, // repair a broken step instead of going red
-});
-
-if (healedScenario) await saveSkillFile("cart.skill.json", healedScenario);
-if (!result.verdict.passed) process.exit(1); // a deterministic gate for CI`,
-  suite: `// cases.json
-{
-  "baseUrl": "https://your.app",
-  "cases": [
-    { "id": "login", "intent": "log in with the test account" },
-    { "id": "checkout", "intent": "buy 1kg of beans",
-      "expect": ["the order total shown is ₩24,000"] }
-  ]
-}
-// $ cairn suite cases.json --skills ./skills --report suite.md`,
-} as const;
+/* 3번 섹션의 주제는 하나다: 테스트 러너가 아니라 엔진이고, 그 위에 짓는다.
+ * 파이프라인 다섯 단계와 포트 여섯을 보여주고 바로 설치로 잇는다. */
 export function GetStarted() {
   const { t } = useI18n();
   const [port, setPort] = useState<Port>('Driver');
@@ -74,8 +38,6 @@ export function GetStarted() {
               {t.features.link} <ArrowUpRight size={16} />
             </a>
           </div>
-          {/* 파이프라인 다섯 단계와 그 밑에 꽂히는 포트 여섯. 포트를 고르면
-              그 포트가 어느 단계를 바꾸는지 위에서 켜진다. */}
           <div className="pipeline">
             <span className="fit-label">{t.features.pipelineLabel}</span>
             <ol className="pipeline-stages" aria-label={t.features.pipelineLabel}>
@@ -114,87 +76,6 @@ export function GetStarted() {
             </p>
           </div>
         </div>
-
-        <div className="fit-grid fit-grid-lower">
-          <div className="compare">
-            <span className="fit-label">{t.features.compareLabel}</span>
-            <table className="compare-table">
-              <thead>
-                <tr>
-                  <th scope="col">
-                    <span className="cairn-sr-only">{t.features.compareLabel}</span>
-                  </th>
-                  {t.features.compare.columns.map((column) => (
-                    <th key={column} scope="col">
-                      {column}
-                    </th>
-                  ))}
-                </tr>
-              </thead>
-              <tbody>
-                {t.features.compare.rows.map((row) => (
-                  <tr key={row.label}>
-                    <th scope="row">{row.label}</th>
-                    {row.cells.map((cell, index) => (
-                      <td key={index} data-cairn={index === 2}>
-                        {cell}
-                      </td>
-                    ))}
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-          <div className="code-samples">
-            <span className="fit-label">{t.features.codeLabel}</span>
-            <Tabs defaultValue="skill" className="code-tabs">
-              <TabsList className="code-tabs-list" aria-label={t.features.codeLabel}>
-                {(Object.keys(samples) as (keyof typeof samples)[]).map((key) => (
-                  <TabsTrigger key={key} value={key} className="code-tab">
-                    {t.features.codeTabs[key]}
-                  </TabsTrigger>
-                ))}
-              </TabsList>
-              {(Object.keys(samples) as (keyof typeof samples)[]).map((key) => (
-                <TabsContent key={key} value={key} className="code-panel">
-                  <pre>
-                    <code>{samples[key]}</code>
-                  </pre>
-                  <p>{t.features.codeNotes[key]}</p>
-                </TabsContent>
-              ))}
-            </Tabs>
-          </div>
-        </div>
-
-        <dl className="fit-facts">
-          <div>
-            <dt>{t.features.measuredLabel}</dt>
-            <dd>
-              {t.features.measured}{' '}
-              <a className="cairn-link" href={cairnLinks.bench}>
-                {t.features.measuredLink} <ArrowUpRight size={14} />
-              </a>
-            </dd>
-          </div>
-          <div>
-            <dt>{t.features.modelsLabel}</dt>
-            <dd>{t.features.models}</dd>
-          </div>
-        </dl>
-
-        <div className="fit-builds">
-          <span className="fit-label">{t.features.buildLabel}</span>
-          <ul>
-            {t.features.builds.map((item) => (
-              <li key={item.term}>
-                <strong>{item.term}</strong>
-                <span>{item.description}</span>
-              </li>
-            ))}
-          </ul>
-        </div>
-
         <div className="start-layout">
           <div>
             <h3 id="start-title">{t.start.title}</h3>
