@@ -5,18 +5,18 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1200" height="420" viewBox="0 0 1200 420" fill="none" preserveAspectRatio="none">
   <defs>
     <linearGradient id="far" x1="0" y1="60" x2="0" y2="420" gradientUnits="userSpaceOnUse">
-      <stop offset="0" stop-color="#2b3a58" stop-opacity="0.34" />
-      <stop offset="0.55" stop-color="#1d2842" stop-opacity="0.5" />
-      <stop offset="1" stop-color="#161f33" stop-opacity="0.62" />
+      <stop offset="0" stop-color="#41557d" stop-opacity="0.62" />
+      <stop offset="0.55" stop-color="#2a3958" stop-opacity="0.72" />
+      <stop offset="1" stop-color="#1d2841" stop-opacity="0.8" />
     </linearGradient>
     <linearGradient id="mid" x1="0" y1="150" x2="0" y2="420" gradientUnits="userSpaceOnUse">
-      <stop offset="0" stop-color="#1e2b45" stop-opacity="0.62" />
-      <stop offset="0.6" stop-color="#141d31" stop-opacity="0.82" />
-      <stop offset="1" stop-color="#0e1524" stop-opacity="0.92" />
+      <stop offset="0" stop-color="#2c3c5d" stop-opacity="0.85" />
+      <stop offset="0.6" stop-color="#1b2540" stop-opacity="0.94" />
+      <stop offset="1" stop-color="#121a2c" stop-opacity="1" />
     </linearGradient>
     <linearGradient id="near" x1="0" y1="240" x2="0" y2="420" gradientUnits="userSpaceOnUse">
-      <stop offset="0" stop-color="#151f35" />
-      <stop offset="1" stop-color="#090e18" />
+      <stop offset="0" stop-color="#1c2740" />
+      <stop offset="1" stop-color="#0b1120" />
     </linearGradient>
     <linearGradient id="front" x1="0" y1="320" x2="0" y2="420" gradientUnits="userSpaceOnUse">
       <stop offset="0" stop-color="#0b111c" />
@@ -57,9 +57,9 @@
 
     <!-- 산머리는 하늘로 사라지고 바닥은 남는다 -->
     <linearGradient id="skyfade" x1="0" y1="0" x2="0" y2="420" gradientUnits="userSpaceOnUse">
-      <stop offset="0" stop-color="#ffffff" stop-opacity="0" />
-      <stop offset="0.28" stop-color="#ffffff" stop-opacity="0.75" />
-      <stop offset="0.62" stop-color="#ffffff" stop-opacity="1" />
+      <stop offset="0" stop-color="#ffffff" stop-opacity="0.25" />
+      <stop offset="0.16" stop-color="#ffffff" stop-opacity="0.7" />
+      <stop offset="0.38" stop-color="#ffffff" stop-opacity="1" />
     </linearGradient>
     <mask id="dissolve">
       <rect x="0" y="0" width="1200" height="420" fill="url(#skyfade)" />
@@ -81,13 +81,13 @@
          C 990 216, 1016 254, 1058 264 C 1098 248, 1150 224, 1200 212 L1200 420 L0 420 Z" />
 
     <path filter="url(#wash-near)" fill="url(#near)"
-      d="M0 306 C 60 288, 108 264, 168 258 C 228 268, 272 300, 332 310 C 388 296, 428 266, 486 260
-         C 546 272, 588 304, 648 314 C 704 300, 744 268, 802 262 C 862 274, 906 306, 966 314
-         C 1022 300, 1068 274, 1126 268 C 1156 272, 1180 284, 1200 296 L1200 420 L0 420 Z" />
+      d="M0 330 C 70 316, 140 300, 220 288 C 290 278, 340 262, 396 248
+         C 452 260, 500 286, 566 300 C 626 310, 672 292, 730 280 C 790 292, 836 316, 900 324
+         C 960 312, 1010 288, 1072 282 C 1120 286, 1162 300, 1200 312 L1200 420 L0 420 Z" />
 
     <path filter="url(#wash-front)" fill="url(#front)"
-      d="M0 356 C 160 338, 320 366, 480 350 C 640 334, 800 362, 960 346
-         C 1050 337, 1130 350, 1200 344 L1200 420 L0 420 Z" />
+      d="M0 372 C 130 358, 260 346, 396 336 C 520 344, 640 366, 780 358
+         C 900 350, 1010 368, 1120 360 C 1150 358, 1176 362, 1200 358 L1200 420 L0 420 Z" />
 
     <!-- 물감이 고인 자리 -->
     <rect x="0" y="120" width="1200" height="300" filter="url(#pool)" opacity="0.5" />

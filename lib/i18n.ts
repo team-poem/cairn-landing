@@ -20,7 +20,7 @@ const en = {
     language: 'Language',
   },
   hero: {
-    eyebrow: 'Browser testing, by Poem.',
+    eyebrow: 'Agentic testing, by Poem.',
     titleTop: 'Find a path.',
     titleBottom: 'Run it again.',
     description:
@@ -131,7 +131,7 @@ const en = {
     model: 'Model',
     modelRole: 'Discover & repair',
     core: 'Cairn',
-    coreRole: 'Browser test engine',
+    coreRole: 'Agentic test engine',
     coreLabel: 'See how the Cairn engine works',
     browser: 'Browser',
     browserRole: 'Execute steps',
@@ -169,7 +169,7 @@ const en = {
     note: 'Discovery, repair, and AI checks may call a model.',
   },
   footer: {
-    taglineTop: 'A browser testing engine',
+    taglineTop: 'An agentic testing engine',
     taglineBottom: 'made by Poem.',
     navLabel: 'Footer',
     howItWorks: 'How it works',
@@ -187,7 +187,7 @@ const ko: Copy = {
     language: '언어',
   },
   hero: {
-    eyebrow: '브라우저 테스트 엔진, Poem.',
+    eyebrow: '에이전틱 테스트, Poem.',
     titleTop: '경로를 찾고,',
     titleBottom: '다시 실행한다.',
     description:
@@ -298,7 +298,7 @@ const ko: Copy = {
     model: 'Model',
     modelRole: '탐색과 복구',
     core: 'Cairn',
-    coreRole: '브라우저 테스트 엔진',
+    coreRole: '에이전틱 테스트 엔진',
     coreLabel: 'Cairn 엔진의 동작 보기',
     browser: 'Browser',
     browserRole: '단계 실행',
@@ -336,7 +336,7 @@ const ko: Copy = {
     note: '탐색, 복구, AI 판정은 모델을 호출할 수 있습니다.',
   },
   footer: {
-    taglineTop: '브라우저 테스트 엔진',
+    taglineTop: '에이전틱 테스트 엔진',
     taglineBottom: 'Poem이 만듭니다.',
     navLabel: '푸터',
     howItWorks: '동작 방식',

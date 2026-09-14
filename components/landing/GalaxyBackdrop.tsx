@@ -44,14 +44,14 @@ export function GalaxyBackdrop({ animated }: { animated: boolean }) {
                 <Galaxy
                   focal={focal}
                   rotation={rotation}
-                  density={1.9}
-                  starSpeed={0.2}
-                  speed={0.75}
-                  glowIntensity={0.46}
+                  density={2.3}
+                  starSpeed={0.55}
+                  speed={1.4}
+                  glowIntensity={0.9}
                   twinkleIntensity={1}
-                  rotationSpeed={0.04}
+                  rotationSpeed={0.1}
                   hueShift={210}
-                  saturation={0.45}
+                  saturation={0.5}
                   mouseRepulsion={false}
                   mouseInteraction
                   transparent
