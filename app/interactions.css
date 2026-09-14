@@ -157,7 +157,8 @@
 .cairn-sculpture[data-stage='fallen'] .shadow {
   transform: scale(1.65, 0.8);
   opacity: 0.16;
-  transition-delay: 250ms;
+  transition-delay: 600ms;
+  transition-duration: 420ms;
 }
 .cairn-sculpture[data-stage='repairing'] .shadow {
   transition-delay: 500ms;
@@ -176,25 +177,50 @@
 .cairn-sculpture[data-stage='fallen'] :is(.beacon, .ring, .peak) {
   opacity: 0;
 }
-.cairn-sculpture[data-stage='repairing'] :is(.beacon, .ring) {
-  transition-delay: 1550ms;
+/* 공명 링은 빛이 완전히 켜진 뒤(ready)에야 돈다. 쌓이는 동안은 꺼 둔다. */
+.cairn-sculpture[data-stage='repairing'] .ring {
+  opacity: 0;
+  transition: none;
 }
-.cairn-sculpture[data-stage='repairing'] .beacon {
+.cairn-sculpture[data-stage='repairing'] :is(.beacon, .peak) {
   transform-box: fill-box;
   transform-origin: center;
-  animation: sculpture-relight 900ms cubic-bezier(0.2, 0.8, 0.3, 1) 1550ms both;
+  transition: none;
+  animation: sculpture-relight 1000ms linear 1550ms both;
 }
 @keyframes sculpture-relight {
-  from {
-    transform: scale(0.55);
+  0% {
     opacity: 0;
+    transform: scale(0.7);
   }
-  45% {
+  7% {
+    opacity: 0.55;
+  }
+  12% {
+    opacity: 0.04;
+  }
+  22% {
+    opacity: 0.7;
+  }
+  27% {
+    opacity: 0.12;
+  }
+  36% {
+    opacity: 0.2;
+  }
+  46% {
+    opacity: 0.95;
+    transform: scale(0.94);
+  }
+  54% {
+    opacity: 0.55;
+  }
+  66% {
     opacity: 1;
   }
-  to {
+  100% {
+    opacity: 1;
     transform: scale(1);
-    opacity: 1;
   }
 }
 .cairn-sculpture[data-motion='true'][data-stage='ready'] .ring {

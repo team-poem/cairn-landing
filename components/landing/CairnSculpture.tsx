@@ -1,9 +1,22 @@
 'use client';
-import { useEffect, useState } from 'react';
+import { memo, useEffect, useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { cairnArtwork } from '@/lib/cairn-artwork';
 import { useI18n } from './LocaleProvider';
 type Stage = 'arriving' | 'ready' | 'fallen' | 'repairing';
+/* 카운트다운이 1초마다 리렌더한다. SVG 가 그때마다 다시 꽂히면 돌이 새
+ * 요소가 되어 무너지는 애니메이션이 처음부터 다시 돈다. 그림은 한 번만. */
+const SculptureArt = memo(function SculptureArt() {
+  return (
+    <svg
+      className="sculpture-art"
+      viewBox="165 105 350 425"
+      fill="none"
+      aria-hidden="true"
+      dangerouslySetInnerHTML={{ __html: cairnArtwork }}
+    />
+  );
+});
 export function CairnSculpture({ animated }: { animated: boolean }) {
   const { t } = useI18n();
   const [stage, setStage] = useState<Stage>('arriving');
@@ -42,13 +55,7 @@ export function CairnSculpture({ animated }: { animated: boolean }) {
       data-stage={stage}
       data-motion={animated}
     >
-      <svg
-        className="sculpture-art"
-        viewBox="165 105 350 425"
-        fill="none"
-        aria-hidden="true"
-        dangerouslySetInnerHTML={{ __html: cairnArtwork }}
-      />
+      <SculptureArt />
       <Button
         variant="ghost"
         className="sculpture-hit"
