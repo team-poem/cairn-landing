@@ -434,6 +434,53 @@ body {
     color: var(--color-accent-ink);
   }
 }
+/* 왼쪽 세로 중앙의 선 네비. 선만 있고 라벨은 스크린리더용이다. */
+.section-nav {
+  position: fixed;
+  inset-inline-start: clamp(14px, 2.2vw, 34px);
+  inset-block-start: 50%;
+  transform: translateY(-50%);
+  z-index: 6;
+  display: grid;
+  gap: 10px;
+}
+.section-nav a {
+  display: block;
+  position: relative;
+  width: 48px;
+  min-height: 24px;
+}
+.section-nav a::before {
+  content: '';
+  position: absolute;
+  inset-inline-start: 0;
+  inset-block-start: 50%;
+  height: 2px;
+  width: 16px;
+  border-radius: 2px;
+  background: var(--color-muted);
+  opacity: 0.7;
+  transform: translateY(-50%);
+  transition:
+    width 300ms var(--ease-out),
+    background-color 200ms ease,
+    opacity 200ms ease;
+}
+.section-nav a:hover::before {
+  width: 28px;
+  opacity: 1;
+  background: var(--color-ink);
+}
+.section-nav a[aria-current='true']::before {
+  width: 42px;
+  opacity: 1;
+  background: var(--color-accent);
+}
+@media (max-width: 60rem) {
+  .section-nav {
+    display: none;
+  }
+}
 /* 언어 전환 크로스페이드. 옛 화면이 사라지며 새 화면이 제자리에 나타난다. */
 ::view-transition-old(root) {
   animation: 180ms var(--ease-out) both cairn-locale-out;

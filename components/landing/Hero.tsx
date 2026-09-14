@@ -27,7 +27,7 @@ export function Hero() {
     return () => preference.removeEventListener('change', update);
   }, []);
   return (
-    <section className="night-opening" aria-labelledby="hero-title">
+    <section className="night-opening" id="top" aria-labelledby="hero-title">
       <GalaxyBackdrop animated={animated} />
       <div className="night-composition cairn-container">
         <CairnSculpture animated={animated} />

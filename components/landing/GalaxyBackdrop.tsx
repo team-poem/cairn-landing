@@ -27,7 +27,12 @@ export function GalaxyBackdrop({ animated }: { animated: boolean }) {
   const active = animated && inView && visible;
   return (
     <>
-      <div ref={container} className={styles.sky} aria-hidden="true">
+      <div
+        ref={container}
+        className={styles.sky}
+        data-active={active}
+        aria-hidden="true"
+      >
         <Image
           className={active ? styles.faintStars : ''}
           src="/cairn-sky-still.svg"
@@ -44,7 +49,7 @@ export function GalaxyBackdrop({ animated }: { animated: boolean }) {
                 <Galaxy
                   focal={focal}
                   rotation={rotation}
-                  density={2.6}
+                  density={3.2}
                   starSpeed={0.6}
                   speed={1.4}
                   glowIntensity={1.35}
@@ -72,6 +77,7 @@ export function GalaxyBackdrop({ animated }: { animated: boolean }) {
         unoptimized
         aria-hidden="true"
       />
+      <div className={styles.mist} data-active={active} aria-hidden="true" />
     </>
   );
 }

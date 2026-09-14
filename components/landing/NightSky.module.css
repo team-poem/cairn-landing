@@ -12,6 +12,7 @@
   object-fit: cover;
   object-position: center top;
   opacity: 0.65;
+  transform-origin: center top;
   mask-image: linear-gradient(
     to bottom,
     var(--color-mask) 0%,
@@ -19,10 +20,13 @@
     var(--color-clear) 100%
   );
 }
+/* 하늘 전체가 아주 천천히 흐른다. 가장자리가 비지 않게 조금 크게 깐다.
+   정지 별은 반대로 더 느리게 흘러 두 층이 어긋난다(패럴랙스). */
 .galaxy {
   position: absolute;
-  inset: 0;
+  inset: -5%;
   mix-blend-mode: screen;
+  animation: sky-drift 160s ease-in-out infinite alternate;
   mask-image: linear-gradient(
     to bottom,
     var(--color-mask) 0%,
@@ -32,6 +36,79 @@
 }
 .sky img.faintStars {
   opacity: 0.42;
+  animation: sky-drift-far 240s ease-in-out infinite alternate-reverse;
+}
+@keyframes sky-drift {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(-3.2%, 1.4%, 0);
+  }
+}
+@keyframes sky-drift-far {
+  from {
+    transform: translate3d(0, 0, 0) scale(1.06);
+  }
+  to {
+    transform: translate3d(1.6%, -0.6%, 0) scale(1.06);
+  }
+}
+/* 산 위를 지나는 안개. 두 겹이 다른 속도·방향으로 흘러 겹친다.
+   배경을 두 벌 이어 붙이고 절반만큼 밀어 끊김 없이 돈다. */
+.mist {
+  position: absolute;
+  inset-inline: 0;
+  inset-block-end: 0;
+  height: clamp(260px, 46vh, 600px);
+  overflow: clip;
+  pointer-events: none;
+  z-index: 0;
+  mask-image: linear-gradient(
+    to bottom,
+    var(--color-clear) 0%,
+    var(--color-mask) 32%,
+    var(--color-mask) 72%,
+    var(--color-clear) 100%
+  );
+}
+.mist::before,
+.mist::after {
+  content: '';
+  position: absolute;
+  inset-block: 0;
+  left: 0;
+  width: 200%;
+  background-repeat: repeat-x;
+  background-size: 50% 100%;
+  will-change: transform;
+}
+.mist::before {
+  background-image:
+    radial-gradient(58% 52% at 18% 58%, var(--color-mist), var(--color-clear) 70%),
+    radial-gradient(44% 48% at 61% 42%, var(--color-mist-soft), var(--color-clear) 70%),
+    radial-gradient(66% 58% at 88% 64%, var(--color-mist), var(--color-clear) 70%);
+  animation: mist-drift 95s linear infinite;
+}
+.mist::after {
+  background-image:
+    radial-gradient(50% 44% at 38% 52%, var(--color-mist-soft), var(--color-clear) 70%),
+    radial-gradient(62% 50% at 82% 36%, var(--color-mist-soft), var(--color-clear) 70%);
+  animation: mist-drift 150s linear infinite reverse;
+}
+@keyframes mist-drift {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+/* 하늘을 멈추면 안개와 흐름도 멈춘다 */
+.sky[data-active='false'] img,
+.mist[data-active='false']::before,
+.mist[data-active='false']::after {
+  animation-play-state: paused;
 }
 /* 산맥은 첫 화면 바닥에 붙어 좌우로 끝까지 이어진다.
    산머리는 SVG 안에서 이미 하늘로 흩어지므로 여기서는 자리만 잡는다. */

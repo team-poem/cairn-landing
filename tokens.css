@@ -18,6 +18,8 @@
   --color-sky: oklch(23% 0.04 260);
   --color-glow: oklch(50% 0.035 65 / 0.1);
   --color-sky-glow: oklch(52% 0.06 260 / 0.12);
+  --color-mist: oklch(78% 0.04 260 / 0.15);
+  --color-mist-soft: oklch(78% 0.04 260 / 0.09);
   --color-mask: oklch(0% 0 0);
   --color-mask-soft: oklch(0% 0 0 / 0.25);
   --color-shard-base: #080c14;

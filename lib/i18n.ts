@@ -171,6 +171,15 @@ const en = {
     secondary: 'Example project',
     note: 'Discovery, repair, and AI checks may call a model.',
   },
+  nav: {
+    label: 'Sections',
+    sections: {
+      top: 'Top',
+      workflow: 'How it works',
+      engine: 'Engine',
+      'get-started': 'Get started',
+    },
+  },
   footer: {
     taglineTop: 'An agentic testing engine',
     taglineBottom: 'made by Poem.',
@@ -340,6 +349,15 @@ const ko: Copy = {
     primary: '가이드로 시작하기',
     secondary: '예제 프로젝트',
     note: '탐색, 복구, AI 판정은 모델을 호출할 수 있습니다.',
+  },
+  nav: {
+    label: '섹션',
+    sections: {
+      top: '처음',
+      workflow: '동작 방식',
+      engine: '엔진',
+      'get-started': '시작하기',
+    },
   },
   footer: {
     taglineTop: '에이전틱 테스팅 엔진',
