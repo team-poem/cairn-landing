@@ -31,11 +31,14 @@
   inset: -5%;
   mix-blend-mode: screen;
   animation: sky-drift 48s ease-in-out infinite alternate;
+  /* 안개가 짙어지는 구간(대략 40~70%)과 겹치는 폭을 줄인다. 파란
+     반투명 레이어 두 개가 screen 으로 같은 구간에 쌓이면 청록빛으로
+     보일 수 있다. */
   mask-image: linear-gradient(
     to bottom,
     var(--color-mask) 0%,
-    var(--color-mask) 36%,
-    var(--color-clear) 68%
+    var(--color-mask) 30%,
+    var(--color-clear) 52%
   );
 }
 .galaxyScale {
@@ -97,6 +100,9 @@
   width: 200%;
   background-repeat: repeat-x;
   will-change: transform;
+  /* screen 블렌드로 파란 반투명 레이어가 겹치면 청록/녹색 쪽으로 틀어져
+     보일 수 있다. 채도를 낮춰 여지를 줄인다. */
+  filter: saturate(0.55);
 }
 /* 두 장의 노이즈 비트맵이 다른 크기·속도·방향으로 겹쳐 형태가 계속 바뀐다.
    SVG 필터 배경은 Chrome 이 GPU 타일마다 다시 래스터해 사각 띠가 생긴다. */
