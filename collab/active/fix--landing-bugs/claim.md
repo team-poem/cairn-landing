@@ -2,7 +2,7 @@
 branch: fix/landing-bugs
 owner: Gyuhwan_Jeong
 started: 2026-09-15
-status: active          # active | paused(한동안 안 함, 남이 이어받아도 됨) | done(PR 올림)
+status: done            # active | paused(한동안 안 함, 남이 이어받아도 됨) | done(PR 올림)
 goal: 로컬에서 랜딩을 훑어 잔버그를 찾아 고친다
 next:
 ---
