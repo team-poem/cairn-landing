@@ -21,7 +21,11 @@ export function CairnSculpture({ animated }: { animated: boolean }) {
         window.clearTimeout(timer);
       };
     }
-    const timer = window.setTimeout(() => setStage('ready'), 1900);
+    // 마지막 돌이 앉고 빛이 다시 번질 때까지 기다린다. 애니메이션 길이와 맞춘다.
+    const timer = window.setTimeout(
+      () => setStage('ready'),
+      stage === 'repairing' ? 2600 : 1700,
+    );
     return () => window.clearTimeout(timer);
   }, [stage]);
   const message =

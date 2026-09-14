@@ -12,66 +12,161 @@
 .sculpture-art .stone {
   transform-box: fill-box;
   transform-origin: center;
-  transition:
-    transform 800ms cubic-bezier(0.2, 0.75, 0.25, 1),
-    opacity 500ms var(--ease-out);
+  transition: opacity 500ms var(--ease-out);
 }
+/* 위 돌일수록 멀리 날아가고 높이 튕긴다. --order 는 아래(0)에서 위(4). */
 .sculpture-art .s1 {
   --fall-x: -24px;
   --fall-y: 10px;
   --fall-r: -13deg;
+  --bounce: 6px;
   --order: 0;
 }
 .sculpture-art .s2 {
   --fall-x: 74px;
   --fall-y: 47px;
   --fall-r: 25deg;
+  --bounce: 11px;
   --order: 1;
 }
 .sculpture-art .s3 {
   --fall-x: -89px;
   --fall-y: 86px;
   --fall-r: -34deg;
+  --bounce: 16px;
   --order: 2;
 }
 .sculpture-art .s4 {
   --fall-x: 123px;
   --fall-y: 128px;
   --fall-r: 49deg;
+  --bounce: 22px;
   --order: 3;
 }
 .sculpture-art .s5 {
   --fall-x: -137px;
   --fall-y: 159px;
   --fall-r: -63deg;
+  --bounce: 28px;
   --order: 4;
 }
+/* 무너짐: 툭 치면 탑 전체가 반대로 한 번 기울었다가, 위 돌부터 미끄러져
+   중력에 가속하며 떨어지고, 바닥에서 두 번 튕긴 뒤 눕는다.
+   모션 최소화에서는 애니메이션이 꺼지고 아래 정적 transform 만 남는다. */
 .cairn-sculpture[data-stage='fallen'] .stone {
   transform: translate(var(--fall-x), var(--fall-y)) rotate(var(--fall-r));
-  transition-delay: calc(var(--order) * 35ms);
-  transition-timing-function: cubic-bezier(0.4, 0, 0.8, 0.55);
+  animation: sculpture-topple 1150ms linear both;
+  animation-delay: calc((4 - var(--order)) * 45ms);
 }
+@keyframes sculpture-topple {
+  0% {
+    transform: translate(0, 0) rotate(0);
+    animation-timing-function: cubic-bezier(0.2, 0.8, 0.4, 1);
+  }
+  11% {
+    transform: translate(calc(var(--fall-x) * -0.05), -3px)
+      rotate(calc(var(--fall-r) * -0.14));
+    animation-timing-function: cubic-bezier(0.55, 0, 1, 0.55);
+  }
+  60% {
+    transform: translate(calc(var(--fall-x) * 0.9), var(--fall-y))
+      rotate(calc(var(--fall-r) * 0.92)) scale(1.04, 0.94);
+    animation-timing-function: cubic-bezier(0.1, 0.6, 0.4, 1);
+  }
+  72% {
+    transform: translate(calc(var(--fall-x) * 0.96), calc(var(--fall-y) - var(--bounce)))
+      rotate(calc(var(--fall-r) * 1.08));
+    animation-timing-function: cubic-bezier(0.6, 0, 0.9, 0.5);
+  }
+  82% {
+    transform: translate(var(--fall-x), var(--fall-y)) rotate(var(--fall-r))
+      scale(1.02, 0.97);
+    animation-timing-function: cubic-bezier(0.1, 0.6, 0.4, 1);
+  }
+  90% {
+    transform: translate(var(--fall-x), calc(var(--fall-y) - var(--bounce) * 0.28))
+      rotate(calc(var(--fall-r) * 0.985));
+    animation-timing-function: cubic-bezier(0.6, 0, 0.9, 0.5);
+  }
+  100% {
+    transform: translate(var(--fall-x), var(--fall-y)) rotate(var(--fall-r));
+  }
+}
+/* 다시 쌓임: 아래 돌부터. 누운 자리에서 한 번 눌렸다가 호를 그리며 떠올라
+   제자리 위에서 잠깐 멈추고, 살짝 눌리며 내려앉는다. */
 .cairn-sculpture[data-stage='repairing'] .stone {
   transform: translate(0, 0) rotate(0);
-  transition-duration: 900ms;
-  transition-delay: calc(var(--order) * 170ms);
+  animation: sculpture-restack 1000ms linear both;
+  animation-delay: calc(var(--order) * 175ms);
 }
+@keyframes sculpture-restack {
+  0% {
+    transform: translate(var(--fall-x), var(--fall-y)) rotate(var(--fall-r));
+    animation-timing-function: cubic-bezier(0.4, 0, 0.7, 0.4);
+  }
+  14% {
+    transform: translate(var(--fall-x), calc(var(--fall-y) + 4px))
+      rotate(calc(var(--fall-r) * 1.06)) scale(1.03, 0.95);
+    animation-timing-function: cubic-bezier(0.2, 0.7, 0.3, 1);
+  }
+  58% {
+    transform: translate(calc(var(--fall-x) * 0.32), calc(var(--fall-y) * -0.22 - 34px))
+      rotate(calc(var(--fall-r) * 0.28));
+    animation-timing-function: cubic-bezier(0.45, 0, 0.75, 0.35);
+  }
+  80% {
+    transform: translate(0, 0) rotate(calc(var(--fall-r) * -0.07)) scale(1.03, 0.95);
+    animation-timing-function: cubic-bezier(0.2, 0.9, 0.3, 1.2);
+  }
+  91% {
+    transform: translate(0, -4px) rotate(calc(var(--fall-r) * 0.025));
+    animation-timing-function: cubic-bezier(0.5, 0, 0.6, 1);
+  }
+  100% {
+    transform: translate(0, 0) rotate(0);
+  }
+}
+/* 처음 쌓임: 위에서 내려와 살짝 눌리며 자리를 잡는다. */
 .cairn-sculpture[data-stage='arriving'] .stone {
-  animation: sculpture-stack 900ms var(--ease-out) both;
-  animation-delay: calc(var(--order) * 180ms);
+  animation: sculpture-stack 820ms linear both;
+  animation-delay: calc(var(--order) * 170ms);
 }
 @keyframes sculpture-stack {
-  from {
+  0% {
     opacity: 0;
-    transform: translateY(-38px) rotate(-8deg);
+    transform: translateY(-44px) rotate(-7deg);
+    animation-timing-function: cubic-bezier(0.5, 0, 0.8, 0.45);
   }
-  to {
+  62% {
+    opacity: 1;
+    transform: translateY(0) rotate(1.5deg) scale(1.03, 0.95);
+    animation-timing-function: cubic-bezier(0.2, 0.8, 0.3, 1);
+  }
+  82% {
+    transform: translateY(-3px) rotate(-0.6deg);
+    animation-timing-function: cubic-bezier(0.5, 0, 0.6, 1);
+  }
+  100% {
     opacity: 1;
     transform: translateY(0) rotate(0);
   }
 }
 .sculpture-art .shadow {
   opacity: 0.35;
+  transform-box: fill-box;
+  transform-origin: center;
+  transition:
+    transform 900ms cubic-bezier(0.2, 0.8, 0.3, 1),
+    opacity 700ms var(--ease-out);
+}
+.cairn-sculpture[data-stage='fallen'] .shadow {
+  transform: scale(1.65, 0.8);
+  opacity: 0.16;
+  transition-delay: 250ms;
+}
+.cairn-sculpture[data-stage='repairing'] .shadow {
+  transition-delay: 500ms;
+  transition-duration: 1100ms;
 }
 .sculpture-art .beacon,
 .sculpture-art .ring {
@@ -87,7 +182,25 @@
   opacity: 0;
 }
 .cairn-sculpture[data-stage='repairing'] :is(.beacon, .ring) {
-  transition-delay: 1300ms;
+  transition-delay: 1550ms;
+}
+.cairn-sculpture[data-stage='repairing'] .beacon {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: sculpture-relight 900ms cubic-bezier(0.2, 0.8, 0.3, 1) 1550ms both;
+}
+@keyframes sculpture-relight {
+  from {
+    transform: scale(0.55);
+    opacity: 0;
+  }
+  45% {
+    opacity: 1;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
 }
 .cairn-sculpture[data-motion='true'][data-stage='ready'] .ring {
   transform-box: fill-box;
