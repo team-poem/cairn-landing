@@ -2,9 +2,9 @@
 branch: codex/handwritten-landing
 owner: Kangmin_Kim
 started: 2026-09-14
-status: active
+status: done
 goal: README의 밤하늘과 돌무더기 배너를 확장한 Cairn 랜딩을 만든다
-next: app/globals.css app/layout.tsx app/page.tsx components/landing/
+next:
 ---
 
 ## 메모

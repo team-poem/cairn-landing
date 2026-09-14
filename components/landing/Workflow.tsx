@@ -19,7 +19,7 @@ const phases = [
     subtitle: '말에서 경로로.',
     description:
       '“로그인하고 장바구니를 열어줘.” AI가 브라우저를 탐색하며 실행할 단계를 찾습니다.',
-    note: '먼저, 길을 찾고.',
+    note: '01 / INTENT → PATH',
     action: '경로 찾기',
     command:
       'cairn discover "log in and open the cart" \\\n  --url=https://your.app --freeze=cart.skill.json',
@@ -30,7 +30,7 @@ const phases = [
     subtitle: '경로에서 파일로.',
     description:
       '찾아낸 단계를 JSON 파일에 남깁니다. 읽고, 변경을 비교하고, 버전 관리할 수 있는 실행 기록입니다.',
-    note: '찾은 길은 남겨두기.',
+    note: '02 / PATH → JSON',
     action: '',
     command: 'cart.skill.json',
   },
@@ -40,7 +40,7 @@ const phases = [
     subtitle: '다음에도, 같은 길.',
     description:
       '저장된 단계를 순서대로 다시 실행합니다. 기본 재생에는 LLM 호출이 필요 없습니다.',
-    note: '다시 걸어도, 같은 경로.',
+    note: '03 / JSON → REPLAY',
     action: '저장한 경로 재생',
     command: 'cairn replay cart.skill.json',
   },
@@ -50,7 +50,7 @@ const phases = [
     subtitle: '달라진 길도, 이어서.',
     description:
       '장바구니 버튼이 바뀌어 기존 단계가 깨진 상황입니다. AI로 바뀐 단계를 복구하고 새 경로를 저장합니다.',
-    note: '끊긴 곳에서 다시 잇기.',
+    note: '04 / REPAIR → SAVE',
     action: '바뀐 단계 복구',
     command: 'cairn replay cart.skill.json --heal',
   },
@@ -107,9 +107,14 @@ export function Workflow() {
       >
         <TabsList className="phase-tabs" aria-label="Cairn 실행 단계">
           {phases.map((item, index) => (
-            <TabsTrigger key={item.id} value={item.id} className="phase-tab">
+            <TabsTrigger
+              key={item.id}
+              value={item.id}
+              className="phase-tab"
+              data-phase={item.id}
+            >
               <span className="phase-number">0{index + 1}</span>
-              <span className="handwritten">{item.title}</span>
+              <span className="phase-label">{item.title}</span>
               <ArrowRight size={16} />
             </TabsTrigger>
           ))}
@@ -117,7 +122,7 @@ export function Workflow() {
         {phases.map((item) => (
           <TabsContent key={item.id} value={item.id} className="phase-content">
             <div className="phase-story">
-              <p className="handwritten phase-margin-note">{item.note}</p>
+              <p className="phase-margin-note">{item.note}</p>
               <h3>{item.subtitle}</h3>
               <p>{item.description}</p>
               <div className="demo-actions">
@@ -164,7 +169,7 @@ export function Workflow() {
               </p>
             </div>
             <div
-              className={`demo-surface ${item.id === 'heal' ? 'healing' : ''}`}
+              className={`demo-surface ${item.id === 'heal' ? 'healing' : item.id === 'replay' ? 'replaying' : ''}`}
             >
               <div className="demo-topline">
                 <span>
@@ -185,9 +190,7 @@ export function Workflow() {
               </div>
               {item.id === 'freeze' ? (
                 <div className="freeze-view">
-                  <span className="handwritten file-note">
-                    실행할 단계가 파일 안에.
-                  </span>
+                  <span className="file-note">실행할 단계가 파일 안에.</span>
                   <div className="recorded-steps">
                     {actions.map((action, index) => (
                       <div key={action}>

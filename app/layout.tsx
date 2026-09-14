@@ -11,15 +11,6 @@ export default function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="ko">
-      <head>
-        <link
-          rel="preload"
-          href="/fonts/NanumBrushScript-Regular.ttf"
-          as="font"
-          type="font/ttf"
-          crossOrigin="anonymous"
-        />
-      </head>
       <body>{children}</body>
     </html>
   );

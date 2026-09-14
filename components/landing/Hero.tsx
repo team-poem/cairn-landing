@@ -1,113 +1,118 @@
-import {
-  ArrowDown,
-  ArrowUpRight,
-  Check,
-  FileJson,
-  MousePointer2,
-} from 'lucide-react';
+'use client';
+import { useEffect, useState } from 'react';
+import Image from 'next/image';
+import { ArrowDown, ArrowRight, ArrowUpRight, Pause, Play } from 'lucide-react';
+import { Button } from '@/components/ui/button';
 import { cairnLinks } from '@/lib/cairn';
-import { Handwritten, InkLine } from './Handwritten';
+const stages = [
+  ['01', 'discover', 'AI가 경로를 발견', 'LLM · ONCE'],
+  ['02', 'freeze', '읽을 수 있는 파일로', 'PLAIN JSON'],
+  ['03', 'replay', '저장한 경로를 반복', 'NO LLM CALLS'],
+  ['04', 'self-heal', '바뀐 단계만 복구', 'REPAIR & SAVE'],
+];
 export function Hero() {
+  const [animated, setAnimated] = useState(false);
+  const [reducedMotion, setReducedMotion] = useState(true);
+  useEffect(() => {
+    const preference = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const update = () => {
+      setReducedMotion(preference.matches);
+      setAnimated(!preference.matches);
+    };
+    update();
+    preference.addEventListener('change', update);
+    return () => preference.removeEventListener('change', update);
+  }, []);
   return (
-    <section className="hero wrap" aria-labelledby="hero-title">
-      <div className="hero-copy">
-        <p className="eyebrow">
-          <span className="status-dot" /> POEM — BROWSER TESTING ENGINE
-        </p>
-        <h1 id="hero-title">
-          <Handwritten text="한 번 찾은 길," />
-          <br />
-          <span className="title-last">
-            <Handwritten text="오래 남도록." delay={0.5} />
-            <InkLine />
-          </span>
-        </h1>
-        <p className="hero-description">
-          말로 찾고, 파일로 남기고, 그대로 다시 실행하세요.
-          <br className="desktop-break" /> Cairn은 브라우저의 흐름을 기록하는
-          테스트 엔진입니다.
-        </p>
-        <div className="hero-actions">
-          <a className="button primary" href="#workflow">
-            작동 방식 체험하기 <ArrowDown size={18} />
-          </a>
-          <a
-            className="text-link"
-            href={`${cairnLinks.guide}#try-it-in-60-seconds`}
-          >
-            시작 가이드 <ArrowUpRight size={16} />
-          </a>
+    <section className="hero" aria-labelledby="hero-title">
+      <div className="hero-main wrap">
+        <div className="hero-copy">
+          <p className="eyebrow">
+            <span className="status-dot" /> THE BROWSER TESTING ENGINE BY POEM
+          </p>
+          <h1 id="hero-title">
+            Discover once.
+            <br />
+            <span>Replay forever.</span>
+          </h1>
+          <p className="hero-kicker">
+            한 번 찾은 길이, 다음 실행의 이정표가 됩니다.
+          </p>
+          <p className="hero-description">
+            AI가 브라우저 흐름을 찾고, Cairn이 기록합니다.
+            <br className="desktop-break" /> 다음 테스트는 저장한 경로로. UI가
+            바뀌면 그 단계만 복구하세요.
+          </p>
+          <div className="hero-actions">
+            <a className="button primary" href="#workflow">
+              Cairn 작동 방식 보기 <ArrowDown size={18} />
+            </a>
+            <a
+              className="text-link"
+              href={`${cairnLinks.guide}#try-it-in-60-seconds`}
+            >
+              시작 가이드 <ArrowUpRight size={17} />
+            </a>
+          </div>
+          <div className="hero-proof">
+            <span>
+              <i />
+              기본 재생에 LLM 호출 없음
+            </span>
+            <span>OPEN SOURCE</span>
+          </div>
         </div>
-        <p className="hero-note">OPEN SOURCE / TYPESCRIPT / CLI & ENGINE</p>
+        <div className="beacon-scene">
+          <Image
+            src={animated ? '/cairn-scene.svg' : '/cairn-scene-still.svg'}
+            alt="밤하늘의 능선 위에 쌓인 돌무더기. 꼭대기의 황금빛 돌이 경로를 비춥니다."
+            width="700"
+            height="590"
+            priority
+            unoptimized
+          />
+          <div className="scene-caption">
+            <span className="beacon-dot" />
+            <span>cairn / 길을 남기는 이정표</span>
+          </div>
+          <Button
+            variant="ghost"
+            className="scene-toggle"
+            disabled={reducedMotion}
+            onClick={() => setAnimated((previous) => !previous)}
+            aria-label={
+              animated ? '배경 애니메이션 멈추기' : '배경 애니메이션 재생하기'
+            }
+          >
+            {animated ? <Pause size={14} /> : <Play size={14} />}
+            <span>
+              {reducedMotion
+                ? '모션 감소'
+                : animated
+                  ? '모션 끄기'
+                  : '모션 켜기'}
+            </span>
+          </Button>
+        </div>
       </div>
       <div
-        className="execution-notebook"
-        aria-label="로그인과 장바구니 탐색 흐름 예시"
+        className="hero-pipeline wrap"
+        aria-label="탐색, 저장, 재생, 복구 순서"
       >
-        <div className="notebook-heading">
-          <span>FIELD NOTES / 001</span>
-          <span className="seal" aria-label="시작">
-            시<br />작
-          </span>
-        </div>
-        <p className="notebook-prompt handwritten">
-          “로그인하고, 장바구니 열어줘.”
-        </p>
-        <div className="browser-sketch">
-          <div className="browser-bar">
-            <span className="window-dots">
-              <i />
-              <i />
-              <i />
-            </span>
-            <span>your.app / cart</span>
-            <span>↗</span>
+        {stages.map(([number, title, description, meta], index) => (
+          <div className={`pipeline-stage pipeline-${index}`} key={title}>
+            <span className="pipeline-number">{number}</span>
+            <div>
+              <span className="pipeline-name">
+                {title}
+                {index === 2 && <span className="infinity">∞</span>}
+              </span>
+              <p>{description}</p>
+              <span className="pipeline-meta">{meta}</span>
+            </div>
+            {index < 3 && <ArrowRight className="pipeline-arrow" size={18} />}
           </div>
-          <div className="sketch-content">
-            <div className="sketch-row">
-              <span className="sketch-index">01</span>
-              <span>로그인</span>
-              <Check size={16} />
-            </div>
-            <div className="sketch-row">
-              <span className="sketch-index">02</span>
-              <span>상품 선택</span>
-              <Check size={16} />
-            </div>
-            <div className="sketch-row selected">
-              <span className="sketch-index">03</span>
-              <span>장바구니 열기</span>
-              <MousePointer2 size={19} />
-            </div>
-          </div>
-          <svg
-            className="sketch-route"
-            viewBox="0 0 370 220"
-            fill="none"
-            aria-hidden="true"
-          >
-            <path
-              pathLength="1"
-              d="M44 43C20 56 29 75 43 79S67 83 45 107S28 141 43 149C66 164 112 155 197 163S273 174 300 179"
-            />
-            <circle cx="300" cy="179" r="4" />
-          </svg>
-        </div>
-        <div className="saved-note">
-          <FileJson size={19} />
-          <span>
-            cart.skill.json<small>발견한 경로를 다음 실행의 이정표로.</small>
-          </span>
-          <span className="handwritten">기록 완료 ✓</span>
-        </div>
-        <p className="notebook-caption">흐름 설명을 위한 예시입니다.</p>
-      </div>
-      <div className="hero-bottom">
-        <span>DISCOVER ONCE. REPLAY THE PATH.</span>
-        <span className="handwritten">발견에서 반복까지, 한 줄로.</span>
-        <a href="#workflow" aria-label="실행 흐름으로 이동">
-          <ArrowDown size={20} />
-        </a>
+        ))}
       </div>
     </section>
   );
