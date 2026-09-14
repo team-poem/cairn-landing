@@ -44,7 +44,10 @@ export function GalaxyBackdrop({ animated }: { animated: boolean }) {
         />
         {active && (
           <div className={styles.galaxy}>
-            <EffectBoundary>
+            {/* 셰이더는 픽셀마다 별 36개를 계산한다. 62.5% 로 그리고 GPU 로
+                확대하면 연산이 2.5분의 1. 별은 원래 번져 보여 차이가 없다. */}
+            <div className={styles.galaxyScale}>
+              <EffectBoundary>
               <Suspense fallback={null}>
                 <Galaxy
                   focal={focal}
@@ -63,7 +66,8 @@ export function GalaxyBackdrop({ animated }: { animated: boolean }) {
                   transparent
                 />
               </Suspense>
-            </EffectBoundary>
+              </EffectBoundary>
+            </div>
           </div>
         )}
       </div>

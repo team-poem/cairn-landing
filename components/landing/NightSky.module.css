@@ -34,6 +34,12 @@
     var(--color-mask-soft) 100%
   );
 }
+.galaxyScale {
+  width: 62.5%;
+  height: 62.5%;
+  transform: scale(1.6);
+  transform-origin: 0 0;
+}
 .sky img.faintStars {
   opacity: 0.42;
   animation: sky-drift-far 72s ease-in-out infinite alternate-reverse;
@@ -124,4 +130,6 @@
   object-fit: fill;
   pointer-events: none;
   z-index: 0;
+  will-change: transform;
+  transform: translateZ(0);
 }

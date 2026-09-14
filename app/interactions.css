@@ -5,7 +5,7 @@
 .sculpture-art {
   width: 100%;
   height: auto;
-  max-height: 520px;
+  max-height: clamp(240px, 44svh, 520px);
   display: block;
   overflow: visible;
 }

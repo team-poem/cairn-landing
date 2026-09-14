@@ -96,8 +96,7 @@ body {
   border-bottom: 1px solid var(--color-clear);
   transition:
     background-color 260ms ease,
-    border-color 260ms ease,
-    backdrop-filter 260ms ease;
+    border-color 260ms ease;
 }
 .cairn-header[data-scrolled='true'] {
   background: color-mix(in oklch, var(--color-paper) 72%, transparent);
@@ -1171,5 +1170,72 @@ body {
   }
     .engine-install {
     grid-column: 1 / -1;
+  }
+}
+
+/* ── 반응형: 좁은 화면 ── */
+@media (max-width: 60rem) {
+  :root {
+    --header-height: 64px;
+  }
+  /* 긴 섹션에서 강제 스냅은 답답하다. 가까울 때만 붙는다 */
+  html {
+    scroll-snap-type: y proximity;
+  }
+  .cairn-header-end {
+    gap: var(--space-sm);
+  }
+  .cairn-language-option {
+    padding-inline: 10px;
+  }
+  .night-landmark {
+    max-width: min(560px, 78vw);
+  }
+  .night-footnote {
+    flex-wrap: wrap;
+  }
+  .flow-heading {
+    gap: var(--space-sm);
+  }
+  /* 파이프라인 다섯 칸은 가로로 넘긴다. 경로선은 칸과 어긋나므로 숨긴다 */
+  .pipe-stages {
+    grid-template-columns: none;
+    grid-auto-flow: column;
+    grid-auto-columns: minmax(150px, 1fr);
+    overflow-x: auto;
+    padding-bottom: 6px;
+    scrollbar-width: thin;
+  }
+  .pipe-track {
+    display: none;
+  }
+  .engine-install .start-actions {
+    gap: 10px 16px;
+  }
+}
+@media (max-width: 40rem) {
+  .cairn-header-inner {
+    min-height: var(--header-height);
+  }
+  .cairn-wordmark {
+    font-size: 1.6rem;
+  }
+  .night-composition {
+    gap: var(--space-md);
+  }
+  .night-copy h1 {
+    font-size: clamp(2.5rem, 12vw, 3.25rem);
+  }
+  .night-description {
+    font-size: var(--text-sm);
+  }
+  .flow-story h3 {
+    font-size: 1.5rem;
+  }
+  .footer-masthead > a {
+    font-size: 3.25rem;
+  }
+  .footer-bar {
+    flex-direction: column;
   }
 }
