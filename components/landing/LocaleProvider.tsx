@@ -5,6 +5,7 @@ import {
   useEffect,
   useSyncExternalStore,
 } from 'react';
+import { flushSync } from 'react-dom';
 import {
   defaultLocale,
   dictionaries,
@@ -40,14 +41,25 @@ function subscribe(listener: () => void) {
   return () => listeners.delete(listener);
 }
 function publishLocale(next: Locale) {
-  current = next;
-  document.documentElement.lang = next;
+  if (next === current) return;
+  const apply = () => {
+    current = next;
+    document.documentElement.lang = next;
+    for (const listener of listeners) listener();
+  };
   try {
     window.localStorage.setItem(localeStorageKey, next);
   } catch {
     /* 저장에 실패해도 이번 방문에는 선택이 적용된다. */
   }
-  for (const listener of listeners) listener();
+  /* 문구 길이가 달라 레이아웃이 움직인다. 한 프레임에 툭 바뀌면 흔들리는
+   * 것으로 보이므로 이전 화면과 새 화면을 크로스페이드한다.
+   * flushSync 로 전환 안에서 리렌더가 끝나게 한다. 미지원 브라우저는 즉시 전환. */
+  if (typeof document.startViewTransition === 'function') {
+    document.startViewTransition(() => flushSync(apply));
+  } else {
+    apply();
+  }
 }
 type LocaleValue = {
   locale: Locale;

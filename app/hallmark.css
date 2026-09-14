@@ -434,7 +434,29 @@ body {
     color: var(--color-accent-ink);
   }
 }
+/* 언어 전환 크로스페이드. 옛 화면이 사라지며 새 화면이 제자리에 나타난다. */
+::view-transition-old(root) {
+  animation: 180ms var(--ease-out) both cairn-locale-out;
+}
+::view-transition-new(root) {
+  animation: 260ms var(--ease-out) both cairn-locale-in;
+}
+@keyframes cairn-locale-out {
+  to {
+    opacity: 0;
+  }
+}
+@keyframes cairn-locale-in {
+  from {
+    opacity: 0;
+  }
+}
 @media (prefers-reduced-motion: reduce) {
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*) {
+    animation: none !important;
+  }
   html {
     scroll-behavior: auto;
     scroll-snap-type: none;
