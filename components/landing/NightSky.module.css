@@ -104,13 +104,13 @@
   background-image: url('/cairn-mist-a.png');
   background-size: 50% 100%;
   opacity: 1;
-  animation: mist-drift 80s linear infinite;
+  animation: mist-drift 32s linear infinite;
 }
 .mist::after {
   background-image: url('/cairn-mist-b.png');
   background-size: 40% 100%;
   opacity: 0.8;
-  animation: mist-drift 125s linear infinite reverse;
+  animation: mist-drift 50s linear infinite reverse;
 }
 @keyframes mist-drift {
   from {
