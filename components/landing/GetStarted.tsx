@@ -1,5 +1,5 @@
 'use client';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { ArrowRight, ArrowUpRight, Pause, Play, RotateCcw } from 'lucide-react';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Button } from '@/components/ui/button';
@@ -16,10 +16,38 @@ const ports = [
   'Reporter',
 ] as const;
 type Port = (typeof ports)[number];
+/* 단계를 누르면 그 단계를 담당하는 포트로 안내한다 */
+const stagePort: Record<Stage, Port> = {
+  context: 'ContextProvider',
+  plan: 'Planner',
+  execute: 'Driver',
+  judge: 'Critic',
+  report: 'Reporter',
+};
 const TICK = 820;
 export function GetStarted() {
   const { t } = useI18n();
   const [port, setPort] = useState<Port>('Driver');
+  const tabRefs = useRef<Partial<Record<Port, HTMLElement | null>>>({});
+  /* 파이프라인 카드를 누르면 왼쪽 탭이 선택되고 한 번 톡 튀며 빛난다.
+   * 여기서 고르는 것이라는 안내를 말 없이 한다. */
+  const nudge = (stage: Stage) => {
+    const target = stagePort[stage];
+    setPort(target);
+    const tab = tabRefs.current[target];
+    if (!tab) return;
+    tab.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    tab.animate(
+      [
+        { transform: 'translateX(0)', boxShadow: '0 0 0 0 transparent' },
+        { transform: 'translateX(-6px)', boxShadow: '0 0 0 3px color-mix(in oklch, var(--color-accent) 55%, transparent)', offset: 0.25 },
+        { transform: 'translateX(3px)', offset: 0.55 },
+        { transform: 'translateX(0)', boxShadow: '0 0 0 0 transparent' },
+      ],
+      { duration: 720, easing: 'cubic-bezier(0.2, 0.8, 0.3, 1)' },
+    );
+  };
   const [running, setRunning] = useState(false);
   const [reached, setReached] = useState(-1); // 실행이 지나간 마지막 단계
   const done = reached === stages.length - 1;
@@ -74,6 +102,9 @@ export function GetStarted() {
                 value={name}
                 className="flow-tab engine-port"
                 data-stage={t.features.ports[name].stage}
+                ref={(element) => {
+                  tabRefs.current[name] = element;
+                }}
               >
                 <span className="flow-tab-index">0{index + 1}</span>
                 <span>
@@ -99,8 +130,18 @@ export function GetStarted() {
                     data-lit={index <= reached}
                     data-current={running && index === reached + 1}
                   >
-                    <strong>{t.features.stages[stage].name}</strong>
-                    <span>{t.features.stages[stage].role}</span>
+                    <button
+                      type="button"
+                      className="pipe-stage-hit"
+                      onClick={() => nudge(stage)}
+                      aria-label={t.engine.stageHint(stagePort[stage])}
+                    >
+                      <strong>{t.features.stages[stage].name}</strong>
+                      <span>{t.features.stages[stage].role}</span>
+                      <em className="pipe-stage-link" aria-hidden="true">
+                        ← {stagePort[stage]}
+                      </em>
+                    </button>
                   </li>
                 ))}
               </ol>

@@ -182,6 +182,7 @@ const en = {
   },
   engine: {
     tabsLabel: 'Engine ports',
+    stageHint: (port: string) => `Pick ${port} on the left`,
     run: 'Run a replay',
     pause: 'Pause',
     runAgain: 'Run again',
@@ -402,6 +403,7 @@ const ko: Copy = {
   },
   engine: {
     tabsLabel: '엔진 포트',
+    stageHint: (port: string) => `왼쪽에서 ${port} 를 고르세요`,
     run: '재생 실행',
     pause: '일시정지',
     runAgain: '다시 실행',
