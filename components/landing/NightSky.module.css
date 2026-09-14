@@ -36,13 +36,14 @@
 .sky img.faintStars {
   opacity: 0.15;
 }
-/* 능선은 첫 화면 바닥에 붙어 좌우로 끝까지 이어진다. */
+/* 산맥은 첫 화면 바닥에 붙어 좌우로 끝까지 이어진다.
+   산머리는 SVG 안에서 이미 하늘로 흩어지므로 여기서는 자리만 잡는다. */
 .ridge {
   position: absolute;
   inset-inline: 0;
   inset-block-end: 0;
   width: 100%;
-  height: clamp(140px, 22vh, 260px);
+  height: clamp(300px, 46vh, 620px);
   object-fit: fill;
   pointer-events: none;
   z-index: 0;

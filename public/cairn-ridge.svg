@@ -1,17 +1,95 @@
 <?xml version='1.0' encoding='utf-8'?>
-<!-- Original Cairn README artwork, MIT; see cairn-artwork-LICENSE.txt.
-     배너의 능선만 떼어내 히어로 하단 전체 폭으로 쓴다. -->
-<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="150" viewBox="0 210 1200 150" fill="none" preserveAspectRatio="none">
+<!-- Cairn README 배너의 능선을 산맥으로 확장했다. MIT; cairn-artwork-LICENSE.txt.
+     먼 산일수록 밝고 흐리게(대기원근법) 두어 밤하늘에 번지듯 이어진다.
+     feTurbulence + feDisplacementMap 이 가장자리를 수채화처럼 불규칙하게 만든다. -->
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="420" viewBox="0 0 1200 420" fill="none" preserveAspectRatio="none">
   <defs>
-    <linearGradient id="ridgeFar" x1="0" y1="210" x2="0" y2="360" gradientUnits="userSpaceOnUse">
-      <stop offset="0" stop-color="#151d2c" />
-      <stop offset="1" stop-color="#0b1019" />
+    <linearGradient id="far" x1="0" y1="60" x2="0" y2="420" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#2b3a58" stop-opacity="0.34" />
+      <stop offset="0.55" stop-color="#1d2842" stop-opacity="0.5" />
+      <stop offset="1" stop-color="#161f33" stop-opacity="0.62" />
     </linearGradient>
-    <linearGradient id="ridgeNear" x1="0" y1="260" x2="0" y2="360" gradientUnits="userSpaceOnUse">
-      <stop offset="0" stop-color="#10182a" />
-      <stop offset="1" stop-color="#090d15" />
+    <linearGradient id="mid" x1="0" y1="150" x2="0" y2="420" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#1e2b45" stop-opacity="0.62" />
+      <stop offset="0.6" stop-color="#141d31" stop-opacity="0.82" />
+      <stop offset="1" stop-color="#0e1524" stop-opacity="0.92" />
     </linearGradient>
+    <linearGradient id="near" x1="0" y1="240" x2="0" y2="420" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#151f35" />
+      <stop offset="1" stop-color="#090e18" />
+    </linearGradient>
+    <linearGradient id="front" x1="0" y1="320" x2="0" y2="420" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#0b111c" />
+      <stop offset="1" stop-color="#06090f" />
+    </linearGradient>
+
+    <!-- 수채 번짐: 젖은 종이에서 물감이 퍼지듯 가장자리를 흐트러뜨린다.
+         레이어마다 seed 를 달리해 같은 윤곽이 반복되지 않게 한다. -->
+    <filter id="wash-far" x="-15%" y="-25%" width="130%" height="155%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.006 0.014" numOctaves="4" seed="11" result="n" />
+      <feDisplacementMap in="SourceGraphic" in2="n" scale="34" xChannelSelector="R" yChannelSelector="G" />
+      <feGaussianBlur stdDeviation="7" />
+    </filter>
+    <filter id="wash-mid" x="-15%" y="-25%" width="130%" height="155%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.008 0.018" numOctaves="4" seed="29" result="n" />
+      <feDisplacementMap in="SourceGraphic" in2="n" scale="24" xChannelSelector="R" yChannelSelector="G" />
+      <feGaussianBlur stdDeviation="4" />
+    </filter>
+    <filter id="wash-near" x="-12%" y="-20%" width="124%" height="145%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.01 0.022" numOctaves="3" seed="47" result="n" />
+      <feDisplacementMap in="SourceGraphic" in2="n" scale="16" xChannelSelector="R" yChannelSelector="G" />
+      <feGaussianBlur stdDeviation="2.2" />
+    </filter>
+    <filter id="wash-front" x="-10%" y="-18%" width="120%" height="140%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.012 0.026" numOctaves="3" seed="73" result="n" />
+      <feDisplacementMap in="SourceGraphic" in2="n" scale="11" xChannelSelector="R" yChannelSelector="G" />
+      <feGaussianBlur stdDeviation="1.4" />
+    </filter>
+
+    <!-- 종이에 물감이 고인 얼룩. 아주 옅게 얹어 단색 면을 깬다. -->
+    <filter id="pool" x="-10%" y="-10%" width="120%" height="120%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.004 0.009" numOctaves="5" seed="19" />
+      <feColorMatrix type="saturate" values="0" />
+      <feComponentTransfer>
+        <feFuncA type="table" tableValues="0 0.12 0.02 0.16 0" />
+      </feComponentTransfer>
+    </filter>
+
+    <!-- 산머리는 하늘로 사라지고 바닥은 남는다 -->
+    <linearGradient id="skyfade" x1="0" y1="0" x2="0" y2="420" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#ffffff" stop-opacity="0" />
+      <stop offset="0.28" stop-color="#ffffff" stop-opacity="0.75" />
+      <stop offset="0.62" stop-color="#ffffff" stop-opacity="1" />
+    </linearGradient>
+    <mask id="dissolve">
+      <rect x="0" y="0" width="1200" height="420" fill="url(#skyfade)" />
+    </mask>
   </defs>
-  <path d="M0 268 L96 232 L190 260 L306 214 L420 258 L560 232 L700 262 L860 224 L1000 258 L1108 238 L1200 256 L1200 360 L0 360 Z" fill="url(#ridgeFar)" opacity="0.85" />
-  <path d="M0 300 L140 272 L300 300 L470 276 L640 302 L820 280 L990 302 L1200 282 L1200 360 L0 360 Z" fill="url(#ridgeNear)" />
+
+  <g mask="url(#dissolve)">
+    <path filter="url(#wash-far)" fill="url(#far)"
+      d="M0 196 C 40 170, 66 142, 96 118 C 128 92, 152 128, 184 152 C 214 118, 238 76, 272 64
+         C 308 78, 330 138, 362 166 C 392 140, 414 104, 448 96 C 484 112, 508 168, 544 186
+         C 578 156, 600 100, 636 88 C 674 104, 696 162, 730 184 C 764 152, 788 108, 824 100
+         C 862 118, 884 172, 920 190 C 952 164, 976 122, 1012 114 C 1050 132, 1074 180, 1110 196
+         C 1142 178, 1170 152, 1200 138 L1200 420 L0 420 Z" />
+
+    <path filter="url(#wash-mid)" fill="url(#mid)"
+      d="M0 254 C 44 236, 74 202, 112 188 C 152 200, 178 240, 216 254 C 254 232, 280 190, 320 180
+         C 360 196, 386 242, 426 256 C 462 238, 488 198, 528 190 C 568 206, 594 248, 634 260
+         C 672 240, 698 202, 738 194 C 778 210, 804 250, 844 262 C 882 242, 908 206, 948 200
+         C 990 216, 1016 254, 1058 264 C 1098 248, 1150 224, 1200 212 L1200 420 L0 420 Z" />
+
+    <path filter="url(#wash-near)" fill="url(#near)"
+      d="M0 306 C 60 288, 108 264, 168 258 C 228 268, 272 300, 332 310 C 388 296, 428 266, 486 260
+         C 546 272, 588 304, 648 314 C 704 300, 744 268, 802 262 C 862 274, 906 306, 966 314
+         C 1022 300, 1068 274, 1126 268 C 1156 272, 1180 284, 1200 296 L1200 420 L0 420 Z" />
+
+    <path filter="url(#wash-front)" fill="url(#front)"
+      d="M0 356 C 160 338, 320 366, 480 350 C 640 334, 800 362, 960 346
+         C 1050 337, 1130 350, 1200 344 L1200 420 L0 420 Z" />
+
+    <!-- 물감이 고인 자리 -->
+    <rect x="0" y="120" width="1200" height="300" filter="url(#pool)" opacity="0.5" />
+  </g>
 </svg>
