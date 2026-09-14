@@ -136,34 +136,82 @@ const en = {
   features: {
     titleTop: 'Your tools.',
     titleBottom: 'Cairn underneath.',
-    lead: 'Run Cairn from the CLI or embed it in a QA tool, a CI check, or a browser monitor.',
+    lead: 'Run Cairn from the CLI or embed it in a QA tool, a CI check, or a browser monitor. One pipeline, six ports — nothing app-specific lives inside.',
     link: 'Explore the engine API',
-    networkLabel:
-      'Models connect to Cairn for discovery and repair; Cairn executes steps in your browser',
-    model: 'Model',
-    modelRole: 'Discover & repair',
-    core: 'Cairn',
-    coreRole: 'Agentic test engine',
-    coreLabel: 'See how the Cairn engine works',
-    browser: 'Browser',
-    browserRole: 'Execute steps',
-    caption: 'Your model finds the path. Cairn runs it in your browser.',
-    details: [
-      {
-        term: 'Tests you can read',
+    pipelineLabel: 'Pipeline',
+    stages: {
+      context: { name: 'Context', role: 'Assembles grounding' },
+      plan: { name: 'Plan', role: 'Intent to Scenario' },
+      execute: { name: 'Execute', role: 'Drives the browser' },
+      judge: { name: 'Judge', role: 'Rules on evidence' },
+      report: { name: 'Report', role: 'Emits the result' },
+    },
+    portsLabel: 'Six ports. Replace any one without forking.',
+    ports: {
+      ContextProvider: {
+        stage: 'context',
         description:
-          'Keep browser flows as JSON. Review changes in a diff and version the files with your app.',
+          'Gathers what the run should know — the intent now; a git diff, a ticket, or docs later.',
       },
-      {
-        term: 'A record of each run',
+      Planner: {
+        stage: 'plan',
         description:
-          'Capture execution events through TraceSink. Send them to the tools your team already uses.',
+          'Turns intent into a Scenario. A static planner replays a frozen file; an LLM loop discovers a new one.',
       },
-      {
-        term: 'Adapters you choose',
+      SkillStore: {
+        stage: 'plan',
         description:
-          'Model and browser connections use separate ports. Replace either without rewriting the engine.',
+          'Where frozen *.skill.json files live. A folder on disk by default, or your own store.',
       },
+      Driver: {
+        stage: 'execute',
+        description:
+          'Drives the browser and waits for the page to settle. Chrome DevTools ships; bring Playwright or your own.',
+      },
+      Critic: {
+        stage: 'judge',
+        description:
+          'Decides pass or fail from three layers of evidence — execution, perception, logic — not a screenshot guess.',
+      },
+      Reporter: {
+        stage: 'report',
+        description:
+          'Sends the result anywhere: console, JSON, or the tracker your team already uses.',
+      },
+    },
+    compareLabel: 'Where it sits',
+    compare: {
+      columns: ['Scripted (Playwright, Cypress)', 'LLM browser agents', 'Cairn'],
+      rows: [
+        { label: 'Authoring', cells: ['Hand-written selectors and code', 'Plain language', 'Plain language'] },
+        { label: 'Every run', cells: ['Deterministic, cheap', 'LLM in the loop — slow, costly, flaky', 'Deterministic, cheap'] },
+        { label: 'UI changes', cells: ['You fix the selectors', 'Re-reasons, may drift', 'Self-heals, then re-freezes'] },
+        { label: 'LLM calls', cells: ['None', 'Every run', 'Once to discover, again only to heal'] },
+      ],
+    },
+    codeLabel: 'What you actually write',
+    codeTabs: {
+      skill: 'A frozen scenario',
+      embed: 'Embed the engine',
+      suite: 'A case list',
+    },
+    codeNotes: {
+      skill: 'Just data. Flat, readable, diffable. Each target keeps several locators — text first, role and index as a rename-resilient fallback, a CSS selector as the escape hatch.',
+      embed: 'Replay with no model in the loop. Pass heal: true and a broken step is repaired instead of going red; write the healed path back.',
+      suite: 'Hand it your QA cases with your own success criteria. Cached skills replay; misses are discovered once and frozen with the criteria merged in.',
+    },
+    measuredLabel: 'Measured, not claimed',
+    measured:
+      'On the multi-step checkout in bench/, replayed four times with Claude via Claude Code: 4 of 4 replays deterministic, 0 model calls on replay, discovery paid once. Every result carries its own count in result.usage.',
+    measuredLink: 'See the bench',
+    modelsLabel: 'Bring a model',
+    models: 'Set a key and Cairn picks the backend — Anthropic, OpenAI, or Gemini. No key? A local Claude Code or Codex CLI login works too. Or implement the LlmClient port.',
+    buildLabel: 'Things it powers',
+    builds: [
+      { term: 'A QA tool', description: 'Non-developers write flows in plain language, then watch them replay and self-heal.' },
+      { term: 'A CI regression gate', description: 'Frozen flows run on every PR. Drift heals instead of going red.' },
+      { term: 'A synthetic monitor', description: 'Replay critical paths against production. Alert only when one truly breaks.' },
+      { term: 'A visual-replay app', description: 'The engine streams per-step progress and screenshots. You draw the UI.' },
     ],
   },
   start: {
@@ -184,11 +232,18 @@ const en = {
     },
   },
   footer: {
-    copyright: '© 2026 Poem',
+    tagline: 'An agentic testing engine.',
     navLabel: 'Footer',
+    productLabel: 'Product',
     howItWorks: 'How it works',
     documentation: 'Documentation',
+    quickstart: 'Quickstart',
+    npm: 'npm',
+    teamLabel: 'Poem',
     github: 'GitHub',
+    repository: 'Cairn repository',
+    copyright: 'Copyright © 2026 Poem. All rights reserved.',
+    license: 'cairn-engine is released under the MIT License.',
   },
 };
 export type Copy = typeof en;
@@ -316,34 +371,76 @@ const ko: Copy = {
   features: {
     titleTop: '쓰던 도구 그대로,',
     titleBottom: '그 아래에 Cairn.',
-    lead: 'CLI로 실행하거나 QA 도구, CI 검사, 브라우저 모니터 안에 넣어 쓸 수 있습니다.',
+    lead: 'CLI로 실행하거나 QA 도구, CI 검사, 브라우저 모니터 안에 넣어 쓸 수 있습니다. 파이프라인 하나, 포트 여섯 — 앱에 특정한 로직은 엔진 안에 없습니다.',
     link: '엔진 API 살펴보기',
-    networkLabel:
-      '모델은 탐색과 복구를 위해 Cairn에 연결되고, Cairn은 브라우저에서 단계를 실행합니다',
-    model: 'Model',
-    modelRole: '탐색과 복구',
-    core: 'Cairn',
-    coreRole: '에이전틱 테스팅 엔진',
-    coreLabel: 'Cairn 엔진의 동작 보기',
-    browser: 'Browser',
-    browserRole: '단계 실행',
-    caption: '모델이 경로를 찾고, Cairn이 브라우저에서 실행합니다.',
-    details: [
-      {
-        term: '읽을 수 있는 테스트',
-        description:
-          '브라우저 흐름을 JSON으로 남깁니다. 변경은 diff로 확인하고, 파일은 앱과 함께 버전 관리합니다.',
+    pipelineLabel: '파이프라인',
+    stages: {
+      context: { name: 'Context', role: '근거를 모은다' },
+      plan: { name: 'Plan', role: '의도를 시나리오로' },
+      execute: { name: 'Execute', role: '브라우저를 움직인다' },
+      judge: { name: 'Judge', role: '증거로 판정한다' },
+      report: { name: 'Report', role: '결과를 내보낸다' },
+    },
+    portsLabel: '포트 여섯. 포크하지 않고 어느 하나든 바꿀 수 있습니다.',
+    ports: {
+      ContextProvider: {
+        stage: 'context',
+        description: '실행이 알아야 할 것을 모읍니다. 지금은 의도, 앞으로는 git diff·티켓·문서.',
       },
-      {
-        term: '실행마다 남는 기록',
-        description:
-          'TraceSink로 실행 이벤트를 수집합니다. 팀이 이미 쓰는 도구로 보낼 수 있습니다.',
+      Planner: {
+        stage: 'plan',
+        description: '의도를 시나리오로 바꿉니다. 정적 플래너는 저장된 파일을 재생하고, LLM 루프는 새로 탐색합니다.',
       },
-      {
-        term: '고를 수 있는 어댑터',
-        description:
-          '모델과 브라우저 연결은 서로 다른 포트를 씁니다. 엔진을 다시 쓰지 않고 어느 쪽이든 교체할 수 있습니다.',
+      SkillStore: {
+        stage: 'plan',
+        description: '저장된 *.skill.json 이 사는 곳. 기본은 디스크의 폴더, 원하면 직접 만든 저장소.',
       },
+      Driver: {
+        stage: 'execute',
+        description: '브라우저를 움직이고 화면이 안정될 때까지 기다립니다. Chrome DevTools 가 기본, Playwright 나 직접 만든 드라이버도 됩니다.',
+      },
+      Critic: {
+        stage: 'judge',
+        description: '실행·인식·로직 세 겹의 증거로 통과 여부를 정합니다. 스크린샷 추측이 아닙니다.',
+      },
+      Reporter: {
+        stage: 'report',
+        description: '결과를 어디로든 보냅니다. 콘솔, JSON, 팀이 쓰는 트래커.',
+      },
+    },
+    compareLabel: '어디에 있는 도구인가',
+    compare: {
+      columns: ['스크립트 (Playwright, Cypress)', 'LLM 브라우저 에이전트', 'Cairn'],
+      rows: [
+        { label: '작성', cells: ['셀렉터와 코드를 직접', '자연어', '자연어'] },
+        { label: '매 실행', cells: ['결정적, 저렴', '매번 LLM — 느리고 비싸고 흔들림', '결정적, 저렴'] },
+        { label: 'UI 변경', cells: ['셀렉터를 고친다', '다시 추론, 흔들릴 수 있음', '스스로 고치고 다시 저장'] },
+        { label: 'LLM 호출', cells: ['없음', '매 실행', '탐색에 한 번, 복구할 때만 다시'] },
+      ],
+    },
+    codeLabel: '실제로 쓰게 되는 것',
+    codeTabs: {
+      skill: '저장된 시나리오',
+      embed: '엔진 임베드',
+      suite: '케이스 목록',
+    },
+    codeNotes: {
+      skill: '그냥 데이터입니다. 평평하고, 읽히고, diff 됩니다. 각 target 은 여러 로케이터를 갖습니다 — 텍스트 먼저, 이름이 바뀌어도 버티는 role·index, 마지막 탈출구로 CSS 셀렉터.',
+      embed: '모델 없이 재생합니다. heal: true 를 주면 깨진 단계를 빨간불 대신 고치고, 고친 경로를 다시 씁니다.',
+      suite: 'QA 케이스와 팀의 성공 기준을 그대로 넘깁니다. 캐시된 스킬은 재생하고, 없는 것만 한 번 탐색해 기준을 합쳐 저장합니다.',
+    },
+    measuredLabel: '주장이 아니라 측정',
+    measured:
+      'bench/ 의 다단계 결제 흐름을 Claude Code 의 Claude 로 네 번 재생: 4/4 결정적 재생, 재생 중 모델 호출 0, 탐색 비용은 한 번. 모든 결과가 result.usage 에 자기 호출 수를 담습니다.',
+    measuredLink: '벤치 보기',
+    modelsLabel: '모델은 가져오세요',
+    models: '키를 넣으면 Cairn 이 백엔드를 고릅니다 — Anthropic, OpenAI, Gemini. 키가 없으면 로컬 Claude Code 나 Codex CLI 로그인으로도 됩니다. 아니면 LlmClient 포트를 구현하세요.',
+    buildLabel: '위에 지을 수 있는 것',
+    builds: [
+      { term: 'QA 도구', description: '개발자가 아니어도 자연어로 흐름을 쓰고, 재생과 자가 복구를 지켜봅니다.' },
+      { term: 'CI 회귀 게이트', description: '저장된 흐름이 PR 마다 돕니다. 어긋나면 빨간불 대신 고칩니다.' },
+      { term: '합성 모니터', description: '핵심 경로를 프로덕션에 재생합니다. 진짜 깨졌을 때만 알립니다.' },
+      { term: '시각 재생 앱', description: '엔진이 단계별 진행과 스크린샷을 흘려줍니다. UI 는 당신이 그립니다.' },
     ],
   },
   start: {
@@ -364,11 +461,18 @@ const ko: Copy = {
     },
   },
   footer: {
-    copyright: '© 2026 Poem',
+    tagline: '에이전틱 테스팅 엔진.',
     navLabel: '푸터',
+    productLabel: '제품',
     howItWorks: '동작 방식',
     documentation: '문서',
+    quickstart: '퀵스타트',
+    npm: 'npm',
+    teamLabel: 'Poem',
     github: 'GitHub',
+    repository: 'Cairn 저장소',
+    copyright: 'Copyright © 2026 Poem. All rights reserved.',
+    license: 'cairn-engine 은 MIT 라이선스로 배포됩니다.',
   },
 };
 export const dictionaries: Record<Locale, Copy> = { en, ko };
