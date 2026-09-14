@@ -1003,6 +1003,7 @@ body {
 .pipe-stage {
   display: grid;
   gap: 2px;
+  min-width: 0;
   padding: 14px 12px;
   border: 1px solid var(--color-rule);
   border-radius: var(--radius-button);
@@ -1012,11 +1013,15 @@ body {
     background-color 220ms ease,
     box-shadow 220ms ease;
 }
-/* 카드 전체가 버튼. 올리면 담당 포트 이름이 뜨고, 누르면 왼쪽 탭이 튄다 */
+/* 카드 전체가 버튼. 올리면 담당 포트 이름이 뜨고, 누르면 왼쪽 탭이 튄다.
+   min-width:0 이 없으면 "Execute" 처럼 띄어쓰기 없는 영어 단어의
+   고유 너비가 grid 트랙을 밀어 카드가 넓어진다(한국어 role 텍스트는
+   글자 사이에서 줄바꿈되지만 영어 한 단어는 그렇지 않다). */
 .pipe-stage-hit {
   display: grid;
   gap: 2px;
   width: 100%;
+  min-width: 0;
   padding: 0;
   border: 0;
   background: transparent;
@@ -1046,6 +1051,7 @@ body {
 .pipe-stage strong {
   font: 500 var(--text-body) / 1.3 var(--font-body);
   color: var(--color-ink);
+  overflow-wrap: anywhere;
 }
 .pipe-stage span {
   font-size: var(--text-xs);
@@ -1076,9 +1082,11 @@ body {
 .pipe-track .route-runner {
   transition: transform 700ms cubic-bezier(0.25, 0.8, 0.25, 1);
 }
+/* 포트마다 설명 길이가 다르다(Driver 가 가장 길다). 고르는 포트에 따라
+   패널 높이가 같이 바뀌지 않도록 가장 긴 설명 기준으로 고정한다. */
 .pipe-note {
   margin: 2px 0 0;
-  min-height: 3em;
+  min-height: 6em;
   font-size: var(--text-sm);
   line-height: 1.6;
   color: var(--color-ink-2);
@@ -1095,10 +1103,14 @@ body {
   min-width: 0;
   max-width: 44rem;
 }
+/* 재생하는 동안 로그 줄이 하나씩 늘어나면서 min-height 를 넘겨 박스가
+   자꾸 커졌다. 다섯 단계 + 완료 문구까지 다 들어갈 높이를 처음부터
+   고정한다. */
 .engine-log {
   display: grid;
+  align-content: start;
   gap: 6px;
-  min-height: 7.5em;
+  min-height: 13em;
   padding: var(--space-sm) var(--space-md);
   font: 400 var(--text-sm) / 1.7 var(--font-code);
   color: var(--color-ink-2);

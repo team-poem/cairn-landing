@@ -66,6 +66,10 @@ export function GalaxyBackdrop({ animated }: { animated: boolean }) {
                   hueShift={210}
                   saturation={0.15}
                   mouseInteraction
+                  /* .ridge 가 히어로 높이의 58% 를 차지해 산이 42% 지점부터
+                     시작된다(NightSky.module.css). 그 아래(산 쪽)에서는
+                     마우스를 올려도 별이 반응하지 않게 한다. */
+                  interactiveFloor={0.58}
                   transparent
                 />
               </Suspense>

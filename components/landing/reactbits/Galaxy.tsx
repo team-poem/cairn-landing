@@ -196,6 +196,10 @@ interface GalaxyProps {
   autoCenterRepulsion?: number;
   transparent?: boolean;
   lightMode?: boolean;
+  /* 통합용: 포인터가 컨테이너 아래쪽 이 비율 밑에 있으면 상호작용을
+   * 끈다(0 = 제한 없음, 원본 동작). 화면 하단에 다른 장면(산 등)이
+   * 깔릴 때 그 영역에서는 별이 반응하지 않게 하기 위한 배선용 값이다. */
+  interactiveFloor?: number;
 }
 
 export default function Galaxy({
@@ -216,6 +220,7 @@ export default function Galaxy({
   autoCenterRepulsion = 0,
   transparent = true,
   lightMode = false,
+  interactiveFloor = 0,
   ...rest
 }: GalaxyProps) {
   const ctnDom = useRef<HTMLDivElement>(null);
@@ -338,6 +343,10 @@ export default function Galaxy({
       const rect = ctn.getBoundingClientRect();
       const x = (e.clientX - rect.left) / rect.width;
       const y = 1.0 - (e.clientY - rect.top) / rect.height;
+      if (y < interactiveFloor) {
+        targetMouseActive.current = 0.0;
+        return;
+      }
       targetMousePos.current = { x, y };
       targetMouseActive.current = 1.0;
     }
@@ -379,6 +388,7 @@ export default function Galaxy({
     autoCenterRepulsion,
     transparent,
     lightMode,
+    interactiveFloor,
   ]);
 
   return <div ref={ctnDom} className="galaxy-container" {...rest} />;
