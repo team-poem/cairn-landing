@@ -87,15 +87,30 @@ body {
 .cairn-site {
   position: relative;
 }
+/* 화면 위에 고정. 첫 화면에서는 투명, 스크롤하면 배경·밑선이 생긴다. */
 .cairn-header {
+  position: fixed;
+  inset-block-start: 0;
+  inset-inline: 0;
+  z-index: 7;
+  background: var(--color-clear);
+  border-bottom: 1px solid var(--color-clear);
+  transition:
+    background-color 260ms ease,
+    border-color 260ms ease,
+    backdrop-filter 260ms ease;
+}
+.cairn-header[data-scrolled='true'] {
+  background: color-mix(in oklch, var(--color-paper) 72%, transparent);
+  border-bottom-color: var(--color-paper-3);
+  backdrop-filter: blur(14px) saturate(1.2);
+  -webkit-backdrop-filter: blur(14px) saturate(1.2);
+}
+.cairn-header-inner {
   display: flex;
   justify-content: space-between;
   align-items: center;
   min-height: var(--header-height);
-  position: absolute;
-  inset-block-start: 0;
-  inset-inline: 0;
-  z-index: 5;
 }
 .cairn-header-end {
   display: flex;
@@ -520,7 +535,7 @@ body {
   flex-direction: column;
   justify-content: center;
   min-height: 100svh;
-  padding-block: var(--space-2xl) var(--space-3xl);
+  padding-block: calc(var(--header-height) + var(--space-lg)) var(--space-3xl);
 }
 .flow-heading {
   display: grid;
@@ -794,7 +809,7 @@ body {
   align-content: center;
   gap: var(--space-lg);
   min-height: 100svh;
-  padding-block: var(--space-lg) var(--space-3xl);
+  padding-block: calc(var(--header-height) + var(--space-lg)) var(--space-3xl);
 }
 .engine-intro > p {
   margin: var(--space-md) 0;
@@ -856,7 +871,7 @@ body {
   flex-direction: column;
   justify-content: center;
   background: var(--color-paper-2);
-  padding-block: var(--space-2xl);
+  padding-block: calc(var(--header-height) + var(--space-md)) var(--space-2xl);
 }
 .start-layout {
   display: grid;
