@@ -1,6 +1,7 @@
 'use client';
 import { useEffect, useState } from 'react';
 import Image from 'next/image';
+import { sitePath } from '@/lib/site-path';
 import { ArrowUpRight } from 'lucide-react';
 import { cairnLinks } from '@/lib/cairn';
 import { useI18n } from './LocaleProvider';
@@ -39,7 +40,7 @@ export function SiteHeader() {
             aria-label={t.header.home}
           >
             <Image
-              src="/favicon.svg"
+              src={sitePath('/favicon.svg')}
               width={26}
               height={32}
               alt=""
