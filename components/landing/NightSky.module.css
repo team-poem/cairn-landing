@@ -13,11 +13,15 @@
   object-position: center top;
   opacity: 0.65;
   transform-origin: center top;
+  /* .ridge 는 night-opening 높이의 58% 를 차지해 산이 42% 지점부터
+     시작된다. 별 마스크가 74% 까지 그대로였던 탓에 산 위쪽 전체에서
+     별이 아무 감쇠 없이 그대로 비쳤다. 산이 시작되는 지점부터 옅어지게
+     당긴다. */
   mask-image: linear-gradient(
     to bottom,
     var(--color-mask) 0%,
-    var(--color-mask) 74%,
-    var(--color-clear) 100%
+    var(--color-mask) 40%,
+    var(--color-clear) 70%
   );
 }
 /* 하늘 전체가 아주 천천히 흐른다. 가장자리가 비지 않게 조금 크게 깐다.
@@ -30,8 +34,8 @@
   mask-image: linear-gradient(
     to bottom,
     var(--color-mask) 0%,
-    var(--color-mask) 66%,
-    var(--color-mask-soft) 100%
+    var(--color-mask) 36%,
+    var(--color-clear) 68%
   );
 }
 .galaxyScale {
@@ -99,13 +103,13 @@
 .mist::before {
   background-image: url('/cairn-mist-a.png');
   background-size: 50% 100%;
-  opacity: 0.6;
+  opacity: 1;
   animation: mist-drift 80s linear infinite;
 }
 .mist::after {
   background-image: url('/cairn-mist-b.png');
   background-size: 40% 100%;
-  opacity: 0.45;
+  opacity: 0.8;
   animation: mist-drift 125s linear infinite reverse;
 }
 @keyframes mist-drift {
