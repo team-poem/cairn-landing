@@ -2,9 +2,9 @@
 branch: codex/handwritten-landing
 owner: Kangmin_Kim
 started: 2026-09-14
-status: done
+status: active
 goal: README의 밤하늘과 돌무더기 배너를 확장한 Cairn 랜딩을 만든다
-next:
+next: components/landing/Hero.tsx components/landing/NightSky.module.css public/cairn-sky.svg public/cairn-sky-still.svg
 ---
 
 ## 메모
@@ -14,3 +14,5 @@ next:
 
 - 2026-09-14 사용자 방향 변경: Cairn 엔진 README banner.svg를 기준으로 랜딩 전체를 새로 구성. 이전 손글씨 시안은 같은 PR에서 교체한다.
 - 충돌 재확인: foundation은 원격에 없고 bootstrap의 완료 claim이 대체를 명시한다. 두 WIP 모두 미커밋 diff 없음. 현재 단일 작업 트리에 bootstrap 전체가 포함되어 있다.
+
+- 사용자 요청: 기존 배너 컨셉을 유지하며 히어로 전체의 밤하늘 별빛과 반짝임을 보강한다. 공용 CSS는 수정하지 않는다.
