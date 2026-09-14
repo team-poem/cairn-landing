@@ -82,17 +82,17 @@
   left: 0;
   width: 200%;
   background-repeat: repeat-x;
-  will-change: transform;
 }
-/* 두 장의 노이즈 텍스처가 다른 크기·속도·방향으로 겹쳐 형태가 계속 바뀐다 */
+/* 두 장의 노이즈 비트맵이 다른 크기·속도·방향으로 겹쳐 형태가 계속 바뀐다.
+   SVG 필터 배경은 Chrome 이 GPU 타일마다 다시 래스터해 사각 띠가 생긴다. */
 .mist::before {
-  background-image: url('/cairn-mist-a.svg');
+  background-image: url('/cairn-mist-a.png');
   background-size: 50% 100%;
   opacity: 0.55;
   animation: mist-drift 80s linear infinite;
 }
 .mist::after {
-  background-image: url('/cairn-mist-b.svg');
+  background-image: url('/cairn-mist-b.png');
   background-size: 40% 100%;
   opacity: 0.42;
   animation: mist-drift 125s linear infinite reverse;
