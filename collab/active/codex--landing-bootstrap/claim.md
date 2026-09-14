@@ -2,9 +2,9 @@
 branch: codex/landing-bootstrap
 owner: Kangmin_Kim
 started: 2026-09-14
-status: active
+status: done
 goal: 케언 랜딩 공통 기반과 첫 화면을 만든다
-next: package.json package-lock.json app/layout.tsx app/globals.css
+next:
 ---
 
 ## 메모
