@@ -24,47 +24,47 @@ export function Hero() {
     <section className="night-opening" aria-labelledby="hero-title">
       <GalaxyBackdrop animated={animated} />
       <div className="night-composition cairn-container">
-        <div className="night-heading">
-          <p>{t.hero.eyebrow}</p>
+        <CairnSculpture animated={animated} />
+        <div className="night-copy">
+          <p className="night-eyebrow">{t.hero.eyebrow}</p>
           <h1 id="hero-title">
             {t.hero.titleTop}
             <br />
             {t.hero.titleBottom}
           </h1>
+          <p className="night-description">{t.hero.description}</p>
+          <div className="night-actions">
+            <a className="cairn-button" href="#workflow">
+              {t.hero.primary} <ArrowDown size={17} />
+            </a>
+            <a
+              className="cairn-link"
+              href={`${cairnLinks.guide}#try-it-in-60-seconds`}
+            >
+              {t.hero.secondary} <ArrowUpRight size={16} />
+            </a>
+          </div>
         </div>
-        <p className="night-description">{t.hero.description}</p>
-        <CairnSculpture animated={animated} />
-        <div className="night-actions">
-          <a className="cairn-button" href="#workflow">
-            {t.hero.primary} <ArrowDown size={17} />
-          </a>
-          <a
-            className="cairn-link"
-            href={`${cairnLinks.guide}#try-it-in-60-seconds`}
-          >
-            {t.hero.secondary} <ArrowUpRight size={16} />
-          </a>
-        </div>
-        <div className="night-footnote">
-          <p>{t.hero.footnote}</p>
-          <Button
-            variant="ghost"
-            className="cairn-motion"
-            disabled={reducedMotion}
-            onClick={() => setAnimated((value) => !value)}
-            aria-pressed={!animated}
-            aria-label={
-              animated ? t.hero.motionPauseLabel : t.hero.motionPlayLabel
-            }
-          >
-            {animated ? <Pause size={14} /> : <Play size={14} />}
-            {reducedMotion
-              ? t.hero.motionReduced
-              : animated
-                ? t.hero.motionPause
-                : t.hero.motionPlay}
-          </Button>
-        </div>
+      </div>
+      <div className="night-footnote cairn-container">
+        <p>{t.hero.footnote}</p>
+        <Button
+          variant="ghost"
+          className="cairn-motion"
+          disabled={reducedMotion}
+          onClick={() => setAnimated((value) => !value)}
+          aria-pressed={!animated}
+          aria-label={
+            animated ? t.hero.motionPauseLabel : t.hero.motionPlayLabel
+          }
+        >
+          {animated ? <Pause size={14} /> : <Play size={14} />}
+          {reducedMotion
+            ? t.hero.motionReduced
+            : animated
+              ? t.hero.motionPause
+              : t.hero.motionPlay}
+        </Button>
       </div>
     </section>
   );

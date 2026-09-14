@@ -4,7 +4,7 @@ import Image from 'next/image';
 import { EffectBoundary } from './EffectBoundary';
 import styles from './NightSky.module.css';
 const Galaxy = lazy(() => import('./reactbits/Galaxy'));
-const focal: [number, number] = [0.72, 0.4];
+const focal: [number, number] = [0.32, 0.36];
 const rotation: [number, number] = [1, 0];
 export function GalaxyBackdrop({ animated }: { animated: boolean }) {
   const container = useRef<HTMLDivElement>(null);
@@ -43,14 +43,14 @@ export function GalaxyBackdrop({ animated }: { animated: boolean }) {
               <Galaxy
                 focal={focal}
                 rotation={rotation}
-                density={1.15}
-                starSpeed={0.12}
-                speed={0.55}
-                glowIntensity={0.23}
-                twinkleIntensity={0.55}
-                rotationSpeed={0.025}
+                density={1.9}
+                starSpeed={0.2}
+                speed={0.75}
+                glowIntensity={0.46}
+                twinkleIntensity={1}
+                rotationSpeed={0.04}
                 hueShift={210}
-                saturation={0.25}
+                saturation={0.45}
                 mouseRepulsion={false}
                 mouseInteraction
                 transparent

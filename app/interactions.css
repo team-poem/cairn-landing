@@ -144,10 +144,7 @@
 .sculpture-hit:not(:disabled):hover .sculpture-hint {
   opacity: 1;
 }
-.cairn-sculpture figcaption {
-  min-height: 24px;
-  margin-top: -12px;
-}
+
 @media (hover: hover) and (pointer: fine) {
   .cairn-sculpture[data-stage='ready'][data-motion='true']:has(
       .sculpture-hit:hover

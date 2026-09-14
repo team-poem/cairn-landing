@@ -58,7 +58,11 @@ export function CairnSculpture({ animated }: { animated: boolean }) {
       >
         <span className="sculpture-hint">{t.sculpture.hint}</span>
       </Button>
-      <figcaption id="sculpture-status" aria-live="polite">
+      <figcaption
+        id="sculpture-status"
+        className="cairn-sr-only"
+        aria-live="polite"
+      >
         {message}
       </figcaption>
     </figure>
