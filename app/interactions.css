@@ -19,35 +19,35 @@
   --fall-x: -24px;
   --fall-y: 10px;
   --fall-r: -13deg;
-  --bounce: 6px;
+  --bounce: 3px;
   --order: 0;
 }
 .sculpture-art .s2 {
   --fall-x: 74px;
   --fall-y: 47px;
   --fall-r: 25deg;
-  --bounce: 11px;
+  --bounce: 5px;
   --order: 1;
 }
 .sculpture-art .s3 {
   --fall-x: -89px;
   --fall-y: 86px;
   --fall-r: -34deg;
-  --bounce: 16px;
+  --bounce: 7px;
   --order: 2;
 }
 .sculpture-art .s4 {
   --fall-x: 123px;
   --fall-y: 128px;
   --fall-r: 49deg;
-  --bounce: 22px;
+  --bounce: 9px;
   --order: 3;
 }
 .sculpture-art .s5 {
   --fall-x: -137px;
   --fall-y: 159px;
   --fall-r: -63deg;
-  --bounce: 28px;
+  --bounce: 12px;
   --order: 4;
 }
 /* 무너짐: 툭 치면 탑 전체가 반대로 한 번 기울었다가, 위 돌부터 미끄러져
@@ -55,7 +55,7 @@
    모션 최소화에서는 애니메이션이 꺼지고 아래 정적 transform 만 남는다. */
 .cairn-sculpture[data-stage='fallen'] .stone {
   transform: translate(var(--fall-x), var(--fall-y)) rotate(var(--fall-r));
-  animation: sculpture-topple 1150ms linear both;
+  animation: sculpture-topple 980ms linear both;
   animation-delay: calc((4 - var(--order)) * 45ms);
 }
 @keyframes sculpture-topple {
@@ -63,30 +63,25 @@
     transform: translate(0, 0) rotate(0);
     animation-timing-function: cubic-bezier(0.2, 0.8, 0.4, 1);
   }
-  11% {
+  12% {
     transform: translate(calc(var(--fall-x) * -0.05), -3px)
       rotate(calc(var(--fall-r) * -0.14));
     animation-timing-function: cubic-bezier(0.55, 0, 1, 0.55);
   }
-  60% {
-    transform: translate(calc(var(--fall-x) * 0.9), var(--fall-y))
-      rotate(calc(var(--fall-r) * 0.92)) scale(1.04, 0.94);
+  66% {
+    transform: translate(calc(var(--fall-x) * 0.94), var(--fall-y))
+      rotate(calc(var(--fall-r) * 0.95)) scale(1.04, 0.94);
     animation-timing-function: cubic-bezier(0.1, 0.6, 0.4, 1);
   }
-  72% {
-    transform: translate(calc(var(--fall-x) * 0.96), calc(var(--fall-y) - var(--bounce)))
-      rotate(calc(var(--fall-r) * 1.08));
+  80% {
+    transform: translate(calc(var(--fall-x) * 0.99), calc(var(--fall-y) - var(--bounce)))
+      rotate(calc(var(--fall-r) * 1.03));
     animation-timing-function: cubic-bezier(0.6, 0, 0.9, 0.5);
   }
-  82% {
+  92% {
     transform: translate(var(--fall-x), var(--fall-y)) rotate(var(--fall-r))
-      scale(1.02, 0.97);
-    animation-timing-function: cubic-bezier(0.1, 0.6, 0.4, 1);
-  }
-  90% {
-    transform: translate(var(--fall-x), calc(var(--fall-y) - var(--bounce) * 0.28))
-      rotate(calc(var(--fall-r) * 0.985));
-    animation-timing-function: cubic-bezier(0.6, 0, 0.9, 0.5);
+      scale(1.015, 0.985);
+    animation-timing-function: cubic-bezier(0.2, 0.8, 0.4, 1);
   }
   100% {
     transform: translate(var(--fall-x), var(--fall-y)) rotate(var(--fall-r));
