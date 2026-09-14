@@ -39,8 +39,16 @@ html,
 body {
   overflow-x: clip;
 }
+/* 섹션마다 한 칸씩 멈춘다. scroll-snap-stop 이 한 번에 두 칸 넘어가는 걸 막는다. */
 html {
-  scroll-padding-top: var(--space-lg);
+  scroll-snap-type: y mandatory;
+  scroll-padding-top: 0;
+}
+.night-opening,
+.flow-section,
+.start-section {
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
 }
 body {
   background: var(--color-paper);
@@ -75,13 +83,92 @@ body {
   margin-inline: auto;
   padding-inline: var(--page-gutter);
 }
+.cairn-site {
+  position: relative;
+}
+/* 화면 위에 고정. 첫 화면에서는 투명, 스크롤하면 배경·밑선이 생긴다. */
 .cairn-header {
+  position: fixed;
+  inset-block-start: 0;
+  inset-inline: 0;
+  z-index: 7;
+  background: var(--color-clear);
+  border-bottom: 1px solid var(--color-clear);
+  transition:
+    background-color 260ms ease,
+    border-color 260ms ease;
+}
+.cairn-header[data-scrolled='true'] {
+  background: color-mix(in oklch, var(--color-paper) 72%, transparent);
+  border-bottom-color: var(--color-paper-3);
+  backdrop-filter: blur(14px) saturate(1.2);
+  -webkit-backdrop-filter: blur(14px) saturate(1.2);
+}
+.cairn-header-inner {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  min-height: 88px;
-  position: relative;
-  z-index: 2;
+  min-height: var(--header-height);
+}
+.cairn-header-end {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+}
+.cairn-sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+.cairn-language {
+  display: inline-flex;
+  align-items: center;
+  padding: 3px;
+  gap: 2px;
+  margin: 0;
+  min-inline-size: 0;
+  border: 1px solid var(--color-paper-3);
+  border-radius: var(--radius-button);
+  background: var(--color-paper-2);
+}
+.cairn-language-option {
+  min-height: 32px;
+  padding-inline: 12px;
+  border-radius: calc(var(--radius-button) - 1px);
+  color: var(--color-muted);
+  font: 500 var(--text-xs) / 1 var(--font-body);
+  letter-spacing: 0.04em;
+  cursor: pointer;
+  transition: color 120ms ease, background-color 120ms ease;
+}
+.cairn-language-option:hover {
+  color: var(--color-ink);
+}
+.cairn-language-option[aria-pressed='true'] {
+  background: var(--color-paper-3);
+  color: var(--color-ink);
+}
+/* 자체 호스팅한 Space Grotesk·Geist 는 라틴 서브셋이라
+ * 한국어는 사용자 기기의 한글 글꼴로 떨어진다. 스택을 명시해 둔다. */
+:root:lang(ko) {
+  --font-display: 'Space Grotesk', var(--font-ko);
+  --font-body: 'Geist', var(--font-ko);
+}
+:lang(ko) .cairn-site :is(h1, h2, h3) {
+  letter-spacing: -0.02em;
+  overflow-wrap: normal;
+  word-break: keep-all;
+}
+:lang(ko) .night-description,
+:lang(ko) .flow-heading p,
+:lang(ko) .engine-intro p {
+  word-break: keep-all;
 }
 .cairn-wordmark {
   display: inline-flex;
@@ -148,9 +235,14 @@ body {
   opacity: 0.55;
   cursor: default;
 }
+/* 첫 화면은 헤더를 뺀 뷰포트를 채운다. 아래 섹션도 같은 한 칸씩 스냅된다. */
 .night-opening {
   position: relative;
   isolation: isolate;
+  display: flex;
+  flex-direction: column;
+  min-height: 100svh;
+  padding-top: var(--header-height);
   background: linear-gradient(
     180deg,
     var(--color-paper),
@@ -161,20 +253,73 @@ body {
 .night-composition {
   display: grid;
   grid-template-columns: minmax(0, 1fr);
-  padding-top: var(--space-lg);
+  align-content: center;
+  gap: var(--space-lg);
+  flex: 1;
+  padding-block: var(--space-lg);
   position: relative;
 }
-.night-heading {
+.night-copy {
+  display: grid;
+  gap: var(--space-md);
+  justify-items: center;
   text-align: center;
+  order: -1;
   position: relative;
   z-index: 1;
 }
-.night-heading > p {
+/* 별이 밝아진 만큼 본문 뒤는 어둡게 눌러 대비를 지킨다. */
+.night-copy::before {
+  content: '';
+  position: absolute;
+  inset: -12% -18%;
+  z-index: -1;
+  pointer-events: none;
+  background: radial-gradient(
+    ellipse at center,
+    var(--color-paper) 0%,
+    var(--color-clear) 72%
+  );
+  opacity: 0.72;
+}
+.night-eyebrow {
   font-size: var(--text-sm);
-  margin: 0 0 var(--space-md);
+  margin: 0;
   color: var(--color-ink-2);
 }
-.night-heading h1 {
+/* 이름은 사전 항목처럼 점선 밑줄. 올리면 뜻이 뜬다. */
+.night-name[data-slot='tooltip-trigger'] {
+  font: inherit;
+  color: var(--color-ink);
+  text-decoration: underline dotted;
+  text-decoration-color: var(--color-accent);
+  text-underline-offset: 0.28em;
+  text-decoration-thickness: 1.5px;
+  cursor: help;
+  transition: color 120ms ease;
+}
+.night-name[data-slot='tooltip-trigger']:hover,
+.night-name[data-slot='tooltip-trigger'][data-popup-open] {
+  color: var(--color-accent);
+}
+.night-name-tip[data-slot='tooltip-content'] {
+  max-width: 24rem;
+  padding: 10px 14px;
+  border: 1px solid var(--color-paper-3);
+  background: var(--color-paper-2);
+  color: var(--color-ink-2);
+  font-size: var(--text-sm);
+  line-height: 1.55;
+  box-shadow: 0 12px 32px -8px var(--color-mask-soft);
+}
+.night-name-tip[data-slot='tooltip-content'] svg {
+  fill: var(--color-paper-2);
+  color: var(--color-paper-2);
+}
+:lang(ko) .night-name-tip[data-slot='tooltip-content'] {
+  word-break: keep-all;
+}
+.night-copy h1 {
   font-size: var(--text-display);
   line-height: 1.04;
   margin: 0;
@@ -183,31 +328,14 @@ body {
   font-size: var(--text-body);
   max-width: 38ch;
   color: var(--color-ink-2);
-  margin: var(--space-lg) auto 0;
-  text-align: center;
-  position: relative;
-  z-index: 1;
+  margin: 0;
 }
 .night-landmark {
   position: relative;
-  margin: -16px auto 0;
+  margin: 0 auto;
   width: 100%;
   max-width: 560px;
   min-width: 0;
-}
-.night-landmark img {
-  display: block;
-  width: 100%;
-  height: auto;
-  max-height: 400px;
-  object-fit: contain;
-}
-.night-landmark figcaption {
-  color: var(--color-muted);
-  font-size: var(--text-xs);
-  text-align: center;
-  margin-top: -30px;
-  position: relative;
 }
 .night-actions {
   display: flex;
@@ -215,26 +343,23 @@ body {
   justify-content: center;
   flex-wrap: wrap;
   gap: 8px 22px;
-  margin-top: var(--space-lg);
+  margin-top: var(--space-xs);
 }
 .night-footnote {
   display: flex;
   justify-content: space-between;
   align-items: center;
   gap: var(--space-md);
-  margin-top: var(--space-xl);
   padding-block: var(--space-sm);
+  border-top: 1px solid var(--color-paper-3);
   font-size: var(--text-xs);
   color: var(--color-muted);
+  position: relative;
+  z-index: 1;
 }
 .night-footnote p {
-  max-width: 24ch;
+  max-width: 34ch;
   margin: 0;
-}
-.cairn-footer {
-  display: grid;
-  gap: var(--space-lg);
-  padding-block: var(--space-2xl) var(--space-lg);
 }
 .footer-masthead {
   display: flex;
@@ -253,72 +378,33 @@ body {
   color: var(--color-ink-2);
   font-size: var(--text-sm);
 }
-.cairn-footer nav {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 4px 28px;
-  align-items: center;
-}
-.cairn-footer nav a {
-  display: inline-flex;
-  min-height: 44px;
-  align-items: center;
-  gap: 8px;
-  color: var(--color-ink-2);
-  font-size: var(--text-sm);
-  white-space: nowrap;
-}
-.footer-colophon {
-  font-size: var(--text-xs);
-  color: var(--color-muted);
-  margin: 0;
-}
 @media (min-width: 60rem) {
   .night-composition {
-    grid-template-columns: repeat(12, minmax(0, 1fr));
-    padding-top: var(--space-xl);
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr);
+    align-items: center;
+    gap: var(--space-3xl);
+    padding-block: var(--space-xl);
   }
-  .night-heading {
-    grid-column: 1/-1;
+  .night-copy {
+    order: 0;
+    justify-items: start;
+    text-align: left;
+    gap: var(--space-lg);
   }
   .night-description {
-    grid-column: 1/4;
-    grid-row: 2;
-    align-self: end;
-    margin: 0 0 72px;
-    text-align: left;
-    max-width: 29ch;
+    max-width: 34ch;
   }
   .night-landmark {
-    grid-column: 4/10;
-    grid-row: 2;
-    margin-top: -24px;
-  }
-  .night-landmark img {
-    max-height: 440px;
+    max-width: 720px;
   }
   .night-actions {
-    grid-column: 10/-1;
-    grid-row: 2;
-    align-self: end;
     justify-content: flex-start;
-    margin-bottom: 72px;
     gap: 12px;
-  }
-  .night-footnote {
-    grid-column: 1/-1;
-    margin-top: 0;
   }
   .night-footnote p {
     max-width: none;
   }
-  .cairn-footer {
-    grid-template-columns: minmax(0, 1fr) auto;
   }
-  .footer-colophon {
-    grid-column: 1/-1;
-  }
-}
 @media (hover: hover) and (pointer: fine) {
   .cairn-link:hover,
   .cairn-footer a:hover,
@@ -330,9 +416,79 @@ body {
     color: var(--color-accent-ink);
   }
 }
+/* 왼쪽 세로 중앙의 선 네비. 선만 있고 라벨은 스크린리더용이다. */
+.section-nav {
+  position: fixed;
+  inset-inline-start: clamp(14px, 2.2vw, 34px);
+  inset-block-start: 50%;
+  transform: translateY(-50%);
+  z-index: 6;
+  display: grid;
+  gap: 10px;
+}
+.section-nav a {
+  display: block;
+  position: relative;
+  width: 48px;
+  min-height: 24px;
+}
+.section-nav a::before {
+  content: '';
+  position: absolute;
+  inset-inline-start: 0;
+  inset-block-start: 50%;
+  height: 2px;
+  width: 16px;
+  border-radius: 2px;
+  background: var(--color-muted);
+  opacity: 0.7;
+  transform: translateY(-50%);
+  transition:
+    width 300ms var(--ease-out),
+    background-color 200ms ease,
+    opacity 200ms ease;
+}
+.section-nav a:hover::before {
+  width: 28px;
+  opacity: 1;
+  background: var(--color-ink);
+}
+.section-nav a[aria-current='true']::before {
+  width: 42px;
+  opacity: 1;
+  background: var(--color-accent);
+}
+@media (max-width: 60rem) {
+  .section-nav {
+    display: none;
+  }
+}
+/* 언어 전환 크로스페이드. 옛 화면이 사라지며 새 화면이 제자리에 나타난다. */
+::view-transition-old(root) {
+  animation: 180ms var(--ease-out) both cairn-locale-out;
+}
+::view-transition-new(root) {
+  animation: 260ms var(--ease-out) both cairn-locale-in;
+}
+@keyframes cairn-locale-out {
+  to {
+    opacity: 0;
+  }
+}
+@keyframes cairn-locale-in {
+  from {
+    opacity: 0;
+  }
+}
 @media (prefers-reduced-motion: reduce) {
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*) {
+    animation: none !important;
+  }
   html {
     scroll-behavior: auto;
+    scroll-snap-type: none;
   }
   .cairn-site *,
   .cairn-site *::before,
@@ -342,7 +498,11 @@ body {
   }
 }
 .flow-section {
-  padding-block: var(--space-2xl) var(--space-3xl);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 100svh;
+  padding-block: calc(var(--header-height) + var(--space-lg)) var(--space-3xl);
 }
 .flow-heading {
   display: grid;
@@ -351,8 +511,7 @@ body {
   margin-bottom: var(--space-xl);
 }
 .flow-heading h2,
-.engine-intro h2,
-.start-layout h2 {
+.engine-intro h2 {
   font-size: var(--text-heading);
   line-height: 1.12;
   margin: 0;
@@ -437,6 +596,7 @@ body {
   line-height: 1.16;
 }
 .flow-story > p {
+  min-height: calc(1.65em * 3);
   color: var(--color-ink-2);
   font-size: var(--text-body);
   margin: 0;
@@ -448,6 +608,7 @@ body {
   gap: 8px;
   margin-top: var(--space-lg);
   align-items: center;
+  min-height: 44px;
 }
 .flow-next[data-slot='button'] {
   padding: 10px 0;
@@ -572,7 +733,7 @@ body {
   font: 400 var(--text-sm)/1.6 var(--font-body);
   color: var(--color-ink-2);
   margin: var(--space-md) 0 0;
-  min-height: 44px;
+  min-height: calc(1.6em * 2);
 }
 .flow-output.is-finished {
   color: var(--color-success);
@@ -610,12 +771,6 @@ body {
   color: var(--color-ink);
   margin: 0;
 }
-.engine-section {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr);
-  gap: var(--space-lg);
-  padding-block: var(--space-lg) var(--space-3xl);
-}
 .engine-intro > p {
   margin: var(--space-md) 0;
   max-width: 33ch;
@@ -625,69 +780,27 @@ body {
 .engine-intro .cairn-link {
   color: var(--color-accent);
 }
-.engine-art {
-  position: relative;
-  min-height: 300px;
-  isolation: isolate;
-}
-.engine-ports {
-  position: absolute;
-  inset: auto 0 0;
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  font-size: var(--text-sm);
-  color: var(--color-ink-2);
-}
-.engine-ports > strong {
-  color: var(--color-ink);
-  font: 700 var(--text-lead)/1.5 var(--font-display);
-}
-.engine-ports > svg {
-  color: var(--color-muted);
-  width: 14px;
-}
-.engine-details {
-  margin: 0;
-}
-.engine-details > div {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr);
-  gap: var(--space-xs);
-  padding-block: var(--space-md);
-  border-bottom: 1px solid var(--color-rule);
-}
-.engine-details dt {
-  font-weight: 500;
-  font-size: var(--text-body);
-  color: var(--color-ink);
-}
-.engine-details dd {
-  margin: 0;
-  font-size: var(--text-body);
-  line-height: 1.7;
-  max-width: 60ch;
-  color: var(--color-ink-2);
-}
+/* 마지막 칸은 이 섹션 + 푸터다. 푸터 높이(약 12rem)만큼 비워 두고
+   푸터의 아래끝을 스냅 지점으로 잡아, 스냅이 푸터를 건너뛰지 않게 한다. */
 .start-section {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: calc(100svh - 12rem);
   background: var(--color-paper-2);
-  padding-block: var(--space-2xl);
+  padding-block: calc(var(--header-height) + var(--space-md)) var(--space-xl);
 }
-.start-layout {
+.cairn-footer {
+  scroll-snap-align: end;
+}
+.start-stack {
+  display: grid;
+  gap: var(--space-xl);
+}
+.fit-grid {
   display: grid;
   grid-template-columns: minmax(0, 1fr);
   gap: var(--space-lg);
-}
-.start-layout h2 {
-  color: var(--color-accent);
-}
-.start-layout > div > p {
-  margin: var(--space-md) 0 0;
-  color: var(--color-ink-2);
-  font-size: var(--text-body);
-  max-width: 43ch;
 }
 .start-command {
   min-width: 0;
@@ -708,11 +821,6 @@ body {
   flex-wrap: wrap;
   gap: 12px 24px;
   align-items: center;
-}
-.start-layout p.start-note {
-  font-size: var(--text-xs);
-  color: var(--color-muted);
-  margin-top: var(--space-md);
 }
 @media (min-width: 40rem) {
   .flow-workbench[data-slot='tabs'] {
@@ -735,15 +843,7 @@ body {
   .flow-panel[data-slot='tabs-content'] {
     padding: var(--space-xl) var(--space-sm) var(--space-sm);
   }
-  .engine-details > div {
-    grid-template-columns: minmax(0, 0.7fr) minmax(0, 1.3fr);
-    gap: var(--space-lg);
-    padding-block: var(--space-lg);
   }
-  .engine-art {
-    min-height: 400px;
-  }
-}
 @media (min-width: 60rem) {
   .flow-heading {
     grid-template-columns: minmax(0, 1fr) minmax(0, 0.75fr);
@@ -777,26 +877,9 @@ body {
   .flow-trace {
     min-height: 330px;
   }
-  .engine-section {
-    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  .fit-grid {
+    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
     column-gap: var(--space-2xl);
-    row-gap: var(--space-xl);
-  }
-  .engine-intro {
-    align-self: center;
-  }
-  .engine-art {
-    min-height: 440px;
-  }
-  .engine-details {
-    grid-column: 1/-1;
-  }
-  .engine-details > div {
-    grid-template-columns: minmax(0, 0.7fr) minmax(0, 1.3fr);
-  }
-  .start-layout {
-    grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
-    gap: var(--space-3xl);
     align-items: center;
   }
   .start-command pre {
@@ -822,4 +905,337 @@ body {
 .cairn-site a[aria-disabled='true'] {
   opacity: 0.55;
   pointer-events: none;
+}
+
+/* ── 3번 섹션: 파이프라인·포트, 비교표, 코드 탭, 근거, 쓰임새 ── */
+.fit-label {
+  display: block;
+  font-size: var(--text-xs);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--color-muted);
+  margin-bottom: 10px;
+}
+/* ── 푸터: 워드마크 · 링크 열 · 저작권 줄 ── */
+.cairn-footer {
+  padding-block: var(--space-2xl) var(--space-lg);
+}
+.footer-grid {
+  display: grid;
+  gap: var(--space-lg);
+}
+.footer-masthead > p {
+  margin: 0;
+}
+.footer-column {
+  display: grid;
+  gap: 4px;
+  align-content: start;
+}
+.footer-column > span {
+  font-size: var(--text-xs);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--color-muted);
+  margin-bottom: 6px;
+}
+.footer-column a {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 32px;
+  color: var(--color-ink-2);
+  font-size: var(--text-sm);
+}
+.footer-bar {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 6px 24px;
+  margin-top: var(--space-lg);
+  padding-top: var(--space-md);
+  border-top: 1px solid var(--color-rule);
+  font-size: var(--text-xs);
+  color: var(--color-muted);
+}
+.footer-bar p {
+  margin: 0;
+}
+@media (min-width: 40rem) {
+  .footer-grid {
+    grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr) minmax(0, 1fr);
+  }
+}
+@media (min-width: 60rem) {
+  .footer-grid {
+    grid-template-columns: minmax(0, 2fr) minmax(0, 1fr) minmax(0, 1fr);
+  }
+}
+
+/* ── 3번 섹션 작업대: 포트 탭 · 파이프라인 · 코드 · 출력 · 설치 ── */
+.engine-workbench[data-slot='tabs'] {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--space-md);
+}
+.engine-port-list[data-slot='tabs-list'] {
+  display: grid;
+  gap: 6px;
+  width: 100%;
+  height: auto;
+  padding: 0;
+  border-radius: 0;
+  background: var(--color-clear);
+}
+.engine-stage-panel,
+.engine-install {
+  min-width: 0;
+}
+.engine-port[data-slot='tabs-trigger'] {
+  min-height: 60px;
+}
+.engine-stage-panel {
+  display: grid;
+  gap: var(--space-lg);
+  min-width: 0;
+}
+.pipe {
+  display: grid;
+  gap: 10px;
+}
+.pipe-stages {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 6px;
+}
+.pipe-stage {
+  display: grid;
+  gap: 2px;
+  padding: 14px 12px;
+  border: 1px solid var(--color-rule);
+  border-radius: var(--radius-button);
+  background: var(--color-paper);
+  transition:
+    border-color 220ms ease,
+    background-color 220ms ease,
+    box-shadow 220ms ease;
+}
+/* 카드 전체가 버튼. 올리면 담당 포트 이름이 뜨고, 누르면 왼쪽 탭이 튄다 */
+.pipe-stage-hit {
+  display: grid;
+  gap: 2px;
+  width: 100%;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  text-align: left;
+  cursor: pointer;
+  font: inherit;
+}
+.pipe-stage-link {
+  font: 500 11px / 1.4 var(--font-code);
+  font-style: normal;
+  color: var(--color-accent);
+  opacity: 0;
+  transform: translateX(-4px);
+  transition:
+    opacity 160ms ease,
+    transform 160ms var(--ease-out);
+}
+.pipe-stage:hover .pipe-stage-link,
+.pipe-stage-hit:focus-visible .pipe-stage-link {
+  opacity: 1;
+  transform: translateX(0);
+}
+.pipe-stage:hover {
+  border-color: var(--color-ink-2);
+}
+.pipe-stage strong {
+  font: 500 var(--text-body) / 1.3 var(--font-body);
+  color: var(--color-ink);
+}
+.pipe-stage span {
+  font-size: var(--text-xs);
+  line-height: 1.45;
+  color: var(--color-muted);
+}
+/* 고른 포트가 꽂히는 단계: 황금 테두리. 실행이 지나간 단계: 옅은 채움. 지금 도는 단계: 맥동 */
+.pipe-stage[data-port='true'] {
+  border-color: var(--color-accent);
+}
+.pipe-stage[data-lit='true'] {
+  background: color-mix(in oklch, var(--color-accent) 10%, var(--color-paper));
+}
+.pipe-stage[data-current='true'] {
+  box-shadow: 0 0 0 4px color-mix(in oklch, var(--color-accent) 22%, transparent);
+  animation: pipe-pulse 820ms ease-in-out infinite;
+}
+@keyframes pipe-pulse {
+  50% {
+    box-shadow: 0 0 0 8px color-mix(in oklch, var(--color-accent) 8%, transparent);
+  }
+}
+.pipe-track {
+  width: 100%;
+  height: 24px;
+  display: block;
+}
+.pipe-track .route-runner {
+  transition: transform 700ms cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+.pipe-note {
+  margin: 2px 0 0;
+  min-height: 3em;
+  font-size: var(--text-sm);
+  line-height: 1.6;
+  color: var(--color-ink-2);
+}
+.pipe-note strong {
+  font-family: var(--font-code);
+  font-weight: 500;
+  color: var(--color-ink);
+}
+.engine-output {
+  display: grid;
+  align-content: start;
+  gap: 10px;
+  min-width: 0;
+  max-width: 44rem;
+}
+.engine-log {
+  display: grid;
+  gap: 6px;
+  min-height: 7.5em;
+  padding: var(--space-sm) var(--space-md);
+  font: 400 var(--text-sm) / 1.7 var(--font-code);
+  color: var(--color-ink-2);
+  background: var(--color-paper);
+  border: 1px solid var(--color-rule);
+  border-radius: var(--radius-panel);
+}
+.engine-log-idle {
+  color: var(--color-muted);
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+}
+.engine-log-line {
+  animation: engine-log-in 260ms var(--ease-out) both;
+}
+.engine-log-line[data-stage='report'] {
+  color: var(--color-accent);
+}
+.engine-log-done {
+  margin-top: 4px;
+  padding-top: 8px;
+  border-top: 1px solid var(--color-rule);
+  color: var(--color-ink);
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  animation: engine-log-in 320ms var(--ease-out) both;
+}
+@keyframes engine-log-in {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+}
+.engine-install {
+  display: grid;
+  gap: 10px;
+}
+.engine-install .start-actions {
+  align-items: center;
+}
+.engine-install .start-note {
+  font-size: var(--text-xs);
+  color: var(--color-muted);
+}
+@media (min-width: 40rem) {
+  .engine-port-list[data-slot='tabs-list'] {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+@media (min-width: 60rem) {
+  .engine-workbench[data-slot='tabs'] {
+    grid-template-columns: minmax(0, 0.34fr) minmax(0, 1fr);
+    column-gap: var(--space-xl);
+  }
+  .engine-port-list[data-slot='tabs-list'] {
+    grid-template-columns: minmax(0, 1fr);
+    align-content: start;
+  }
+    .engine-install {
+    grid-column: 1 / -1;
+  }
+}
+
+/* ── 반응형: 좁은 화면 ── */
+@media (max-width: 60rem) {
+  :root {
+    --header-height: 64px;
+  }
+  /* 긴 섹션에서 강제 스냅은 답답하다. 가까울 때만 붙는다 */
+  html {
+    scroll-snap-type: y proximity;
+  }
+  .cairn-header-end {
+    gap: var(--space-sm);
+  }
+  .cairn-language-option {
+    padding-inline: 10px;
+  }
+  .night-landmark {
+    max-width: min(560px, 78vw);
+  }
+  .night-footnote {
+    flex-wrap: wrap;
+  }
+  .flow-heading {
+    gap: var(--space-sm);
+  }
+  /* 파이프라인 다섯 칸은 가로로 넘긴다. 경로선은 칸과 어긋나므로 숨긴다 */
+  .pipe-stages {
+    grid-template-columns: none;
+    grid-auto-flow: column;
+    grid-auto-columns: minmax(150px, 1fr);
+    overflow-x: auto;
+    padding-bottom: 6px;
+    scrollbar-width: thin;
+  }
+  .pipe-track {
+    display: none;
+  }
+  .engine-install .start-actions {
+    gap: 10px 16px;
+  }
+}
+@media (max-width: 40rem) {
+  .cairn-header-inner {
+    min-height: var(--header-height);
+  }
+  .cairn-wordmark {
+    font-size: 1.6rem;
+  }
+  .night-composition {
+    gap: var(--space-md);
+  }
+  .night-copy h1 {
+    font-size: clamp(2.5rem, 12vw, 3.25rem);
+  }
+  .night-description {
+    font-size: var(--text-sm);
+  }
+  .flow-story h3 {
+    font-size: 1.5rem;
+  }
+  .footer-masthead > a {
+    font-size: 3.25rem;
+  }
+  .footer-bar {
+    flex-direction: column;
+  }
 }
