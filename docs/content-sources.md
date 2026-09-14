@@ -21,6 +21,10 @@ LLM 호출이 없는 재생은 결정론적 기본 재생을 가리킨다. 탐�
 
 인증된 성공률, 고객 수, 보편적인 비용 절감률은 주장하지 않는다. 벤치마크를 추가할 때는 해당 fixture와 모델, 실행 횟수, 측정 범위를 함께 적는다.
 
-## 별빛 보강
+## React Bits 배경
 
-`public/cairn-sky.svg`는 원본 배너의 작은 점과 십자형 별빛을 히어로 전체로 확장한 배경이다. 먼 별·가까운 별·밝은 별이 서로 다른 주기로 천천히 밝아지고 어두워지며, 낮은 빈도의 유성이 지나간다. 문구 뒤의 별 밝기는 낮추고 하단은 투명하게 처리한다. 별빛도 Hero의 기존 모션 설정을 공유하며, 정지 상태와 모션 감소 환경에서는 `cairn-sky-still.svg`를 사용한다.
+- [Galaxy](https://reactbits.dev/backgrounds/galaxy): 히어로의 별빛. 공식 `src/ts-default/Backgrounds/Galaxy` 소스와 ogl 1.0.11을 사용한다. 기존 별빛 SVG는 정지·GPU 실패 시 대체 배경이다. 섹션과 문서가 보일 때만 애니메이션을 실행하며 Hero 모션 설정을 공유한다.
+- [Aero Shards](https://reactbits.dev/backgrounds/aero-shards): 엔진 소개 영역의 회청색·황금색 금속 조각. 공식 `src/ts-default/Backgrounds/AeroShards` 소스와 vgpu 0.3.1을 사용한다. WebGPU가 필요하며 지원하지 않거나 초기화에 실패하면 기본 배경과 본문을 유지한다. 원본의 화면 밖 일시정지·적응형 품질 기능과 모션 감소 설정을 유지하고 별도의 모션 버튼을 제공한다.
+- [공식 소스](https://github.com/DavidHDev/react-bits): 셰이더는 원본을 사용하고, 사이트에 맞게 색·속도·배치를 설정했다. React 생명주기, GPU 포맷 타입, Galaxy 크기 초기화 및 포인터 이벤트 연결만 통합에 맞게 조정했다.
+
+React Bits는 MIT + Commons Clause 라이선스다. 전체 고지는 `public/licenses/react-bits-LICENSE.md`에 포함한다. 웹사이트의 일부로 사용하며 독립 컴포넌트 라이브러리로 재판매하지 않는다. 두 효과는 지연 로딩되며 탐색 링크나 설명용 Workflow 데모를 가로막지 않는다.

@@ -1,0 +1,70 @@
+.section {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+}
+.effect {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.85;
+  background: radial-gradient(ellipse at 84% 35%, #8199b625, transparent 55%);
+  mask-image: linear-gradient(
+    to bottom,
+    transparent,
+    #000 15%,
+    #000 82%,
+    transparent
+  );
+}
+.content {
+  position: relative;
+  z-index: 1;
+}
+.content > :first-child {
+  max-width: 1050px;
+}
+.content :global(.section-heading) > p:last-child {
+  background: #080c1480;
+  padding: 14px 18px;
+  border-radius: 6px;
+}
+.content :global(.feature-grid) {
+  gap: 22px;
+}
+.content :global(.feature-grid) article {
+  background: #0a111ddb;
+  backdrop-filter: blur(12px);
+  border: 1px solid #354258a0;
+  border-radius: 8px;
+  padding: 25px;
+}
+.toggle[data-slot='button'] {
+  position: absolute;
+  z-index: 2;
+  right: 6%;
+  top: 28px;
+  font-size: 12px;
+  color: #aabbd0;
+  background: #101a2aa0;
+  border: 1px solid #304059;
+  border-radius: 5px;
+  padding: 8px 12px;
+  min-height: 36px;
+}
+@media (max-width: 760px) {
+  .effect {
+    opacity: 0.65;
+  }
+  .content :global(.section-heading) > p:last-child {
+    padding: 0;
+    background: none;
+  }
+  .toggle[data-slot='button'] {
+    top: 14px;
+    right: 24px;
+  }
+  .content :global(.feature-grid) article {
+    padding: 22px;
+  }
+}

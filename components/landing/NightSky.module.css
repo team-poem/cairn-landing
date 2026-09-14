@@ -38,3 +38,17 @@
     object-position: 70% top;
   }
 }
+.galaxy {
+  position: absolute;
+  inset: 0;
+  opacity: 0.88;
+  mask-image: linear-gradient(90deg, #0004, #0009 40%, #000 65%);
+}
+.sky img.faintStars {
+  opacity: 0.15;
+}
+@media (max-width: 760px) {
+  .galaxy {
+    mask-image: linear-gradient(to bottom, #0006, #000 40%);
+  }
+}

@@ -5,6 +5,7 @@ import { ArrowDown, ArrowRight, ArrowUpRight, Pause, Play } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { cairnLinks } from '@/lib/cairn';
 import styles from './NightSky.module.css';
+import { GalaxyBackdrop } from './GalaxyBackdrop';
 const stages = [
   ['01', 'discover', 'AI가 경로를 발견', 'LLM · ONCE'],
   ['02', 'freeze', '읽을 수 있는 파일로', 'PLAIN JSON'],
@@ -29,16 +30,7 @@ export function Hero() {
       className={`hero ${styles.nightHero}`}
       aria-labelledby="hero-title"
     >
-      <div className={styles.sky} aria-hidden="true">
-        <Image
-          src={animated ? '/cairn-sky.svg' : '/cairn-sky-still.svg'}
-          alt=""
-          width={1440}
-          height={780}
-          unoptimized
-          priority
-        />
-      </div>
+      <GalaxyBackdrop animated={animated} />
       <div className="hero-main wrap">
         <div className="hero-copy">
           <p className="eyebrow">
