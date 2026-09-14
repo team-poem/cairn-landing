@@ -597,6 +597,7 @@ body {
   line-height: 1.16;
 }
 .flow-story > p {
+  min-height: calc(1.65em * 3);
   color: var(--color-ink-2);
   font-size: var(--text-body);
   margin: 0;
@@ -608,6 +609,7 @@ body {
   gap: 8px;
   margin-top: var(--space-lg);
   align-items: center;
+  min-height: 44px;
 }
 .flow-next[data-slot='button'] {
   padding: 10px 0;
@@ -732,7 +734,7 @@ body {
   font: 400 var(--text-sm)/1.6 var(--font-body);
   color: var(--color-ink-2);
   margin: var(--space-md) 0 0;
-  min-height: 44px;
+  min-height: calc(1.6em * 2);
 }
 .flow-output.is-finished {
   color: var(--color-success);
