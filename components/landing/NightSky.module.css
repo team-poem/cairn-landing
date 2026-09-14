@@ -76,9 +76,6 @@
     var(--color-clear) 100%
   );
 }
-/* 텍스처 한 장에 두 주기가 들어 있다. 반복 없이 통째로 깔고 요소 폭의
-   절반(= 한 주기)만큼 밀면 처음과 끝이 같은 그림이라 이음 없이 돈다.
-   background-repeat 는 타일 폭이 정수가 아닐 때 1px 실선을 남긴다. */
 .mist::before,
 .mist::after {
   content: '';
@@ -86,19 +83,19 @@
   inset-block: 0;
   left: 0;
   width: 200%;
-  background-repeat: no-repeat;
-  background-size: 100% 100%;
+  background-repeat: repeat-x;
 }
 /* 두 장의 노이즈 비트맵이 다른 크기·속도·방향으로 겹쳐 형태가 계속 바뀐다.
    SVG 필터 배경은 Chrome 이 GPU 타일마다 다시 래스터해 사각 띠가 생긴다. */
 .mist::before {
   background-image: url('/cairn-mist-a.png');
+  background-size: 50% 100%;
   opacity: 0.6;
   animation: mist-drift 80s linear infinite;
 }
 .mist::after {
   background-image: url('/cairn-mist-b.png');
-  width: 240%;
+  background-size: 40% 100%;
   opacity: 0.45;
   animation: mist-drift 125s linear infinite reverse;
 }
