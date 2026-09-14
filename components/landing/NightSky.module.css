@@ -93,8 +93,7 @@
 }
 .mist::after {
   background-image: url('/cairn-mist-b.svg');
-  background-size: 33.333% 86%;
-  background-position: 0 100%;
+  background-size: 33.333% 100%;
   opacity: 0.42;
   animation: mist-drift 125s linear infinite reverse;
 }
