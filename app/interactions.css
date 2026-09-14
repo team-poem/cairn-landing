@@ -182,11 +182,17 @@
   opacity: 0;
   transition: none;
 }
-.cairn-sculpture[data-stage='repairing'] :is(.beacon, .peak) {
+.cairn-sculpture[data-stage='repairing'] .beacon {
   transform-box: fill-box;
   transform-origin: center;
   transition: none;
   animation: sculpture-relight 1000ms linear 1550ms both;
+}
+.sculpture-art .peak {
+  transition: opacity 600ms var(--ease-out);
+}
+.cairn-sculpture[data-stage='repairing'] .peak {
+  transition-delay: 2250ms;
 }
 @keyframes sculpture-relight {
   0% {
@@ -226,17 +232,20 @@
 .cairn-sculpture[data-motion='true'][data-stage='ready'] .ring {
   transform-box: fill-box;
   transform-origin: center;
-  animation: sculpture-beacon 3.8s var(--ease-out) infinite;
+  animation: sculpture-beacon 3.8s var(--ease-out) infinite backwards;
 }
 .cairn-sculpture[data-motion='true'][data-stage='ready'] .r2 {
   animation-delay: 1.9s;
 }
 @keyframes sculpture-beacon {
-  from {
+  0% {
     transform: scale(0.7);
+    opacity: 0;
+  }
+  14% {
     opacity: 0.5;
   }
-  to {
+  100% {
     transform: scale(1.7);
     opacity: 0;
   }
