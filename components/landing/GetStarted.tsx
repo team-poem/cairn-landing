@@ -74,7 +74,7 @@ export function GetStarted() {
           orientation="vertical"
           className="flow-workbench engine-workbench"
         >
-          <TabsList className="engine-ports" aria-label={t.engine.tabsLabel}>
+          <TabsList className="engine-port-list" aria-label={t.engine.tabsLabel}>
             {ports.map((name, index) => (
               <TabsTrigger
                 key={name}

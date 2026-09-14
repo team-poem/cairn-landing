@@ -779,25 +779,6 @@ body {
 .engine-intro .cairn-link {
   color: var(--color-accent);
 }
-.engine-ports {
-  position: absolute;
-  inset: auto 0 0;
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  font-size: var(--text-sm);
-  color: var(--color-ink-2);
-}
-.engine-ports > strong {
-  color: var(--color-ink);
-  font: 700 var(--text-lead)/1.5 var(--font-display);
-}
-.engine-ports > svg {
-  color: var(--color-muted);
-  width: 14px;
-}
 /* 마지막 칸은 이 섹션 + 푸터다. 푸터 높이(약 12rem)만큼 비워 두고
    푸터의 아래끝을 스냅 지점으로 잡아, 스냅이 푸터를 건너뛰지 않게 한다. */
 .start-section {
@@ -996,11 +977,18 @@ body {
   grid-template-columns: minmax(0, 1fr);
   gap: var(--space-md);
 }
-.engine-ports[data-slot='tabs-list'] {
+.engine-port-list[data-slot='tabs-list'] {
   display: grid;
   gap: 6px;
-  background: transparent;
+  width: 100%;
+  height: auto;
   padding: 0;
+  border-radius: 0;
+  background: var(--color-clear);
+}
+.engine-stage-panel,
+.engine-install {
+  min-width: 0;
 }
 .engine-port[data-slot='tabs-trigger'] {
   min-height: 60px;
@@ -1143,7 +1131,7 @@ body {
   color: var(--color-muted);
 }
 @media (min-width: 40rem) {
-  .engine-ports[data-slot='tabs-list'] {
+  .engine-port-list[data-slot='tabs-list'] {
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 }
@@ -1152,7 +1140,7 @@ body {
     grid-template-columns: minmax(0, 0.34fr) minmax(0, 1fr);
     column-gap: var(--space-xl);
   }
-  .engine-ports[data-slot='tabs-list'] {
+  .engine-port-list[data-slot='tabs-list'] {
     grid-template-columns: minmax(0, 1fr);
     align-content: start;
   }
