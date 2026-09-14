@@ -2,9 +2,9 @@
 branch: codex/handwritten-landing
 owner: Kangmin_Kim
 started: 2026-09-14
-status: active
+status: done
 goal: 밤하늘 컨셉을 유지하고 Hallmark로 Cairn 영문 랜딩을 재구성한다
-next: components/landing/ app/interactions.css lib/ tests/ docs/content-sources.md
+next:
 ---
 
 ## 메모
@@ -22,3 +22,5 @@ next: components/landing/ app/interactions.css lib/ tests/ docs/content-sources.
 - 사용자 요청: Hallmark 스킬을 적용해 현 컨셉을 유지하며 전면 재구성하고 GeekNews 32970 글을 참고해 영어 문구를 다듬는다. foundation이 원격에 없고 bootstrap 완료 기록이 대체를 명시함을 재확인. 단일 작업 트리이며 남의 미커밋 변경 없음.
 
 - 사용자 요청: 엔진 조각 배경을 자연스럽게 연결하고 단계 전환 모션 복원, 클릭으로 붕괴 후 3초 뒤 자가 복구하는 돌탑, 화면·코드·경로가 동기화된 쇼핑 데모 추가. foundation이 없고 bootstrap 완료 기록이 대체함을 재확인했다.
+
+- 실행 상태의 회귀 테스트 5개를 기본 테스트 명령과 landing CI에 연결한다. 새로운 의존성은 없다.

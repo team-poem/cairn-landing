@@ -1,19 +1,18 @@
 .effect {
   position: absolute;
-  inset: 0 0 40px;
+  inset: 4% 8% 10%;
   pointer-events: none;
-  opacity: 0.9;
+  opacity: 0.36;
   background: radial-gradient(
     ellipse at center,
     var(--color-sky-glow),
     var(--color-clear) 65%
   );
-  mask-image: linear-gradient(
-    to bottom,
-    var(--color-clear),
-    var(--color-mask) 18%,
-    var(--color-mask) 72%,
-    var(--color-clear)
+  mask-image: radial-gradient(
+    ellipse at center,
+    var(--color-mask) 10%,
+    var(--color-mask-soft) 48%,
+    var(--color-clear) 70%
   );
 }
 .toggle[data-slot='button'] {

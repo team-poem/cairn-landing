@@ -11,8 +11,9 @@
     "start": "vite preview --outDir dist/client --host 127.0.0.1",
     "lint": "oxlint app components/landing lib vite.config.ts next.config.ts",
     "format": "oxfmt",
-    "test": "sh tests/hooks.sh && sh tests/loop.sh && sh tests/sobaya.sh",
-    "typecheck": "tsc --noEmit"
+    "test": "npm run test:demo && sh tests/hooks.sh && sh tests/loop.sh && sh tests/sobaya.sh",
+    "typecheck": "tsc --noEmit",
+    "test:demo": "node --experimental-strip-types --test tests/demo-state.test.mjs"
   },
   "dependencies": {
     "@base-ui/react": "1.7.0",

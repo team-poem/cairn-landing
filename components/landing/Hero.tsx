@@ -1,6 +1,6 @@
 'use client';
 import { useEffect, useState } from 'react';
-import Image from 'next/image';
+import { CairnSculpture } from './CairnSculpture';
 import { ArrowDown, ArrowUpRight, Pause, Play } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { cairnLinks } from '@/lib/cairn';
@@ -34,17 +34,7 @@ export function Hero() {
           Describe a browser task. Cairn uses AI to find the steps, saves them
           as JSON, and runs them again without a model call.
         </p>
-        <figure className="night-landmark">
-          <Image
-            src={animated ? '/cairn-scene.svg' : '/cairn-scene-still.svg'}
-            alt="A stack of slate stones with a gold beacon above a mountain trail."
-            width={700}
-            height={590}
-            priority
-            unoptimized
-          />
-          <figcaption>A cairn marks a path you can return to.</figcaption>
-        </figure>
+        <CairnSculpture animated={animated} />
         <div className="night-actions">
           <a className="cairn-button" href="#workflow">
             See it run <ArrowDown size={17} />

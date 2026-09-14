@@ -36,3 +36,11 @@ React Bits는 MIT + Commons Clause 라이선스다. 전체 고지는 `public/lic
 [GeekNews 어휘 분석 글](https://news.hada.io/topic?id=32970)과 [원문](https://louisabraham.github.io/load-bearing/)은 반복되는 상투어와 과장된 서술을 줄이는 편집 참고 자료로 사용했다. 특정 단어의 유무로 작성 주체를 판정하거나 AI 문체 점수를 매기지는 않는다. “Replay forever” 대신 “Find a path. Run it again.”으로 바꾸고, 설명을 실제 동작과 입력·출력 중심으로 다시 썼다.
 
 Space Grotesk와 Geist의 영문 가변 웹폰트를 Google Fonts에서 받아 직접 제공한다. 각 OFL 라이선스는 `public/fonts/`에 포함한다. 기존 프레임워크 전역 스타일과 패키지는 유지했다.
+
+## 직접 조작과 동기화 데모
+
+2026-09-14 추가 피드백에 따라 동작을 설명하는 모션을 다시 추가했다. `CairnSculpture`는 README 배너에서 재사용한 기존 SVG 도형만 인라인으로 옮겼다. 클릭 또는 키보드 실행으로 돌들이 흩어지고, 클릭 3초 후 아래 돌부터 순서대로 복구된다. 초기 쌓기와 beacon 파동도 제공하며 모션 감소·배경 정지 설정에서는 공간 이동을 생략한다.
+
+`ShopDemo`는 실제 제품 화면을 캡처한 것이 아니라 설명용으로 만든 임시 쇼핑 앱이다. 로그인·Daypack 담기·장바구니 열기와 버튼 변경 예시를 보여준다. 화면 상태, 강조된 코드, 경로 진행은 `lib/demo-state.ts`의 단일 reducer를 사용한다. 코드는 실제 Cairn JSON 스키마가 아닌 동작 요약이며 화면에 “Illustrative code”를 표시한다. 타이머는 연출 간격이지 엔진 성능 수치가 아니다.
+
+엔진 소개의 Aero Shards는 Model → Cairn → Browser 연결도 중심 뒤로 낮게 합성했다. 입출력의 연결선을 함께 표시해 독립적인 장식처럼 보이지 않도록 구성했다. 사용자가 모션과 샘플 UI를 구체적으로 요청했으므로 Hallmark의 장식 억제 기본값보다 이 요청을 우선했다.
