@@ -26,7 +26,7 @@
   position: absolute;
   inset: -5%;
   mix-blend-mode: screen;
-  animation: sky-drift 160s ease-in-out infinite alternate;
+  animation: sky-drift 48s ease-in-out infinite alternate;
   mask-image: linear-gradient(
     to bottom,
     var(--color-mask) 0%,
@@ -36,14 +36,14 @@
 }
 .sky img.faintStars {
   opacity: 0.42;
-  animation: sky-drift-far 240s ease-in-out infinite alternate-reverse;
+  animation: sky-drift-far 72s ease-in-out infinite alternate-reverse;
 }
 @keyframes sky-drift {
   from {
     transform: translate3d(0, 0, 0);
   }
   to {
-    transform: translate3d(-3.2%, 1.4%, 0);
+    transform: translate3d(-4.4%, 1.8%, 0);
   }
 }
 @keyframes sky-drift-far {
@@ -60,15 +60,17 @@
   position: absolute;
   inset-inline: 0;
   inset-block-end: 0;
-  height: clamp(260px, 46vh, 600px);
+  height: clamp(320px, 54vh, 700px);
   overflow: clip;
   pointer-events: none;
   z-index: 0;
   mask-image: linear-gradient(
     to bottom,
     var(--color-clear) 0%,
-    var(--color-mask) 32%,
-    var(--color-mask) 72%,
+    var(--color-mask-soft) 28%,
+    var(--color-mask) 52%,
+    var(--color-mask) 66%,
+    var(--color-mask-soft) 84%,
     var(--color-clear) 100%
   );
 }
@@ -85,16 +87,22 @@
 }
 .mist::before {
   background-image:
-    radial-gradient(58% 52% at 18% 58%, var(--color-mist), var(--color-clear) 70%),
-    radial-gradient(44% 48% at 61% 42%, var(--color-mist-soft), var(--color-clear) 70%),
-    radial-gradient(66% 58% at 88% 64%, var(--color-mist), var(--color-clear) 70%);
-  animation: mist-drift 95s linear infinite;
+    radial-gradient(30% 34% at 6% 58%, var(--color-mist), var(--color-clear) 72%),
+    radial-gradient(24% 30% at 27% 46%, var(--color-mist-soft), var(--color-clear) 72%),
+    radial-gradient(32% 36% at 50% 62%, var(--color-mist), var(--color-clear) 72%),
+    radial-gradient(22% 28% at 72% 50%, var(--color-mist-soft), var(--color-clear) 72%),
+    radial-gradient(26% 32% at 88% 66%, var(--color-mist-soft), var(--color-clear) 72%),
+    radial-gradient(30% 34% at 106% 58%, var(--color-mist), var(--color-clear) 72%);
+  animation: mist-drift 70s linear infinite;
 }
 .mist::after {
   background-image:
-    radial-gradient(50% 44% at 38% 52%, var(--color-mist-soft), var(--color-clear) 70%),
-    radial-gradient(62% 50% at 82% 36%, var(--color-mist-soft), var(--color-clear) 70%);
-  animation: mist-drift 150s linear infinite reverse;
+    radial-gradient(26% 30% at 14% 56%, var(--color-mist-soft), var(--color-clear) 72%),
+    radial-gradient(34% 34% at 40% 66%, var(--color-mist-soft), var(--color-clear) 72%),
+    radial-gradient(22% 26% at 63% 48%, var(--color-mist-soft), var(--color-clear) 72%),
+    radial-gradient(30% 32% at 86% 60%, var(--color-mist-soft), var(--color-clear) 72%),
+    radial-gradient(26% 30% at 114% 56%, var(--color-mist-soft), var(--color-clear) 72%);
+  animation: mist-drift 110s linear infinite reverse;
 }
 @keyframes mist-drift {
   from {
