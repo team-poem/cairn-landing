@@ -2,9 +2,9 @@
 branch: feat/snap-fit
 owner: Gyuhwan_Jeong
 started: 2026-09-16
-status: active          # active | paused(한동안 안 함, 남이 이어받아도 됨) | done(PR 올림)
-goal: 2·3번 섹션이 노트북 화면에서도 한 화면에 들어가게 해 스냅 스크롤이 어디서나 동작하게 한다
-next: app/hallmark.css, app/interactions.css, components/landing/Workflow.tsx, GetStarted.tsx — 레이아웃 압축 + 실측 zoom
+status: done            # active | paused(한동안 안 함, 남이 이어받아도 됨) | done(PR 올림)
+goal: 2·3번 섹션을 한 화면에 맞춰 스냅 스크롤을 완성하고 SEO·AEO 메타데이터를 갖춘다
+next:
 ---
 
 ## 메모
