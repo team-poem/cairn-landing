@@ -399,7 +399,9 @@
   color: var(--store-muted);
 }
 .store-viewport {
-  height: 266px;
+  /* 노트북 높이에서 한 화면에 들어가도록 뷰포트에 비례. 장면 내부는 px 라
+     220px 아래로는 내려가지 않는다 */
+  height: clamp(220px, 28svh, 266px);
   position: relative;
   overflow: clip;
 }

@@ -30,11 +30,14 @@ for item in source.iterdir():
         shutil.copy2(item, target)
 (output / prefix / 'source-sha.txt').write_text(sha + '\n')
 (output / '.nojekyll').touch()
+# robots.txt 는 도메인 루트에서만 읽힌다. 하위 경로 사본을 루트로 올린다.
+shutil.copy2(source / 'robots.txt', output / 'robots.txt')
 (output / 'index.html').write_text('''<!doctype html>
 <html lang="en"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Cairn · Poem</title>
 <link rel="canonical" href="https://team-poem.github.io/cairn-engine/">
+<meta name="description" content="Cairn uses AI to discover a browser task once, saves the steps as JSON, and replays them without model calls.">
 <script>location.replace('/cairn-engine/' + location.search + location.hash);</script>
 <noscript><meta http-equiv="refresh" content="0;url=/cairn-engine/"></noscript>
 </head><body><a href="/cairn-engine/">Continue to Cairn</a></body></html>

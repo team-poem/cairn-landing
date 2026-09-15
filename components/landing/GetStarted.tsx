@@ -5,6 +5,7 @@ import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Button } from '@/components/ui/button';
 import { cairnLinks } from '@/lib/cairn';
 import { useI18n } from './LocaleProvider';
+import { FitToViewport } from './FitToViewport';
 const stages = ['context', 'plan', 'execute', 'judge', 'report'] as const;
 type Stage = (typeof stages)[number];
 const ports = [
@@ -75,7 +76,8 @@ export function GetStarted() {
       id="get-started"
       aria-labelledby="fit-title"
     >
-      <div className="cairn-container start-stack">
+      <div className="cairn-container">
+        <FitToViewport className="start-stack" reserve=".cairn-footer">
         <div className="flow-heading">
           <h2 id="fit-title">
             {t.features.titleTop}
@@ -225,6 +227,7 @@ export function GetStarted() {
             </div>
           </div>
         </Tabs>
+        </FitToViewport>
       </div>
     </section>
   );

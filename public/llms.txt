@@ -1,0 +1,32 @@
+# Cairn
+
+> Cairn (npm: `cairn-engine`) is an open source agentic testing engine by Poem. You describe a browser task in plain language; Cairn uses AI to discover the steps once, freezes them as a JSON file, and replays that file on every later run without calling a model. If the app changes and a step breaks, Cairn repairs only that step with AI and saves the updated path.
+
+Landing page: https://team-poem.github.io/cairn-engine/ (English; Korean at ?lang=ko)
+
+## What it does
+- Discover: turn a task description into concrete browser actions (log in, add to bag, open the cart) and save them as `*.skill.json`.
+- Freeze: keep the path that worked so the next run follows the same steps.
+- Replay: run the saved path deterministically. Basic replay makes no model calls, so it is cheap and stable in CI.
+- Heal: when a selector or button moves, AI finds the new element, repairs that step, and saves the updated path.
+
+## Architecture
+A five-stage pipeline — Context, Plan, Execute, Judge, Report — where anything that varies comes in through a port:
+- ContextProvider: gathers what the run should know (intent now; git diff, ticket, or docs later).
+- Planner: turns intent into a Scenario. A static planner replays a frozen file; an LLM loop discovers a new one.
+- SkillStore: where frozen `*.skill.json` files live (a folder by default, or your own store).
+- Driver: drives the browser and waits for the page to settle. Chrome DevTools ships; bring Playwright or your own.
+- Critic: decides pass or fail from three layers of evidence — execution, perception, logic — not a screenshot guess.
+- Reporter: sends the result anywhere: console, JSON, or your team's tracker.
+
+## Install
+- `npm install -g cairn-engine`
+- `cairn discover "log in, add a daypack, and open the cart" --url=https://your.app --freeze=cart.skill.json`
+
+## Links
+- Repository: https://github.com/team-poem/cairn
+- Guide: https://github.com/team-poem/cairn/blob/main/docs/guide.md
+- Quickstart example: https://github.com/team-poem/cairn/tree/main/examples/quickstart
+- npm: https://www.npmjs.com/package/cairn-engine
+- License: MIT
+- Organization: Poem — https://github.com/team-poem
