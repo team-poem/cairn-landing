@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from 'next';
 import { sitePath } from '@/lib/site-path';
 import { cairnLinks } from '@/lib/cairn';
 import {
+  googleSiteVerification,
   localeUrls,
   ogImage,
   siteDescription,
@@ -80,9 +81,9 @@ export const metadata: Metadata = {
   },
   manifest: sitePath('/manifest.webmanifest'),
   appleWebApp: { capable: true, title: siteName, statusBarStyle: 'black-translucent' },
-  verification: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION
-    ? { google: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION }
-    : undefined,
+  verification: {
+    google: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION || googleSiteVerification,
+  },
   other: { 'msapplication-TileColor': '#0b1019' },
 };
 export const viewport: Viewport = {
