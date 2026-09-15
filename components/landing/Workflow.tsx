@@ -19,6 +19,7 @@ import {
 } from '@/lib/demo-state';
 import { cairnLinks } from '@/lib/cairn';
 import { ShopDemo } from './ShopDemo';
+import { FitToViewport } from './FitToViewport';
 import { useI18n } from './LocaleProvider';
 /* 단계 이름과 명령은 실제 CLI 를 그대로 적은 것이라 언어와 무관하다.
  * 번역되는 것은 설명과 버튼뿐이다. */
@@ -74,6 +75,7 @@ export function Workflow() {
       id="workflow"
       aria-labelledby="workflow-title"
     >
+      <FitToViewport className="flow-fit">
       <div className="flow-heading">
         <h2 id="workflow-title">
           {t.workflow.titleTop}
@@ -182,6 +184,12 @@ export function Workflow() {
                   )}
                 </div>
                 <p className="flow-note">{t.workflow.note}</p>
+                <div className="flow-command">
+                  <span>{isFreeze ? t.workflow.savedAs : t.workflow.tryInTerminal}</span>
+                  <pre>
+                    <code>{item.command}</code>
+                  </pre>
+                </div>
               </div>
               <div className="sync-visuals">
                 <ShopDemo state={state} />
@@ -301,16 +309,11 @@ export function Workflow() {
                         : t.workflow.outputIdle}
                 </output>
               </div>
-              <div className="flow-command">
-                <span>{isFreeze ? t.workflow.savedAs : t.workflow.tryInTerminal}</span>
-                <pre>
-                  <code>{item.command}</code>
-                </pre>
-              </div>
             </TabsContent>
           );
         })}
       </Tabs>
+      </FitToViewport>
     </section>
   );
 }

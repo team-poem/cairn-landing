@@ -479,17 +479,19 @@ body {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  min-height: 100svh;
+  /* 헤더 아래에 스냅되므로 헤더를 뺀 높이가 한 화면이다. 내용이 이보다
+     길면 FitToViewport 가 zoom 으로 맞춘다 */
+  min-height: calc(100svh - var(--header-height));
   /* padding 은 시각적 여백일 뿐 스냅 정지 위치는 안 바꾼다. 아래에서 위로
      스크롤하면 헤더 높이만큼 잘려 보이던 것도 이걸로 고친다. */
   scroll-margin-top: var(--header-height);
-  padding-block: var(--space-lg) var(--space-3xl);
+  padding-block: var(--space-md) var(--space-lg);
 }
 .flow-heading {
   display: grid;
   grid-template-columns: minmax(0, 1fr);
   gap: var(--space-md);
-  margin-bottom: var(--space-xl);
+  margin-bottom: var(--space-lg);
 }
 .flow-heading h2,
 .engine-intro h2 {
@@ -742,7 +744,9 @@ body {
 }
 .flow-command {
   min-width: 0;
+  margin-top: var(--space-md);
   padding: var(--space-md) 0 0;
+  border-top: 1px solid var(--color-rule);
 }
 .flow-command > span {
   display: block;
@@ -756,6 +760,7 @@ body {
   overflow-wrap: anywhere;
   color: var(--color-ink);
   margin: 0;
+  min-height: calc(1.75em * 2);
 }
 .engine-intro > p {
   margin: var(--space-md) 0;
@@ -772,17 +777,24 @@ body {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  min-height: calc(100svh - 12rem);
+  /* 마지막 칸 = 헤더 + 이 섹션 + 푸터(약 12rem). 내용이 길면 FitToViewport 가
+     푸터 높이까지 빼고 zoom 으로 맞춘다 */
+  min-height: calc(100svh - var(--header-height) - 12rem);
   background: var(--color-paper-2);
   scroll-margin-top: var(--header-height);
-  padding-block: var(--space-md) var(--space-xl);
+  padding-block: var(--space-md) var(--space-md);
 }
 .cairn-footer {
   scroll-snap-align: end;
 }
+/* 세로 flex 안에서 margin auto 인 컨테이너는 stretch 가 풀려 내용 폭으로
+   줄어든다. zoom 을 걸면 그 폭이 더 좁게 잡히므로 폭을 못 박는다 */
+.start-section > .cairn-container {
+  width: 100%;
+}
 .start-stack {
   display: grid;
-  gap: var(--space-xl);
+  gap: var(--space-md);
 }
 .fit-grid {
   display: grid;
@@ -818,8 +830,8 @@ body {
     gap: 8px;
   }
   .flow-tab[data-slot='tabs-trigger'] {
-    min-height: 78px;
-    padding: 16px 12px;
+    min-height: 64px;
+    padding: 12px;
   }
   .flow-tab-description {
     display: block;
@@ -836,10 +848,10 @@ body {
     grid-template-columns: minmax(0, 1fr) minmax(0, 0.75fr);
     gap: var(--space-3xl);
     align-items: end;
-    margin-bottom: var(--space-xl);
+    margin-bottom: var(--space-md);
   }
   .flow-workbench[data-slot='tabs'] {
-    padding: var(--space-lg);
+    padding: var(--space-md);
   }
   .flow-tab[data-slot='tabs-trigger'] {
     padding: 18px;
@@ -855,13 +867,24 @@ body {
   .flow-panel[data-slot='tabs-content'] {
     grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
     gap: var(--space-lg) var(--space-2xl);
-    padding: var(--space-xl) var(--space-sm) var(--space-sm);
-    /* 두 칸으로 나뉘면 세로로 훨씬 짧아도 된다 */
-    min-height: 620px;
+    padding: var(--space-md) var(--space-sm) var(--space-sm);
+    /* 두 칸이면 각 부분의 최소 높이만으로 안정된다. 큰 min-height 는
+       한 화면 예산을 잡아먹는다 */
+    min-height: 0;
   }
-  .flow-command {
-    grid-column: 1/-1;
-    border-top: 1px solid var(--color-rule);
+  /* 코드와 경로를 옆으로 놓아 세로를 아낀다. 샘플 앱과 출력은 전폭 */
+  .sync-visuals {
+    display: grid;
+    grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+    column-gap: var(--space-md);
+    align-items: start;
+  }
+  .sync-visuals > .sample-app,
+  .sync-visuals > .flow-output {
+    grid-column: 1 / -1;
+  }
+  .sync-visuals > .sync-path {
+    margin-top: 20px;
   }
   .flow-trace {
     min-height: 330px;
@@ -981,7 +1004,7 @@ body {
   min-width: 0;
 }
 .engine-port[data-slot='tabs-trigger'] {
-  min-height: 60px;
+  min-height: 52px;
 }
 .engine-stage-panel {
   display: grid;
@@ -1105,7 +1128,10 @@ body {
   align-content: start;
   gap: 10px;
   min-width: 0;
-  max-width: 44rem;
+}
+/* 재생 버튼은 출력 박스의 오른쪽 끝에 맞춘다 */
+.engine-output > .flow-actions {
+  justify-content: flex-end;
 }
 /* 재생하는 동안 로그 줄이 하나씩 늘어나면서 min-height 를 넘겨 박스가
    자꾸 커졌다. 다섯 단계 + 완료 문구까지 다 들어갈 높이를 처음부터
@@ -1113,8 +1139,8 @@ body {
 .engine-log {
   display: grid;
   align-content: start;
-  gap: 6px;
-  min-height: 13em;
+  gap: 4px;
+  min-height: 12em;
   padding: var(--space-sm) var(--space-md);
   font: 400 var(--text-sm) / 1.7 var(--font-code);
   color: var(--color-ink-2);
@@ -1166,15 +1192,28 @@ body {
 }
 @media (min-width: 60rem) {
   .engine-workbench[data-slot='tabs'] {
-    grid-template-columns: minmax(0, 0.34fr) minmax(0, 1fr);
+    grid-template-columns: minmax(0, 0.5fr) minmax(0, 1fr);
+    grid-template-rows: auto auto;
     column-gap: var(--space-xl);
-  }
-  .engine-port-list[data-slot='tabs-list'] {
-    grid-template-columns: minmax(0, 1fr);
+    row-gap: var(--space-md);
     align-content: start;
   }
+  /* 포트 여섯을 두 줄씩 세 단으로. 한 줄 목록은 왼쪽 열만 길어져
+     한 화면 예산을 넘긴다 */
+  .engine-port-list[data-slot='tabs-list'] {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-row: 1;
+    align-content: start;
+  }
+  /* 설치 블록은 왼쪽 열 아래로. 전폭 한 줄을 없애 세로를 아낀다 */
+  .engine-stage-panel {
+    grid-column: 2;
+    grid-row: 1 / span 2;
+  }
     .engine-install {
-    grid-column: 1 / -1;
+    grid-column: 1;
+    grid-row: 2;
+    margin-top: 0;
   }
 }
 
@@ -1242,5 +1281,59 @@ body {
   }
   .footer-bar {
     flex-direction: column;
+  }
+}
+
+/* ── 한 화면 맞춤(60rem 이상): 3번 섹션과 푸터가 마지막 스냅 칸을 나눠 쓴다.
+   푸터는 한 줄 바로, 작업대는 여백을 줄인다. 값은 1440×900 기준으로 잰 것 ── */
+@media (min-width: 60rem) {
+  .start-stack > .flow-heading {
+    margin-bottom: 0;
+  }
+  .engine-port[data-slot='tabs-trigger'] {
+    min-height: 0;
+    padding: 8px 12px;
+  }
+  .engine-stage-panel {
+    gap: var(--space-md);
+  }
+  .pipe-stage {
+    padding: 10px 12px;
+  }
+  .pipe-note {
+    min-height: calc(1.6em * 2);
+  }
+  .engine-log {
+    min-height: 11em;
+  }
+  .engine-install {
+    gap: 8px;
+    padding-top: var(--space-sm);
+  }
+  .cairn-footer {
+    padding-block: var(--space-md);
+  }
+  .footer-grid {
+    grid-template-columns: minmax(0, 1fr) auto auto;
+    align-items: center;
+    column-gap: var(--space-xl);
+  }
+  .footer-masthead > a {
+    font-size: 2.5rem;
+  }
+  .footer-column {
+    grid-auto-flow: column;
+    align-items: center;
+    column-gap: var(--space-md);
+  }
+  .footer-column > span {
+    margin-bottom: 0;
+  }
+  .footer-column a {
+    min-height: 28px;
+  }
+  .footer-bar {
+    margin-top: var(--space-sm);
+    padding-top: 10px;
   }
 }
