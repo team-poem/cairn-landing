@@ -23,6 +23,8 @@ export const siteKeywords = [
   'open source testing engine',
   'Poem',
 ];
+/* Google Search Console 소유 확인 토큰. 공개 HTML 에 나가는 값이라 비밀이 아니다 */
+export const googleSiteVerification = 'vQDnzyzaFS-A-0oxmAM_wkrKRCdFXy8AlVfTkgmtjVY';
 export const publishedAt = '2026-09-14';
 export const modifiedAt = '2026-09-16';
 export const ogImage = { url: `${siteUrl}/og.png`, width: 1200, height: 630 };
