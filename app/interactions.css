@@ -14,6 +14,14 @@
   transform-origin: center;
   transition: opacity 500ms var(--ease-out);
 }
+/* 대기 상태의 호버 들림은 transition 으로 부드럽게 잇는다. 무너짐·복구는
+   keyframe 애니메이션이 transform 을 직접 몰기 때문에 여기서 제외한다 —
+   같이 걸면 두 제어가 충돌해 오히려 끊겨 보인다. */
+.cairn-sculpture[data-stage='ready'] .stone {
+  transition:
+    opacity 500ms var(--ease-out),
+    transform 320ms var(--ease-out);
+}
 /* 위 돌일수록 멀리 날아가고 높이 튕긴다. --order 는 아래(0)에서 위(4). */
 .sculpture-art .s1 {
   --fall-x: -24px;

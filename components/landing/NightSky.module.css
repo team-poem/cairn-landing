@@ -13,11 +13,15 @@
   object-position: center top;
   opacity: 0.65;
   transform-origin: center top;
+  /* .ridge 는 night-opening 높이의 58% 를 차지해 산이 42% 지점부터
+     시작된다. 별 마스크가 74% 까지 그대로였던 탓에 산 위쪽 전체에서
+     별이 아무 감쇠 없이 그대로 비쳤다. 산이 시작되는 지점부터 옅어지게
+     당긴다. */
   mask-image: linear-gradient(
     to bottom,
     var(--color-mask) 0%,
-    var(--color-mask) 74%,
-    var(--color-clear) 100%
+    var(--color-mask) 40%,
+    var(--color-clear) 70%
   );
 }
 /* 하늘 전체가 아주 천천히 흐른다. 가장자리가 비지 않게 조금 크게 깐다.
@@ -27,11 +31,14 @@
   inset: -5%;
   mix-blend-mode: screen;
   animation: sky-drift 48s ease-in-out infinite alternate;
+  /* 안개가 짙어지는 구간(대략 40~70%)과 겹치는 폭을 줄인다. 파란
+     반투명 레이어 두 개가 screen 으로 같은 구간에 쌓이면 청록빛으로
+     보일 수 있다. */
   mask-image: linear-gradient(
     to bottom,
     var(--color-mask) 0%,
-    var(--color-mask) 66%,
-    var(--color-mask-soft) 100%
+    var(--color-mask) 30%,
+    var(--color-clear) 52%
   );
 }
 .galaxyScale {
@@ -42,7 +49,7 @@
 }
 .sky img.faintStars {
   opacity: 0.42;
-  animation: sky-drift-far 72s ease-in-out infinite alternate-reverse;
+  animation: sky-drift-far 40s ease-in-out infinite alternate-reverse;
 }
 @keyframes sky-drift {
   from {
@@ -57,7 +64,7 @@
     transform: translate3d(0, 0, 0) scale(1.06);
   }
   to {
-    transform: translate3d(1.6%, -0.6%, 0) scale(1.06);
+    transform: translate3d(3.2%, -1.3%, 0) scale(1.06);
   }
 }
 /* 산 위를 지나는 안개. 두 겹이 다른 속도·방향으로 흘러 겹친다.
@@ -93,20 +100,23 @@
   width: 200%;
   background-repeat: repeat-x;
   will-change: transform;
+  /* screen 블렌드로 파란 반투명 레이어가 겹치면 청록/녹색 쪽으로 틀어져
+     보일 수 있다. 채도를 낮춰 여지를 줄인다. */
+  filter: saturate(0.55);
 }
 /* 두 장의 노이즈 비트맵이 다른 크기·속도·방향으로 겹쳐 형태가 계속 바뀐다.
    SVG 필터 배경은 Chrome 이 GPU 타일마다 다시 래스터해 사각 띠가 생긴다. */
 .mist::before {
   background-image: url('/cairn-mist-a.png');
   background-size: 50% 100%;
-  opacity: 0.6;
-  animation: mist-drift 80s linear infinite;
+  opacity: 1;
+  animation: mist-drift 21s linear infinite;
 }
 .mist::after {
   background-image: url('/cairn-mist-b.png');
   background-size: 40% 100%;
-  opacity: 0.45;
-  animation: mist-drift 125s linear infinite reverse;
+  opacity: 0.8;
+  animation: mist-drift 33s linear infinite reverse;
 }
 @keyframes mist-drift {
   from {

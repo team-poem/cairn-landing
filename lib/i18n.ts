@@ -74,7 +74,7 @@ const en = {
       },
       heal: {
         label: 'Repair a change',
-        subtitle: 'The cart button moved.',
+        subtitle: 'The button moved?',
         description:
           'The first two steps still work. AI finds the new “View bag” button, repairs the last step, and saves the updated path.',
         action: 'Repair the step',
@@ -251,10 +251,10 @@ const ko: Copy = {
     eyebrow: ', 에이전틱 테스팅 엔진.',
     nameMeaning:
       '케언(cairn)은 산길에 길을 표시하려고 쌓아 둔 돌무더기입니다. 이 케언은 앱을 지나는 경로를 찾아 표시해 두고, 다음 실행이 그 길을 따라가게 합니다.',
-    titleTop: '경로를 찾고,',
-    titleBottom: '다시 실행한다.',
+    titleTop: 'Find a path.',
+    titleBottom: 'Run it again.',
     description:
-      '브라우저에서 할 일을 설명하면 Cairn이 AI로 단계를 찾아 JSON으로 저장하고, 다음부터는 모델 호출 없이 그대로 실행합니다.',
+      '테스트 케이스를 설명하면 Cairn이 AI로 단계를 찾아 JSON으로 저장합니다. 저장된 이후에는 신규 호출 없이 재실행됩니다.',
     primary: '실행 보기',
     secondary: '가이드 읽기',
     footnote: '기본 재생은 모델을 호출하지 않습니다.',
@@ -273,37 +273,37 @@ const ko: Copy = {
     repairing: '균형을 다시 잡는 중입니다.',
   },
   workflow: {
-    titleTop: '브라우저 작업을,',
-    titleBottom: '한 단계씩.',
-    lead: '하나의 작업을 세 화면으로 봅니다. 샘플 앱, 지금 실행 중인 동작, 그리고 뒤에 남는 경로를 함께 따라가세요.',
+    titleTop: 'Cairn 테스팅 작업,',
+    titleBottom: 'step by step.',
+    lead: '샘플 화면에서 실행 중인 동작과 경로를 확인해 보세요.',
     tabsLabel: 'Cairn 작업 단계',
     phases: {
       discover: {
-        label: '단계 찾기',
-        subtitle: '할 일에서 시작합니다.',
+        label: '경로 분석',
+        subtitle: '테스트 케이스 하나로 시작합니다.',
         description:
-          '무엇을 할지 알려주세요. 로그인하고, 데이팩을 담고, 장바구니를 여는 과정을 볼 수 있습니다. 각 동작은 저장할 수 있는 단계가 됩니다.',
+          '무엇을 할지 알려주세요. 로그인하고 데이팩을 담고 장바구니를 여는 과정을 지켜보세요. 각 동작이 저장할 수 있는 단계가 됩니다.',
         action: '탐색 실행',
       },
       freeze: {
         label: '경로 저장',
-        subtitle: '된 것을 남깁니다.',
+        subtitle: '성공한 케이스를 남깁니다.',
         description:
-          '작업이 끝났습니다. Cairn이 단계를 JSON으로 저장해 다음 실행이 같은 경로를 따라가게 합니다.',
-        action: '파일로 재생',
+          '테스트가 성공했습니다. Cairn이 JSON으로 경로를 freeze하여 해당 케이스를 저장합니다.',
+        action: '파일 재생',
       },
       replay: {
-        label: '다시 실행',
+        label: '재실행',
         subtitle: '저장된 단계를 따라갑니다.',
         description:
-          '기록된 경로 그대로 같은 작업이 실행됩니다. 화면과 동작 목록, 경로가 함께 움직입니다. 기본 재생은 모델을 호출하지 않습니다.',
+          '기록된 경로 그대로 같은 작업이 실행됩니다. 화면과 동작 목록, 경로가 함께 움직입니다. 재실행에서는 모델을 호출하지 않습니다.',
         action: '재생하기',
       },
       heal: {
-        label: '변경 복구',
-        subtitle: '장바구니 버튼이 바뀌었습니다.',
+        label: '자가 치유',
+        subtitle: '버튼의 위치가 바뀌었다구요?',
         description:
-          '앞의 두 단계는 그대로 동작합니다. AI가 새 “View bag” 버튼을 찾아 마지막 단계를 고치고, 바뀐 경로를 저장합니다.',
+          '앞의 두 경로는 그대로 동작합니다. AI가 새 “View bag” 버튼을 찾아 마지막 경로를 고치고, 바뀐 경로를 저장합니다.',
         action: '단계 복구',
       },
     },
@@ -326,7 +326,7 @@ const ko: Copy = {
     savedSummary: '저장된 동작 요약',
     actionTrace: '동작 기록',
     illustrative: '설명용 코드',
-    codeLabel: '데모와 함께 움직이는 동작 목록',
+    codeLabel: '데모에 맞춰 움직이는 동작 목록',
     running: '실행 중',
     ready: '대기',
     completedLabel: '완료됨',
@@ -361,9 +361,9 @@ const ko: Copy = {
     cursorViewBag: 'View bag',
   },
   features: {
-    titleTop: '쓰던 도구 그대로,',
-    titleBottom: '그 아래에 Cairn.',
-    lead: '터미널에서 돌리거나, CI 에 넣거나, 직접 만드는 도구 안에 심습니다. 달라지는 것은 전부 포트로 들어옵니다.',
+    titleTop: '당신의 개발환경 아래에서,',
+    titleBottom: 'Cairn의 파이프라인.',
+    lead: '터미널에서 바로 실행하거나 CI에 연동하거나, 직접 만든 도구 안에 심어서 쓸 수 있습니다. 달라지는 부분은 모두 포트를 통해 자유롭게 바꿀 수 있습니다.',
     link: '엔진 API 살펴보기',
     pipelineLabel: '파이프라인',
     stages: {
@@ -389,7 +389,7 @@ const ko: Copy = {
       },
       Driver: {
         stage: 'execute',
-        description: '브라우저를 움직이고 화면이 안정될 때까지 기다립니다. Chrome DevTools 가 기본, Playwright 나 직접 만든 드라이버도 됩니다.',
+        description: '화면을 움직이고 안정될 때까지 기다립니다. Chrome DevTools 가 기본, Playwright 나 직접 만든 드라이버도 됩니다.',
       },
       Critic: {
         stage: 'judge',
@@ -409,7 +409,7 @@ const ko: Copy = {
     runAgain: '다시 실행',
     reset: '초기화',
     outputLabel: '출력',
-    idle: '저장된 시나리오를 파이프라인에 흘려 봅니다.',
+    idle: '저장된 시나리오를 파이프라인에 흘려 보세요.',
     stageOutput: {
       context: 'Context — cart.skill.json 로드',
       plan: 'Plan — 6단계, 모델 없음',

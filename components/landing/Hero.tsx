@@ -30,7 +30,9 @@ export function Hero() {
     <section className="night-opening" id="top" aria-labelledby="hero-title">
       <GalaxyBackdrop animated={animated} />
       <div className="night-composition cairn-container">
-        <CairnSculpture animated={animated} />
+        {/* 돌탑의 무너짐·복구는 "Pause sky"(하늘만 멈추는 버튼)와 별개다.
+            OS 의 실제 동작 줄이기 설정에만 반응한다. */}
+        <CairnSculpture animated={!reducedMotion} />
         <div className="night-copy">
           <p className="night-eyebrow">
             <TooltipProvider>
