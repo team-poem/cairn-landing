@@ -24,11 +24,22 @@ export const siteKeywords = [
   'Poem',
 ];
 /* Google Search Console 소유 확인 토큰. 공개 HTML 에 나가는 값이라 비밀이 아니다 */
-export const googleSiteVerification = 'vQDnzyzaFS-A-0oxmAM_wkrKRCdFXy8AlVfTkgmtjVY';
+export const googleSiteVerification =
+  'vQDnzyzaFS-A-0oxmAM_wkrKRCdFXy8AlVfTkgmtjVY';
 export const publishedAt = '2026-09-14';
-export const modifiedAt = '2026-09-16';
+export const modifiedAt = '2026-09-28';
 export const ogImage = { url: `${siteUrl}/og.png`, width: 1200, height: 630 };
 export const localeUrls = {
   en: `${siteUrl}/`,
-  ko: `${siteUrl}/?lang=ko`,
+  ko: `${siteUrl}/ko/`,
+} as const;
+
+export const localizedSeo = {
+  en: { title: siteTitle, description: siteDescription, ogLocale: 'en_US' },
+  ko: {
+    title: 'Cairn | AI로 경로를 찾고, 모델 호출 없이 다시 실행하세요',
+    description:
+      '테스트 케이스를 설명하면 Cairn이 AI로 실행 경로를 찾아 JSON으로 저장합니다. 저장한 경로는 모델 호출 없이 재실행하고, 실패한 경로는 AI로 복구하는 오픈 소스 에이전틱 테스팅 엔진입니다.',
+    ogLocale: 'ko_KR',
+  },
 } as const;
