@@ -1,0 +1,14 @@
+import type { Viewport } from 'next';
+import { metadataFor } from '@/lib/metadata';
+import { LandingDocument } from '@/components/landing/LandingDocument';
+
+export const metadata = metadataFor('ko');
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  themeColor: '#0b1019',
+  colorScheme: 'dark',
+};
+export default function Layout({ children }: { children: React.ReactNode }) {
+  return <LandingDocument locale="ko">{children}</LandingDocument>;
+}

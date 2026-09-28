@@ -2,7 +2,8 @@
 
 > Cairn (npm: `cairn-engine`) is an open source agentic testing engine by Poem. You describe a browser task in plain language; Cairn uses AI to discover the steps once, freezes them as a JSON file, and replays that file on every later run without calling a model. If the app changes and a step breaks, Cairn repairs only that step with AI and saves the updated path.
 
-Landing page: https://team-poem.github.io/cairn-engine/ (English; Korean at ?lang=ko)
+Landing page: https://team-poem.github.io/cairn-engine/ (English)
+Korean landing page: https://team-poem.github.io/cairn-engine/ko/
 
 ## What it does
 - Discover: turn a task description into concrete browser actions (log in, add to bag, open the cart) and save them as `*.skill.json`.
