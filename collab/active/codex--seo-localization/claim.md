@@ -2,7 +2,7 @@
 branch: codex/seo-localization
 owner: Gyuhwan_Jeong
 started: 2026-09-28
-status: active
+status: done
 goal: 한국어 정적 페이지와 검색 메타데이터를 일치시키고 SEO·AI 검색 기반을 검증한다
 next: app/layout.tsx, components/landing/LocaleProvider.tsx, lib/site.ts, 검색 검증 CI
 ---

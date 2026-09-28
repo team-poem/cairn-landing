@@ -10,7 +10,7 @@ prefix = 'cairn-engine'
 sha = os.environ.get('SOURCE_SHA', '')
 if not re.fullmatch(r'[0-9a-f]{40}', sha):
     raise SystemExit('SOURCE_SHA에 배포할 40자리 커밋 SHA가 필요합니다.')
-for name in ('index.html', 'index.rsc', '404.html'):
+for name in ('index.html', 'index.rsc', 'ko.html', 'ko.rsc', '404.html'):
     if not (source / name).is_file():
         raise SystemExit(f'정적 페이지가 없습니다: {name}')
 if not (source / prefix / '_next/static').is_dir():
@@ -28,6 +28,13 @@ for item in source.iterdir():
         shutil.copytree(item, target)
     else:
         shutil.copy2(item, target)
+# vinext beta의 trailingSlash=true 프리렌더는 /ko를 누락한다.
+# 기본 flat export를 유지하고 Pages가 /ko/를 직접 제공하도록 배치한다.
+korean = output / prefix / 'ko'
+korean.mkdir()
+(output / prefix / 'ko.html').replace(korean / 'index.html')
+# RSC 라우터의 /ko.rsc 주소도 유지한다.
+shutil.copy2(output / prefix / 'ko.rsc', korean / 'index.rsc')
 (output / prefix / 'source-sha.txt').write_text(sha + '\n')
 (output / '.nojekyll').touch()
 # robots.txt 는 도메인 루트에서만 읽힌다. 하위 경로 사본을 루트로 올린다.
