@@ -1,7 +1,7 @@
 # Cairn Landing
 
 Poem의 브라우저 테스트 엔진 [Cairn](https://github.com/team-poem/cairn)을 소개하는 영문 랜딩입니다.
-협업 하네스 v0.0.8을 실제 팀 개발에 적용하는 첫 프로젝트입니다.
+협업 하네스 v0.0.9을 실제 팀 개발에 적용하는 첫 프로젝트입니다.
 
 ## 실행
 
