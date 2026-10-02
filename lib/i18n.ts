@@ -173,7 +173,7 @@ const en = {
       Critic: {
         stage: 'judge',
         description:
-          'Evaluates execution, perception, and logic. Custom checks can be inconclusive when evidence is missing; missing proof is not a pass.',
+          'Judges execution and logic evidence. Screenshots support records and custom checks. Missing proof can be inconclusive, not a pass.',
       },
       Reporter: {
         stage: 'report',
@@ -397,7 +397,7 @@ const ko: Copy = {
       },
       Critic: {
         stage: 'judge',
-        description: '실행·인식·로직의 증거로 판정합니다. 근거가 부족한 custom check는 inconclusive로 남으며, 통과로 처리하지 않습니다.',
+        description: '실행·로직 증거로 판정합니다. 스크린샷은 기록과 사용자 정의 검사에 활용합니다. 근거가 부족하면 inconclusive로 남으며, 통과로 처리하지 않습니다.',
       },
       Reporter: {
         stage: 'report',

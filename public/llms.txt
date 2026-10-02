@@ -17,7 +17,7 @@ A five-stage pipeline — Context, Plan, Execute, Judge, Report — where anythi
 - Planner: turns intent into a Scenario. A static planner replays a frozen file; an LLM loop discovers a new one.
 - SkillStore: where frozen `*.skill.json` files live (a folder by default, or your own store).
 - Driver: drives the browser and waits for the page to settle. Chrome DevTools ships; bring Playwright or your own.
-- Critic: decides pass or fail from three layers of evidence — execution, perception, logic — not a screenshot guess.
+- Critic: built-in critics judge execution and logic evidence. Screenshots are captured for records and host-defined custom checks, not judged by built-in critics. Custom checks with insufficient evidence can be inconclusive; missing proof is not a pass.
 - Reporter: sends the result anywhere: console, JSON, or your team's tracker.
 
 ## Install
