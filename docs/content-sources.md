@@ -2,7 +2,7 @@
 
 2026-09-14에 `team-poem/cairn` 공식 README와 `banner.svg`를 확인했습니다.
 
-- [README](https://github.com/team-poem/cairn): discover → freeze → replay → heal, CLI 명령, Node 20 이상과 Chrome 요구사항.
+- [README](https://github.com/team-poem/cairn): discover → freeze → replay → heal, CLI 명령과 Chrome 요구사항. 최신 quickstart의 Node 요구사항은 아래 2.9.3 확인 기록을 따른다.
 - [가이드](https://github.com/team-poem/cairn/blob/main/docs/guide.md): 시작하기 및 엔진 임베드 링크.
 - [quickstart](https://github.com/team-poem/cairn/tree/main/examples/quickstart): 실행 예제.
 - [README 배너](https://github.com/team-poem/cairn/blob/main/banner.svg): 짙은 밤하늘, 능선, 회청색 돌무더기, 황금색 꼭대기 돌과 파동, 이동하는 경로. 황금색 탐색·복구와 민트색 재생을 랜딩 전체로 확장했다.
@@ -44,3 +44,15 @@ Space Grotesk와 Geist의 영문 가변 웹폰트를 Google Fonts에서 받아 �
 `ShopDemo`는 실제 제품 화면을 캡처한 것이 아니라 설명용으로 만든 임시 쇼핑 앱이다. 로그인·Daypack 담기·장바구니 열기와 버튼 변경 예시를 보여준다. 화면 상태, 강조된 코드, 경로 진행은 `lib/demo-state.ts`의 단일 reducer를 사용한다. 코드는 실제 Cairn JSON 스키마가 아닌 동작 요약이며 화면에 “Illustrative code”를 표시한다. 타이머는 연출 간격이지 엔진 성능 수치가 아니다.
 
 엔진 소개의 Aero Shards는 Model → Cairn → Browser 연결도 중심 뒤로 낮게 합성했다. 입출력의 연결선을 함께 표시해 독립적인 장식처럼 보이지 않도록 구성했다. 사용자가 모션과 샘플 UI를 구체적으로 요청했으므로 Hallmark의 장식 억제 기본값보다 이 요청을 우선했다.
+
+
+## 2026-10-02 · Cairn 2.9.3 확인
+
+[v2.9.3 README](https://github.com/team-poem/cairn/blob/v2.9.3/README.md)와 [quickstart](https://github.com/team-poem/cairn/blob/v2.9.3/examples/quickstart/README.md)를 기준으로 영문·한국어 안내를 갱신했다.
+
+- 복구는 opt-in이며 검증을 통과한 경우에만 변경된 경로를 저장한다. 앱 오류와 증거 부족은 자동 복구·성공 처리의 근거가 아니다.
+- custom check는 근거가 부족하면 inconclusive로 남을 수 있다. 파이프라인 연출의 성공 로그는 단순 페이지 도착이 아닌 저장된 assertion 검증을 가리킨다.
+- 계정 없는 quickstart는 고정 응답 4개와 실제 Chrome으로 탐색·저장·재생 구조를 확인한다. 모델 탐색 품질을 측정한 예제가 아니다. Node 20.x는 20.19+, 22.x는 22.12+, 23+가 필요하다. 설치·포트 등 상세 준비 사항은 연결된 문서를 따른다.
+- Workflow 제목 옆의 [실제 실행 데모](https://cairn-order-demo.vercel.app)는 기록된 2.9.2 엔진 실행이다. 실시간 모델 서비스가 아니며 합성 주문, 네트워크 증거 보존 제한과 재현 안내는 데모 및 공식 README에 공개되어 있다. 랜딩 안의 설명용 Workflow와 구분한다.
+- 호출 수 그래프는 랜딩에 추가하지 않았다. 나중에 사용한다면 모델별 6회 실행의 기존 측정(42회 대 7회), 합계·평균 아님, 비용·품질 보장 아님을 함께 명시한다.
+- Jev pilot과 앱 컨텍스트 PoC를 기본 공개 기능으로 홍보하지 않는다.

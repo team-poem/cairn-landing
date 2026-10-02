@@ -1,6 +1,6 @@
 # Cairn
 
-> Cairn (npm: `cairn-engine`) is an open source agentic testing engine by Poem. You describe a browser task in plain language; Cairn uses AI to discover the steps once, freezes them as a JSON file, and replays that file on every later run without calling a model. If the app changes and a step breaks, Cairn repairs only that step with AI and saves the updated path.
+> Cairn (npm: `cairn-engine`) is an open source agentic testing engine by Poem. You describe a browser task in plain language; Cairn uses AI to discover the steps once, freezes them as a JSON file, and replays that file on every later run without calling a model. When repair is explicitly enabled, Cairn attempts to repair a changed step with AI and saves the updated path only after verification. Application defects remain failures.
 
 Landing page: https://team-poem.github.io/cairn-engine/ (English)
 Korean landing page: https://team-poem.github.io/cairn-engine/ko/
@@ -9,7 +9,7 @@ Korean landing page: https://team-poem.github.io/cairn-engine/ko/
 - Discover: turn a task description into concrete browser actions (log in, add to bag, open the cart) and save them as `*.skill.json`.
 - Freeze: keep the path that worked so the next run follows the same steps.
 - Replay: run the saved path deterministically. Basic replay makes no model calls, so it is cheap and stable in CI.
-- Heal: when a selector or button moves, AI finds the new element, repairs that step, and saves the updated path.
+- Heal: opt-in AI repair for UI changes; save the updated path only after verification. Missing evidence in custom checks can be inconclusive and is not a pass.
 
 ## Architecture
 A five-stage pipeline — Context, Plan, Execute, Judge, Report — where anything that varies comes in through a port:
@@ -17,7 +17,7 @@ A five-stage pipeline — Context, Plan, Execute, Judge, Report — where anythi
 - Planner: turns intent into a Scenario. A static planner replays a frozen file; an LLM loop discovers a new one.
 - SkillStore: where frozen `*.skill.json` files live (a folder by default, or your own store).
 - Driver: drives the browser and waits for the page to settle. Chrome DevTools ships; bring Playwright or your own.
-- Critic: decides pass or fail from three layers of evidence — execution, perception, logic — not a screenshot guess.
+- Critic: built-in critics judge execution and logic evidence. Screenshots are captured for records and host-defined custom checks, not judged by built-in critics. Custom checks with insufficient evidence can be inconclusive; missing proof is not a pass.
 - Reporter: sends the result anywhere: console, JSON, or your team's tracker.
 
 ## Install
@@ -31,3 +31,6 @@ A five-stage pipeline — Context, Plan, Execute, Judge, Report — where anythi
 - npm: https://www.npmjs.com/package/cairn-engine
 - License: MIT
 - Organization: Poem — https://github.com/team-poem
+
+- [Recorded engine demo](https://cairn-order-demo.vercel.app): synthetic order journey recorded with engine 2.9.2, not live AI calls.
+- The scripted quickstart uses fixed responses and real Chrome without a model account; it checks integration, not model discovery quality. See its README for Node and browser requirements.

@@ -223,7 +223,7 @@ export function GetStarted() {
               <a className="cairn-link" href={cairnLinks.quickstart}>
                 {t.start.secondary} <ArrowUpRight size={16} />
               </a>
-              <span className="start-note">{t.start.note}</span>
+              <span className="start-note">{t.start.leadTop} {t.start.leadBottom} {t.start.note}</span>
             </div>
           </div>
         </Tabs>
