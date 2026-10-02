@@ -1,4 +1,5 @@
 export const cairnLinks = {
+  demo: 'https://cairn-order-demo.vercel.app',
   repository: 'https://github.com/team-poem/cairn',
   guide: 'https://github.com/team-poem/cairn/blob/main/docs/guide.md',
   quickstart:

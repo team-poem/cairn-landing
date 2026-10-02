@@ -503,7 +503,8 @@ body {
   line-height: 1.12;
   margin: 0;
 }
-.flow-heading > p {
+.flow-heading > p,
+.flow-heading-detail > p {
   color: var(--color-ink-2);
   font-size: var(--text-body);
   max-width: 44ch;
@@ -1340,4 +1341,26 @@ body {
     margin-top: var(--space-sm);
     padding-top: 10px;
   }
+}
+
+.flow-heading-detail {
+  display: grid;
+  gap: 8px;
+  min-width: 0;
+}
+.workflow-demo-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  justify-self: start;
+  color: var(--color-ink);
+  text-underline-offset: 4px;
+}
+.workflow-demo-link:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 4px;
+}
+.workflow-demo-note {
+  color: var(--color-ink-2);
+  font-size: 0.75rem;
 }

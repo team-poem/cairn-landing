@@ -82,7 +82,13 @@ export function Workflow() {
           <br />
           {t.workflow.titleBottom}
         </h2>
-        <p>{t.workflow.lead}</p>
+        <div className="flow-heading-detail">
+          <p>{t.workflow.lead}</p>
+          <a className="workflow-demo-link" href={cairnLinks.demo} target="_blank" rel="noopener noreferrer">
+            {t.workflow.demoLink} <ArrowUpRight size={16} aria-hidden="true" />
+          </a>
+          <span className="workflow-demo-note">{t.workflow.demoNote}</span>
+        </div>
       </div>
       <Tabs
         value={state.phase}
