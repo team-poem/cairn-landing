@@ -1364,3 +1364,31 @@ body {
   color: var(--color-ink-2);
   font-size: 0.75rem;
 }
+
+.install-managers {
+  border: 0;
+  margin: 0;
+  padding: 0;
+  min-width: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.install-managers button {
+  border: 1px solid var(--color-paper-3);
+  border-radius: 6px;
+  background: transparent;
+  color: var(--color-ink-2);
+  padding: 6px 12px;
+  font: inherit;
+  font-size: var(--text-xs);
+  cursor: pointer;
+}
+.install-managers button[aria-pressed='true'] {
+  background: var(--color-ink);
+  color: var(--color-paper);
+}
+.install-managers button:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 3px;
+}
