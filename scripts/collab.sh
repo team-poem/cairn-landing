@@ -305,7 +305,24 @@ check)
   printf '%s\n' "$changed" | awk '$1~/^[MD]/{print $2}' | grep -q "^$JOURNAL_DIR/.*\.md$" && V "기존 저널을 수정/삭제함 (append-only)"
   # sobaya 의 브랜치 산출물(spec.md, failed-test.md)이 main 으로 가면 다음 브랜치와 충돌한다
   for f in spec.md failed-test.md; do printf '%s\n' "$files" | grep -qx "$f" && V "$f 가 PR 에 포함됨. handoff 의 'plan 보관' 절차로 collab/journal/plans/ 에 옮기고 루트에서 지울 것"; done
-  others="$(printf '%s\n' "$files" | grep "^$CLAIM_DIR/" | grep -v "^$(claim_dir_for "$branch")/" | grep -v README || true)"; [ -n "$others" ] && V "다른 브랜치의 claim 을 건드림: $(echo "$others" | tr '\n' ' ')"
+  others=""
+  for other in $(printf '%s\n' "$files" | grep "^$CLAIM_DIR/" | grep -v "^$(claim_dir_for "$branch")/" | grep -v README || true); do
+    # 하위 스택 PR을 부모에 먼저 합치면 완료된 하위 claim도 함께 추가된다.
+    # 같은 owner·현재 부모 base·정상 경로인 완료 claim의 신규 추가만 허용한다.
+    # 기존 claim 수정/삭제, active claim, 다른 owner/base는 계속 차단한다.
+    child_branch="$(claim_get "$other" branch)"
+    child_owner="$(claim_get "$other" owner)"
+    if [ "${other##*/}" = claim.md ] && [ -n "$child_branch" ] && [ -n "$child_owner" ] &&
+       [ "$other" = "$(claim_path_for "$child_branch")" ] &&
+       [ "$child_owner" = "$(claim_get "$cp" owner)" ] &&
+       [ "$(claim_get "$other" base)" = "$branch" ] &&
+       [ "$(claim_get "$other" status)" = done ] && [ -n "$(claim_get "$other" goal)" ] &&
+       printf '%s\n' "$changed" | awk -v p="$other" '$1=="A" && $2==p {found=1} END {exit !found}'; then
+      continue
+    fi
+    others="$others $other"
+  done
+  [ -n "$others" ] && V "다른 브랜치의 claim 을 건드림:$others"
   agent=false; g log --format='%(trailers:key=Assisted-by,valueonly)' "$mb..HEAD" 2>/dev/null | grep -q . && agent=true
   # 다른 열린 브랜치와 같은 파일을 바꿨는가 (정보)
   ov=""; _ov() { for f in $(g diff --name-only "$(g merge-base "$base" "$3")" "$3" 2>/dev/null | grep -v '^collab/'); do printf '%s\n' "$files" | grep -qx "$f" && ov="$ov $f(@$(claim_get "$2" owner))"; done; }; for_each_other_claim _ov

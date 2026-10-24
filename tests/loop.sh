@@ -170,4 +170,5 @@ printf '# j\n\n## 이벤트\n- done app/fresh/ 끝\n\n## 남은 것\n- 없음\n'
 out="$(printf '{"stop_hook_active":false}' | hook solp stop)"
 check "stop: 저널을 쓰면 통과"                         "[ -z \"\$out\" ]"
 [ $fail -gt 0 ] && { echo "     진단: branch=$(git rev-parse --abbrev-ref HEAD) 오늘저널=[$(ls collab/journal/$today-solp-*.md 2>/dev/null | tr '\n' ' ')] my_files=[$( . harness/hooks/lib.sh; my_files | tr '\n' ' ' | cut -c1-120)] out=[$out]"; }
+check "완료된 하위 스택 claim 통합과 차단 경계" "sh '$SRC/tests/integrated-claim.sh'"
 echo; echo "통과 $pass / 실패 $fail"; [ $fail -eq 0 ]
