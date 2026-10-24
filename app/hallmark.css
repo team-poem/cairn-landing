@@ -1392,3 +1392,24 @@ body {
   outline: 2px solid var(--color-accent);
   outline-offset: 3px;
 }
+
+/* 검색·문서용 본문은 스냅 랜딩과 별도의 읽기 흐름을 쓴다. */
+html:has(.testing-guide) { scroll-snap-type: none; }
+.testing-guide { max-width: 860px; margin-inline: auto; padding: 28px clamp(20px, 5vw, 56px) 48px; }
+.guide-header { display: flex; justify-content: space-between; align-items: center; gap: 20px; margin-bottom: 56px; }
+.guide-header > a { font-size: 28px; font-weight: 700; }
+.guide-header nav { display: flex; gap: 18px; }
+.guide-header [aria-current='page'] { color: var(--color-accent); }
+.testing-guide h1 { font-size: clamp(32px, 5vw, 52px); line-height: 1.12; letter-spacing: -0.03em; }
+.testing-guide h2 { font-size: clamp(23px, 3vw, 30px); line-height: 1.3; margin: 0 0 18px; }
+.testing-guide h3 { font-size: 18px; line-height: 1.5; margin: 24px 0 8px; }
+.testing-guide p, .testing-guide li { line-height: 1.85; overflow-wrap: anywhere; }
+.testing-guide p { color: var(--color-ink-2); }
+.testing-guide .guide-intro { font-size: 19px; }
+.testing-guide .guide-kicker { color: var(--color-accent); }
+.testing-guide .guide-date, .testing-guide footer { color: var(--color-ink-2); font-size: 13px; }
+.testing-guide section { margin-top: 44px; scroll-snap-align: none; }
+.testing-guide a { text-underline-offset: 4px; }
+.testing-guide article a { text-decoration: underline; }
+.testing-guide article li + li { margin-top: 10px; }
+.testing-guide footer { border-top: 1px solid var(--color-paper-3); margin-top: 48px; padding-top: 24px; }

@@ -1,3 +1,4 @@
+import { StructuredData } from './StructuredData';
 import type { Locale } from '@/lib/i18n';
 import { LocaleProvider } from '@/components/landing/LocaleProvider';
 import { SiteHeader } from '@/components/landing/SiteHeader';
@@ -18,6 +19,7 @@ export function LandingPage({ locale }: { locale: Locale }) {
           <GetStarted />
         </main>
         <SiteFooter />
+        <StructuredData locale={locale} />
       </div>
     </LocaleProvider>
   );
