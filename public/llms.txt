@@ -29,6 +29,11 @@ A five-stage pipeline — Context, Plan, Execute, Judge, Report — where anythi
 - Yarn: `yarn add cairn-engine`, then `yarn exec cairn --help`
 - Example with the npm local CLI: `npx cairn discover "log in, add a daypack, and open the cart" --url=https://your.app --freeze=cart.skill.json`
 
+## Agentic testing reference
+- English: https://team-poem.github.io/cairn-engine/agentic-testing/
+- Korean: https://team-poem.github.io/cairn-engine/ko/agentic-testing/
+These pages define browser agentic testing, its workflow, use cases, model-call boundaries, verification limits, and official sources. They describe testing web applications with an agent, not evaluating an AI model itself.
+
 ## Links
 - Repository: https://github.com/team-poem/cairn
 - Guide: https://github.com/team-poem/cairn/blob/main/docs/guide.md

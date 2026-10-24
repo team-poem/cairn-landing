@@ -1,3 +1,4 @@
+import { guideUrls, testingGuide } from '@/lib/testing-guide';
 import type { Metadata } from 'next';
 import { sitePath } from '@/lib/site-path';
 import { cairnLinks } from '@/lib/cairn';
@@ -99,5 +100,30 @@ export function metadataFor(locale: Locale): Metadata {
         googleSiteVerification,
     },
     other: { 'msapplication-TileColor': '#0b1019' },
+  };
+}
+
+export function guideMetadataFor(locale: Locale): Metadata {
+  const base = metadataFor(locale);
+  const copy = testingGuide[locale];
+  return {
+    ...base,
+    title: { absolute: `${copy.title} | Cairn` },
+    description: copy.description,
+    alternates: {
+      canonical: guideUrls[locale],
+      languages: { ...guideUrls, 'x-default': guideUrls.en },
+    },
+    openGraph: {
+      ...base.openGraph,
+      title: `${copy.title} | Cairn`,
+      description: copy.description,
+      url: guideUrls[locale],
+    },
+    twitter: {
+      ...base.twitter,
+      title: `${copy.title} | Cairn`,
+      description: copy.description,
+    },
   };
 }

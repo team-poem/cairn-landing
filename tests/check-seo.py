@@ -11,6 +11,7 @@ prefix = sys.argv[2] if len(sys.argv) > 2 else ''
 site = root / prefix.lstrip('/')
 base = 'https://team-poem.github.io/cairn-engine/'
 urls = {'en': base, 'ko': base + 'ko/'}
+guide_urls = {'en': base + 'agentic-testing/', 'ko': base + 'ko/agentic-testing/'}
 
 
 class Document(HTMLParser):
@@ -80,7 +81,7 @@ for lang, filename in [('en', 'index.html'), ('ko', 'ko/index.html' if prefix el
     doc = Document(path.read_text())
     require(doc.lang == lang, f'{lang}: html lang 불일치')
     require(doc.title == doc.meta.get('og:title') == doc.meta.get('twitter:title'), f'{lang}: 제목 불일치')
-    require(('모델 호출 없이' if lang == 'ko' else 'Find a path.') in doc.title, f'{lang}: 제목 현지화 누락')
+    require(('에이전틱 테스팅' if lang == 'ko' else 'agentic testing') in doc.title, f'{lang}: 제목 현지화 누락')
     require(doc.h1 == 1, f'{lang}: h1은 하나여야 합니다')
     canonical = [link['href'] for link in doc.links if link.get('rel') == 'canonical']
     require(canonical == [urls[lang]], f'{lang}: canonical 불일치 {canonical}')
@@ -111,18 +112,40 @@ for lang, filename in [('en', 'index.html'), ('ko', 'ko/index.html' if prefix el
     image = doc.meta.get('og:image', '')
     require(image.startswith(base) and (site / image.removeprefix(base)).is_file(), f'{lang}: OG 이미지 누락')
 
+for lang, route in [('en', 'agentic-testing'), ('ko', 'ko/agentic-testing')]:
+    path = site / (route + '/index.html' if prefix else route + '.html')
+    require(path.is_file(), f'{lang}: 안내 정적 HTML 누락 {path}')
+    doc = Document(path.read_text())
+    text = ' '.join(doc.visible)
+    require(doc.lang == lang and doc.h1 == 1, f'{lang}: 안내 언어·제목 오류')
+    require(doc.title == doc.meta.get('og:title') == doc.meta.get('twitter:title'), f'{lang}: 안내 제목 불일치')
+    require(doc.meta.get('description') == doc.meta.get('og:description') == doc.meta.get('twitter:description'), f'{lang}: 안내 설명 불일치')
+    require([link['href'] for link in doc.links if link.get('rel') == 'canonical'] == [guide_urls[lang]], f'{lang}: 안내 canonical 오류')
+    require({link.get('hreflang'): link.get('href') for link in doc.links if link.get('rel') == 'alternate'} == {**guide_urls, 'x-default': guide_urls['en']}, f'{lang}: 안내 hreflang 오류')
+    require(doc.meta.get('og:url') == guide_urls[lang], f'{lang}: 안내 OG URL 오류')
+    require(len(doc.graphs) == 1, f'{lang}: 안내 JSON-LD 누락·중복')
+    entities = {node['@type']: node for node in doc.graphs[0]['@graph']}
+    require({'WebPage', 'TechArticle', 'FAQPage', 'BreadcrumbList'} <= entities.keys(), f'{lang}: 안내 엔티티 누락')
+    require(entities['WebPage']['url'] == guide_urls[lang], f'{lang}: 안내 WebPage가 랜딩 주소를 가리킴')
+    for question in entities['FAQPage']['mainEntity']:
+        require(question['name'] in text and question['acceptedAnswer']['text'] in text, f'{lang}: 화면에 없는 FAQ 구조화 데이터')
+    require('appContext' in text and 'maxModelCalls' in text and '2.9.2' in text, f'{lang}: 검증 범위·기능 본문 누락')
+    home = Document((site / ('index.html' if lang == 'en' else ('ko/index.html' if prefix else 'ko.html'))).read_text())
+    require(any(a.get('href') == prefix + '/' + route + '/' for a in home.anchors), f'{lang}: 랜딩에서 안내로 가는 링크 누락')
+
 ns = {'s': 'http://www.sitemaps.org/schemas/sitemap/0.9', 'x': 'http://www.w3.org/1999/xhtml'}
 entries = ET.parse(site / 'sitemap.xml').getroot().findall('s:url', ns)
-require({e.findtext('s:loc', namespaces=ns) for e in entries} == set(urls.values()), '사이트맵 canonical 불일치')
+require({e.findtext('s:loc', namespaces=ns) for e in entries} == set(urls.values()) | set(guide_urls.values()), '사이트맵 canonical 불일치')
 for entry in entries:
     alternate = {link.attrib['hreflang']: link.attrib['href'] for link in entry.findall('x:link', ns)}
-    require(alternate == {**urls, 'x-default': urls['en']}, '사이트맵 hreflang 불일치')
+    group = guide_urls if entry.findtext('s:loc', namespaces=ns) in guide_urls.values() else urls
+    require(alternate == {**group, 'x-default': group['en']}, '사이트맵 hreflang 불일치')
 robots_path = root / 'robots.txt'
 require(robots_path.is_file(), '루트 robots.txt 누락')
 robots = RobotFileParser()
 robots.parse(robots_path.read_text().splitlines())
 require(base + 'sitemap.xml' in (robots.site_maps() or []), 'robots sitemap 선언 누락')
 for agent in ('Googlebot', 'bingbot', 'OAI-SearchBot', 'Claude-SearchBot', 'PerplexityBot'):
-    require(all(robots.can_fetch(agent, url) for url in urls.values()), f'{agent}: 접근 차단')
+    require(all(robots.can_fetch(agent, url) for url in [*urls.values(), *guide_urls.values()]), f'{agent}: 접근 차단')
 require(urls['ko'] in (site / 'llms.txt').read_text(), 'llms 한국어 주소 불일치')
-print('SEO 검증 통과: EN/KO 정적 본문, canonical, hreflang, OG, JSON-LD, sitemap, robots, llms')
+print('SEO 검증 통과: EN/KO 랜딩·안내 정적 본문·FAQ 일치, canonical, hreflang, OG, JSON-LD, sitemap, robots, llms')

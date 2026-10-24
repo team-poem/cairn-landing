@@ -1,9 +1,10 @@
 'use client';
 import { ArrowUpRight } from 'lucide-react';
+import { sitePath } from '@/lib/site-path';
 import { cairnLinks } from '@/lib/cairn';
 import { useI18n } from './LocaleProvider';
 export function SiteFooter() {
-  const { t } = useI18n();
+  const { t, locale } = useI18n();
   return (
     <footer className="cairn-footer">
       <div className="cairn-container footer-grid">
@@ -15,6 +16,7 @@ export function SiteFooter() {
         </div>
         <nav className="footer-column" aria-label={t.footer.productLabel}>
           <span>{t.footer.productLabel}</span>
+          <a href={sitePath(locale === 'ko' ? '/ko/agentic-testing/' : '/agentic-testing/')}>{t.footer.testingGuide}</a>
           <a href="#workflow">{t.footer.howItWorks}</a>
           <a href={cairnLinks.guide}>
             {t.footer.documentation} <ArrowUpRight size={13} />
