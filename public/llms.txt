@@ -13,16 +13,26 @@ Korean landing page: https://team-poem.github.io/cairn-engine/ko/
 
 ## Architecture
 A five-stage pipeline — Context, Plan, Execute, Judge, Report — where anything that varies comes in through a port:
-- ContextProvider: gathers what the run should know (intent now; git diff, ticket, or docs later).
+- ContextProvider: appContext supplies app terminology and workflows to discovery, exploration, and repair. It guides AI but never replaces observed evidence or success checks. Healthy mechanical replay needs neither context nor a model.
 - Planner: turns intent into a Scenario. A static planner replays a frozen file; an LLM loop discovers a new one.
 - SkillStore: where frozen `*.skill.json` files live (a folder by default, or your own store).
 - Driver: drives the browser and waits for the page to settle. Chrome DevTools ships; bring Playwright or your own.
 - Critic: built-in critics judge execution and logic evidence. Screenshots are captured for records and host-defined custom checks, not judged by built-in critics. Custom checks with insufficient evidence can be inconclusive; missing proof is not a pass.
 - Reporter: sends the result anywhere: console, JSON, or your team's tracker.
 
+## Execution budgets
+`budget: { maxModelCalls, timeoutMs }` limits model-call admissions and elapsed time per run, or per suite case across discovery and repair. Separate top-level calls have separate budgets. Timeouts are cooperative cancellation, not hard process termination or a billing cap. App context and execution budgets were introduced in 2.9.4; the 2.9.5 README expands their introduction.
+
 ## Install
-- `npm install -g cairn-engine`
-- `cairn discover "log in, add a daypack, and open the cart" --url=https://your.app --freeze=cart.skill.json`
+- npm: `npm install cairn-engine`, then `npx cairn --help`
+- pnpm: `pnpm add cairn-engine`, then `pnpm exec cairn --help`
+- Yarn: `yarn add cairn-engine`, then `yarn exec cairn --help`
+- Example with the npm local CLI: `npx cairn discover "log in, add a daypack, and open the cart" --url=https://your.app --freeze=cart.skill.json`
+
+## Agentic testing reference
+- English: https://team-poem.github.io/cairn-engine/agentic-testing/
+- Korean: https://team-poem.github.io/cairn-engine/ko/agentic-testing/
+These pages define browser agentic testing, its workflow, use cases, model-call boundaries, verification limits, and official sources. They describe testing web applications with an agent, not evaluating an AI model itself.
 
 ## Links
 - Repository: https://github.com/team-poem/cairn

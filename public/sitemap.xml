@@ -4,7 +4,7 @@
         xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
   <url>
     <loc>https://team-poem.github.io/cairn-engine/</loc>
-    <lastmod>2026-09-28</lastmod>
+    <lastmod>2026-10-24</lastmod>
     <xhtml:link rel="alternate" hreflang="en" href="https://team-poem.github.io/cairn-engine/"/>
     <xhtml:link rel="alternate" hreflang="ko" href="https://team-poem.github.io/cairn-engine/ko/"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://team-poem.github.io/cairn-engine/"/>
@@ -16,9 +16,23 @@
   </url>
   <url>
     <loc>https://team-poem.github.io/cairn-engine/ko/</loc>
-    <lastmod>2026-09-28</lastmod>
+    <lastmod>2026-10-24</lastmod>
     <xhtml:link rel="alternate" hreflang="en" href="https://team-poem.github.io/cairn-engine/"/>
     <xhtml:link rel="alternate" hreflang="ko" href="https://team-poem.github.io/cairn-engine/ko/"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://team-poem.github.io/cairn-engine/"/>
+  </url>
+  <url>
+    <loc>https://team-poem.github.io/cairn-engine/agentic-testing/</loc>
+    <lastmod>2026-10-24</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://team-poem.github.io/cairn-engine/agentic-testing/"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://team-poem.github.io/cairn-engine/ko/agentic-testing/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://team-poem.github.io/cairn-engine/agentic-testing/"/>
+  </url>
+  <url>
+    <loc>https://team-poem.github.io/cairn-engine/ko/agentic-testing/</loc>
+    <lastmod>2026-10-24</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://team-poem.github.io/cairn-engine/agentic-testing/"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://team-poem.github.io/cairn-engine/ko/agentic-testing/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://team-poem.github.io/cairn-engine/agentic-testing/"/>
   </url>
 </urlset>

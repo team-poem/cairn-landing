@@ -25,10 +25,18 @@ const stagePort: Record<Stage, Port> = {
   judge: 'Critic',
   report: 'Reporter',
 };
+const packageManagers = {
+  npm: { install: 'npm install cairn-engine', cli: 'npx cairn --help' },
+  pnpm: { install: 'pnpm add cairn-engine', cli: 'pnpm exec cairn --help' },
+  yarn: { install: 'yarn add cairn-engine', cli: 'yarn exec cairn --help' },
+} as const;
+type PackageManager = keyof typeof packageManagers;
 const TICK = 820;
 export function GetStarted() {
   const { t } = useI18n();
   const [port, setPort] = useState<Port>('Driver');
+  const [packageManager, setPackageManager] = useState<PackageManager>('npm');
+  const commands = packageManagers[packageManager];
   const tabRefs = useRef<Partial<Record<Port, HTMLElement | null>>>({});
   /* 파이프라인 카드를 누르면 왼쪽 탭이 선택되고 한 번 톡 튀며 빛난다.
    * 여기서 고르는 것이라는 안내를 말 없이 한다. */
@@ -179,6 +187,11 @@ export function GetStarted() {
               </svg>
               <p className="pipe-note" aria-live="polite">
                 <strong>{port}</strong> — {t.features.ports[port].description}
+                {(port === 'ContextProvider' || port === 'Planner') && (
+                  <> {' '}<a className="cairn-link" href={`${cairnLinks.guide}#${port === 'ContextProvider' ? 'optional-app-knowledge' : 'execution-budgets'}`}>
+                    {port === 'ContextProvider' ? t.start.contextGuide : t.start.budgetGuide} <ArrowUpRight size={14} />
+                  </a></>
+                )}
               </p>
             </div>
             <div className="engine-output">
@@ -211,10 +224,15 @@ export function GetStarted() {
           </div>
           <div className="flow-command engine-install">
             <span>{t.start.title}</span>
-            <pre aria-label={t.start.installLabel}>
-              <code>
-                <span aria-hidden="true">$ </span>npm install -g cairn-engine
-              </code>
+            <fieldset className="install-managers" aria-label={t.start.packageManagerLabel}>
+              {(Object.keys(packageManagers) as PackageManager[]).map((manager) => (
+                <button key={manager} type="button" aria-pressed={packageManager === manager} onClick={() => setPackageManager(manager)}>
+                  {manager === 'yarn' ? 'Yarn' : manager}
+                </button>
+              ))}
+            </fieldset>
+            <pre aria-label={t.start.installLabel} aria-live="polite">
+              <code>{commands.install}{'\n'}{commands.cli}</code>
             </pre>
             <div className="start-actions">
               <a className="cairn-button" href={`${cairnLinks.guide}#try-it-in-60-seconds`}>

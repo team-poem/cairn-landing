@@ -1,4 +1,6 @@
-# sobaya 와 함께 쓰는 규칙 — 협업 하네스 쪽에서 흡수한 것
+# sobaya 와 함께 쓰는 규칙 — 과거 승인 기반 계약 기록
+
+2026-10-24 고정한 최신 소스는 Canon TDD로 전환했다. 아래 표의 승인·의무 review 절차는 이전 계약 기록이며 최신 런타임에 요구하지 않는다. 현재 연결 범위와 전환은 [업데이트 기록](../../docs/sobaya-update.md)을 따른다.
 
 sobaya 는 바꾸지 않는다 (amazon 결정, [sobaya#4](https://github.com/team-poem/sobaya/issues/4)). sobaya 의 성질과 그에 맞춘 우리 규칙을 적는다.
 

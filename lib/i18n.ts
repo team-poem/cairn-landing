@@ -153,12 +153,12 @@ const en = {
       ContextProvider: {
         stage: 'context',
         description:
-          'Gathers what the run should know — the intent now; a git diff, a ticket, or docs later.',
+          'appContext supplies app terms and workflows for discovery, exploration, and repair. It guides AI; observed evidence still decides success. Healthy replay needs neither context nor a model.',
       },
       Planner: {
         stage: 'plan',
         description:
-          'Turns intent into a Scenario. A static planner replays a frozen file; an LLM loop discovers a new one.',
+          'Plan a new flow or load saved steps. Share model-call and time budgets across discovery and repair per run or suite case. Timeouts cancel cooperatively, not as hard stops or billing caps.',
       },
       SkillStore: {
         stage: 'plan',
@@ -212,7 +212,10 @@ const en = {
     title: 'Give it a task.',
     leadTop: 'Try the scripted quickstart in real Chrome, with no model account.',
     leadBottom: 'Fixed responses demonstrate discovery, saving, and replay. See the quickstart for Node requirements.',
-    installLabel: 'Install Cairn',
+    installLabel: 'Install Cairn and run the local CLI',
+    packageManagerLabel: 'Package manager',
+    contextGuide: 'App context',
+    budgetGuide: 'Execution budgets',
     primary: 'Start with the guide',
     secondary: 'No-account quickstart',
     note: 'Discovery, repair, and AI checks may call a model.',
@@ -230,6 +233,7 @@ const en = {
     navLabel: 'Footer',
     productLabel: 'Product',
     howItWorks: 'How it works',
+    testingGuide: 'Agentic testing guide',
     documentation: 'Documentation',
     quickstart: 'Quickstart',
     npm: 'npm',
@@ -381,11 +385,11 @@ const ko: Copy = {
     ports: {
       ContextProvider: {
         stage: 'context',
-        description: '실행이 알아야 할 것을 모읍니다. 지금은 의도, 앞으로는 git diff·티켓·문서.',
+        description: 'appContext로 앱 용어와 업무 흐름을 탐색·조사·복구에 전달합니다. AI의 참고 정보이며, 성공은 관측한 증거로 판정합니다. 정상 재생에는 컨텍스트도 모델도 필요 없습니다.',
       },
       Planner: {
         stage: 'plan',
-        description: '의도를 시나리오로 바꿉니다. 정적 플래너는 저장된 파일을 재생하고, LLM 루프는 새로 탐색합니다.',
+        description: '새 경로를 계획하거나 저장된 경로를 불러옵니다. 실행별·suite 케이스별로 탐색과 복구의 모델 호출·시간 예산을 공유합니다. 시간 제한은 협력적 취소이며, 강제 종료나 과금 한도가 아닙니다.',
       },
       SkillStore: {
         stage: 'plan',
@@ -435,7 +439,10 @@ const ko: Copy = {
     title: '직접 실행해 보세요.',
     leadTop: '모델 계정 없이 실제 Chrome에서 퀵스타트를 실행해 보세요.',
     leadBottom: '미리 정한 응답으로 탐색·저장·재생을 체험합니다. Node 버전 등 준비 사항은 퀵스타트에서 확인하세요.',
-    installLabel: 'Cairn 설치',
+    installLabel: 'Cairn 설치와 로컬 CLI 실행',
+    packageManagerLabel: '패키지 매니저',
+    contextGuide: '앱 컨텍스트 안내',
+    budgetGuide: '실행 예산 안내',
     primary: '가이드로 시작하기',
     secondary: '계정 없이 퀵스타트',
     note: '탐색, 복구, AI 판정은 모델을 호출할 수 있습니다.',
@@ -453,6 +460,7 @@ const ko: Copy = {
     navLabel: '푸터',
     productLabel: '제품',
     howItWorks: '동작 방식',
+    testingGuide: '에이전틱 테스팅 안내',
     documentation: '문서',
     quickstart: '퀵스타트',
     npm: 'npm',

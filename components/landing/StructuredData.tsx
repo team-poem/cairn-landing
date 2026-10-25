@@ -22,7 +22,6 @@ export function StructuredData({ locale }: { locale: Locale }) {
     page: `${pageUrl}#webpage`,
     app: `${siteUrl}/#software`,
     howto: `${pageUrl}#howto`,
-    logo: `${siteUrl}/#logo`,
   };
   const phases = ['discover', 'freeze', 'replay', 'heal'] as const;
   const ports = Object.entries(copy.features.ports);
@@ -33,13 +32,6 @@ export function StructuredData({ locale }: { locale: Locale }) {
       name: 'Poem',
       url: cairnLinks.team,
       sameAs: [cairnLinks.team],
-      logo: {
-        '@type': 'ImageObject',
-        '@id': ids.logo,
-        url: `${siteUrl}/icon-512.png`,
-        width: 512,
-        height: 512,
-      },
     },
     {
       '@type': 'WebSite',

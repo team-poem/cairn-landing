@@ -55,3 +55,37 @@ vinext 1.0.0-beta.5에서 `trailingSlash: true`는 `/ko` 프리렌더를 조용�
 - [구조화 데이터 정책](https://developers.google.com/search/docs/appearance/structured-data/sd-policies): 실제 콘텐츠와 일치해야 하며 노출을 보장하지 않는다.
 - [speakable](https://developers.google.com/search/docs/appearance/structured-data/speakable): 뉴스 음성 응답 기능.
 - [HowTo 변경](https://developers.google.com/search/blog/2023/08/howto-faq-changes): Google HowTo 리치 결과 지원 종료.
+
+
+## 2026-10-24 · 에이전틱 테스팅 검색 보강
+
+### 목표와 실제 변경
+
+대상은 `agentic testing`, `AI browser testing`, `browser regression testing`, `에이전틱 테스팅`, `AI 에이전트 기반 테스트`, `브라우저 테스트 자동화`를 알아보는 개발자다. 검색량이나 순위 상승을 측정한 주장은 아니다.
+
+- 메인 검색 제목·설명에서 브라우저용 오픈 소스 에이전틱 테스팅 제품임을 명확히 한다. 시각적인 히어로 슬로건은 유지한다.
+- `/agentic-testing/`와 `/ko/agentic-testing/`에 정의, 테스트 흐름, 사용 사례, 모델 호출·복구·판정 한계와 출처를 HTML 본문으로 제공한다. 내용을 키워드별로 얇게 복제하지 않는다.
+- 메인 푸터와 안내의 언어 링크를 일반 anchor로 연결한다. 같은 언어의 메인과 안내가 서로 연결된다.
+- 안내별 canonical·hreflang·OG·TechArticle·FAQPage·BreadcrumbList를 본문과 맞춘다. FAQ는 공개된 질문·답변과 같은 데이터로 생성하며 검색의 FAQ 리치 결과를 보장하거나 목표로 삼지 않는다.
+- Poem 조직의 로고로 Cairn 제품 아이콘을 표시하던 값을 제거한다. 평점·사용자 수·성공률을 만들지 않는다.
+- 네 정규 주소를 sitemap에 포함하고 실제 변경일을 기록한다. Pages 패키징은 한국어 중첩 경로까지 직접 접속 HTML을 제공한다.
+- 기존 llms.txt에는 새 공개 안내 주소를 추가한다. 이 파일을 검색 순위 신호나 AI 인용 보장으로 간주하지 않는다.
+
+### 근거와 범위
+
+제품 내용은 Cairn 2.9.5 공식 README·가이드·judgment 명세를 따른다. 데모는 보존된 2.9.2 기록이며 기존 벤치마크를 이번 버전 신규 측정으로 바꾸지 않는다. 모델 호출 없음은 기본 기계적 replay 범위이며, 앱 컨텍스트가 성공 증거를 대신하거나 실행 예산이 과금 상한을 보장한다고 표현하지 않는다.
+
+Google 공식 문서는 AI 검색에도 기존 검색의 색인·스니펫 자격과 유용한 본문·내부 링크·정확한 구조화 데이터가 중요하다고 안내한다. 별도 AI 스키마나 llms 파일은 필수 조건이 아니다.
+
+- [AI features and your website](https://developers.google.com/search/docs/appearance/ai-features)
+- [Search Essentials](https://developers.google.com/search/docs/essentials)
+- [Bing Webmaster Guidelines](https://www.bing.com/webmasters/help/webmaster-guidelines-30fba23a)
+
+### 배포 뒤 운영자가 할 일
+
+1. 배포된 두 안내 주소를 직접 열고 Search Console의 URL 검사에서 실제 HTML·canonical을 확인한 뒤 색인을 요청한다. 기존 sitemap 주소는 유지되므로 재제출보다 최근 읽은 날짜와 오류를 먼저 확인한다.
+2. Bing Webmaster Tools에서도 같은 사이트 소유권과 사이트맵을 확인한다. 인증된 계정 설정은 이 코드 변경에 포함하지 않는다.
+3. Search Console에서 브랜드·비브랜드 질의를 나눠 노출·클릭·CTR·색인 상태를 관찰한다. Bing의 검색·AI 인용 보고서는 제공되는 계정 범위에서 확인한다. 배포 전후 기간과 실제 검색 질의를 기록한다.
+4. 공식 README·npm 설명·관련 커뮤니티 게시물에서 새 안내로 연결할 때도 제품의 범위와 한계를 일치시킨다. 링크 구매·키워드 도배·허위 추천은 하지 않는다.
+
+2026-10-24 실제 도메인 루트 `https://team-poem.github.io/robots.txt`에서 Googlebot·Bing 및 검색형 AI 크롤러 접근 허용과 올바른 sitemap 선언을 확인했다. 색인·순위·AI 인용 자체는 보장할 수 없으며 배포 뒤 실제 데이터를 통해 확인한다.

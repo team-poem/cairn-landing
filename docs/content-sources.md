@@ -56,3 +56,13 @@ Space Grotesk와 Geist의 영문 가변 웹폰트를 Google Fonts에서 받아 �
 - Workflow 제목 옆의 [실제 실행 데모](https://cairn-order-demo.vercel.app)는 기록된 2.9.2 엔진 실행이다. 실시간 모델 서비스가 아니며 합성 주문, 네트워크 증거 보존 제한과 재현 안내는 데모 및 공식 README에 공개되어 있다. 랜딩 안의 설명용 Workflow와 구분한다.
 - 호출 수 그래프는 랜딩에 추가하지 않았다. 나중에 사용한다면 모델별 6회 실행의 기존 측정(42회 대 7회), 합계·평균 아님, 비용·품질 보장 아님을 함께 명시한다.
 - Jev pilot과 앱 컨텍스트 PoC를 기본 공개 기능으로 홍보하지 않는다.
+
+
+## 2026-10-24 · Cairn 2.9.5 확인
+
+[v2.9.5 README](https://github.com/team-poem/cairn/blob/v2.9.5/README.md)를 기준으로 기존 Context·Plan 설명과 설치 영역만 보강했다.
+
+- `appContext`는 앱 용어·업무 흐름을 discovery/explore/repair에 전달하는 참고 정보다. 관측 증거·성공 판정을 대체하지 않으며 정상 기계적 replay에는 필요하지 않다.
+- `budget: { maxModelCalls, timeoutMs }`는 실행별 또는 suite 케이스별로 탐색·복구 예산을 공유한다. 별도 최상위 호출은 별도 예산이며 시간 제한은 협력적 취소다. 강제 종료·과금 상한으로 소개하지 않는다. 두 기능은 2.9.4 도입이며 2.9.5에서 README 소개를 보강했다.
+- npm·pnpm·Yarn 로컬 설치와 각 로컬 CLI 선택지를 제공한다. Yarn PnP를 pnpm과 같은 방식으로 설명하지 않는다.
+- 기존 데모는 보존된 2.9.2 실행이며 벤치마크도 신규 2.9.5 측정으로 재표기하지 않는다.
