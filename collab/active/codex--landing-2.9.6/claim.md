@@ -2,7 +2,7 @@
 branch: codex/landing-2.9.6
 owner: Gyuhwan_Jeong
 started: 2026-10-30
-status: active
+status: done
 goal: 2.9.6 페이지별 안내와 워크플로 공유 예산을 임베딩 영역의 영어·한국어 설명에 반영한다
 base:
 next:

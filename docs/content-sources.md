@@ -66,3 +66,12 @@ Space Grotesk와 Geist의 영문 가변 웹폰트를 Google Fonts에서 받아 �
 - `budget: { maxModelCalls, timeoutMs }`는 실행별 또는 suite 케이스별로 탐색·복구 예산을 공유한다. 별도 최상위 호출은 별도 예산이며 시간 제한은 협력적 취소다. 강제 종료·과금 상한으로 소개하지 않는다. 두 기능은 2.9.4 도입이며 2.9.5에서 README 소개를 보강했다.
 - npm·pnpm·Yarn 로컬 설치와 각 로컬 CLI 선택지를 제공한다. Yarn PnP를 pnpm과 같은 방식으로 설명하지 않는다.
 - 기존 데모는 보존된 2.9.2 실행이며 벤치마크도 신규 2.9.5 측정으로 재표기하지 않는다.
+
+
+## 2026-10-30 · Cairn 2.9.6 임베딩 안내
+
+[v2.9.6 page guidance 명세](https://github.com/team-poem/cairn/blob/v2.9.6/spec/core/page-guidance.md)와 [실행 예산 가이드](https://github.com/team-poem/cairn/blob/v2.9.6/docs/guide.md#execution-budgets)를 확인하고 Context·Plan의 EN/KO 설명과 연결 문서를 갱신했다.
+
+- 선택적 pageGuidance는 discovery/explore의 결정 관찰마다 안내를 제공한다. 복구·결정적 replay에는 적용되지 않으며 증거나 성공 판정을 대신하지 않는다.
+- 선택적 runWorkflow는 별도로 연결한 엔진 호출과 borrowed lease를 통해 실행하는 호스트 작업의 예산을 공유한다. 연결하지 않은 호스트 호출까지 계산하는 것으로 소개하지 않는다. 시간 제한은 협력적 취소이며 강제 종료·과금 상한이 아니다.
+- 설명용 데모와 기존 벤치마크를 이 기능의 개선 근거로 사용하지 않는다. 이번 반영은 임베딩 영역에 한정한다.

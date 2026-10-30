@@ -2,6 +2,7 @@ export const cairnLinks = {
   demo: 'https://cairn-order-demo.vercel.app',
   repository: 'https://github.com/team-poem/cairn',
   guide: 'https://github.com/team-poem/cairn/blob/main/docs/guide.md',
+  pageGuidance: 'https://github.com/team-poem/cairn/blob/main/spec/core/page-guidance.md',
   quickstart:
     'https://github.com/team-poem/cairn/tree/main/examples/quickstart',
   npm: 'https://www.npmjs.com/package/cairn-engine',

@@ -188,7 +188,7 @@ export function GetStarted() {
               <p className="pipe-note" aria-live="polite">
                 <strong>{port}</strong> — {t.features.ports[port].description}
                 {(port === 'ContextProvider' || port === 'Planner') && (
-                  <> {' '}<a className="cairn-link" href={`${cairnLinks.guide}#${port === 'ContextProvider' ? 'optional-app-knowledge' : 'execution-budgets'}`}>
+                  <> {' '}<a className="cairn-link" href={port === 'ContextProvider' ? cairnLinks.pageGuidance : `${cairnLinks.guide}#execution-budgets`}>
                     {port === 'ContextProvider' ? t.start.contextGuide : t.start.budgetGuide} <ArrowUpRight size={14} />
                   </a></>
                 )}
