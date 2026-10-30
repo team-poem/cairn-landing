@@ -153,12 +153,12 @@ const en = {
       ContextProvider: {
         stage: 'context',
         description:
-          'appContext supplies app terms and workflows for discovery, exploration, and repair. It guides AI; observed evidence still decides success. Healthy replay needs neither context nor a model.',
+          'appContext supplies reusable app knowledge. Optional pageGuidance adds advice to each discovery or exploration observation. Guidance cannot establish success; basic replay uses neither provider.',
       },
       Planner: {
         stage: 'plan',
         description:
-          'Plan a new flow or load saved steps. Share model-call and time budgets across discovery and repair per run or suite case. Timeouts cancel cooperatively, not as hard stops or billing caps.',
+          'Plan a flow or load saved steps. Optional runWorkflow shares model-call and time budgets across participating engine and host calls. Timeouts cancel cooperatively, not as hard stops or billing caps.',
       },
       SkillStore: {
         stage: 'plan',
@@ -214,7 +214,7 @@ const en = {
     leadBottom: 'Fixed responses demonstrate discovery, saving, and replay. See the quickstart for Node requirements.',
     installLabel: 'Install Cairn and run the local CLI',
     packageManagerLabel: 'Package manager',
-    contextGuide: 'App context',
+    contextGuide: 'Page guidance',
     budgetGuide: 'Execution budgets',
     primary: 'Start with the guide',
     secondary: 'No-account quickstart',
@@ -385,11 +385,11 @@ const ko: Copy = {
     ports: {
       ContextProvider: {
         stage: 'context',
-        description: 'appContext로 앱 용어와 업무 흐름을 탐색·조사·복구에 전달합니다. AI의 참고 정보이며, 성공은 관측한 증거로 판정합니다. 정상 재생에는 컨텍스트도 모델도 필요 없습니다.',
+        description: 'appContext로 앱 지식을 전달하고, 선택적으로 pageGuidance를 연결해 탐색·UX 점검의 관찰마다 안내를 덧붙입니다. 둘 다 증거를 대신하지 않으며 기본 재생에는 필요 없습니다.',
       },
       Planner: {
         stage: 'plan',
-        description: '새 경로를 계획하거나 저장된 경로를 불러옵니다. 실행별·suite 케이스별로 탐색과 복구의 모델 호출·시간 예산을 공유합니다. 시간 제한은 협력적 취소이며, 강제 종료나 과금 한도가 아닙니다.',
+        description: '새 경로를 계획하거나 저장된 경로를 불러옵니다. runWorkflow를 쓰면 연결한 엔진 호출과 호스트 작업이 모델 호출·시간 예산을 공유합니다. 시간 제한은 협력적 취소이며 강제 종료나 과금 한도가 아닙니다.',
       },
       SkillStore: {
         stage: 'plan',
@@ -441,7 +441,7 @@ const ko: Copy = {
     leadBottom: '미리 정한 응답으로 탐색·저장·재생을 체험합니다. Node 버전 등 준비 사항은 퀵스타트에서 확인하세요.',
     installLabel: 'Cairn 설치와 로컬 CLI 실행',
     packageManagerLabel: '패키지 매니저',
-    contextGuide: '앱 컨텍스트 안내',
+    contextGuide: '페이지별 안내',
     budgetGuide: '실행 예산 안내',
     primary: '가이드로 시작하기',
     secondary: '계정 없이 퀵스타트',
