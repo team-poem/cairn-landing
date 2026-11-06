@@ -29,7 +29,7 @@ export const siteKeywords = [
 export const googleSiteVerification =
   'vQDnzyzaFS-A-0oxmAM_wkrKRCdFXy8AlVfTkgmtjVY';
 export const publishedAt = '2026-09-14';
-export const modifiedAt = '2026-10-24';
+export const modifiedAt = '2026-11-06';
 export const ogImage = { url: `${siteUrl}/og.png`, width: 1200, height: 630 };
 export const localeUrls = {
   en: `${siteUrl}/`,

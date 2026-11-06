@@ -75,3 +75,12 @@ Space Grotesk와 Geist의 영문 가변 웹폰트를 Google Fonts에서 받아 �
 - 선택적 pageGuidance는 discovery/explore의 결정 관찰마다 안내를 제공한다. 복구·결정적 replay에는 적용되지 않으며 증거나 성공 판정을 대신하지 않는다.
 - 선택적 runWorkflow는 별도로 연결한 엔진 호출과 borrowed lease를 통해 실행하는 호스트 작업의 예산을 공유한다. 연결하지 않은 호스트 호출까지 계산하는 것으로 소개하지 않는다. 시간 제한은 협력적 취소이며 강제 종료·과금 상한이 아니다.
 - 설명용 데모와 기존 벤치마크를 이 기능의 개선 근거로 사용하지 않는다. 이번 반영은 임베딩 영역에 한정한다.
+
+
+## 2026-11-06 · Cairn 2.9.7 증거와 항목 동일성
+
+[v2.9.7 안내](https://github.com/team-poem/cairn/blob/v2.9.7/docs/guide.md#intermediate-evidence-checkpoints)와 [항목 동일성 문서](https://github.com/team-poem/cairn/blob/v2.9.7/docs/selected-item-evidence.md)를 기준으로 EN/KO Critic 설명과 안내 페이지를 갱신했다.
+
+- 선택적 evidenceCapture는 중간 화면의 접근성 스냅샷이나 스크린샷을 호스트 검증에 제공한다. 수집은 판정이 아니며 스크린샷은 자동 마스킹되지 않는다.
+- 선택한 항목의 키 비교는 선택적 API이며 현재 명시적인 data-* 키를 사용하는 같은 문서 내 목록 클릭 재실행으로 제한된다. 필수 증거가 없으면 inconclusive가 될 수 있다.
+- runWorkflow의 공유 예산은 참여한 엔진 호출과 lease로 연결한 호스트 작업에 적용된다. 기존 2.9.2 데모 기록을 새 버전의 측정치로 바꾸지 않는다.

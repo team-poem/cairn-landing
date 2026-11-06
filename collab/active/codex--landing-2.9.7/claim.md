@@ -2,7 +2,7 @@
 branch: codex/landing-2.9.7
 owner: Gyuhwan_Jeong
 started: 2026-11-06
-status: active
+status: done
 goal: Cairn 2.9.7의 증거 수집과 항목 동일성 검증을 영문·한국어 랜딩에 반영한다
 base:
 next:
