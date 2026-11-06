@@ -16,7 +16,7 @@ export const testingGuide = {
       'Cairn is an open-source TypeScript engine and CLI for testing web applications with AI agents. Describe a user flow, let AI discover browser actions, and save the steps and assertions as a reusable JSON test. Ordinary mechanical replay then runs without a model.',
     home: 'Cairn home',
     language: 'Language',
-    updated: 'Updated October 24, 2026 · Based on Cairn 2.9.5 documentation',
+    updated: 'Updated November 6, 2026 · Based on Cairn 2.9.7 documentation',
     overview: 'What is agentic testing?',
     definition:
       'Agentic testing uses an AI agent to help explore an application and perform test actions toward a goal. In Cairn, the agent discovers a browser flow; a saved scenario and explicit assertions make later regression checks repeatable. This tests a web application with an agent, rather than evaluating an AI model itself.',
@@ -43,7 +43,7 @@ export const testingGuide = {
     fit: 'Use Cairn to author repeatable login, form, or checkout checks from a task description, or embed cairn-engine in a QA tool or CI workflow. Supply success criteria that match your application. If you need exact handwritten browser logic, conventional scripted tests may be a better fit; Cairn does not remove the need to review test coverage.',
     controlsTitle: 'App knowledge and execution budgets',
     controls:
-      'Optional appContext gives discovery, exploration, and repair your app terminology and workflow rules. It is guidance, not evidence or proof of success. budget: { maxModelCalls, timeoutMs } shares limits across discovery and repair per run or suite case; separate top-level calls get separate budgets. Deadlines use cooperative cancellation, not a hard kill or billing cap.',
+      'Optional appContext gives discovery, exploration, and repair your app terminology and workflow rules. It is guidance, not evidence or proof of success. budget: { maxModelCalls, timeoutMs } shares limits across discovery and repair per run or suite case; separate top-level calls get separate budgets by default. Optional runWorkflow shares an allowance across participating engine calls and host work through borrowed leases. Deadlines use cooperative cancellation, not a hard kill or billing cap.',
     faqTitle: 'Questions about AI browser testing',
     questions: [
       {
@@ -59,12 +59,12 @@ export const testingGuide = {
       {
         question: 'Does Cairn judge screenshots automatically?',
         answer:
-          'Built-in critics judge execution and logic evidence. Screenshots are captured for records and host-defined custom checks. A custom check with missing evidence can be inconclusive; missing proof is not treated as a pass.',
+          'Built-in critics judge execution and logic evidence. Optional evidenceCapture collects intermediate accessibility snapshots or screenshots for host checks; capture alone is not a pass. Screenshots are not automatically masked. A check with missing required evidence can be inconclusive.',
       },
       {
         question: 'Is the order demo a live AI service?',
         answer:
-          'No. It shows recorded engine 2.9.2 executions of a synthetic order journey, not live model calls or a new 2.9.5 benchmark. Recording details disclose the evidence-retention limitation and reproduction steps.',
+          'No. It shows recorded engine 2.9.2 executions of a synthetic order journey, not live model calls or a benchmark of the current release. Recording details disclose the evidence-retention limitation and reproduction steps.',
       },
     ],
     nextTitle: 'Try it and inspect the evidence',
@@ -72,7 +72,7 @@ export const testingGuide = {
     demo: 'Inspect recorded engine executions',
     sources: 'Official sources',
     sourceNames: [
-      'Cairn 2.9.5 README',
+      'Cairn 2.9.7 README',
       'Usage and embedding guide',
       'Assertion and evidence contract',
       'Source code and MIT license',
@@ -88,7 +88,7 @@ export const testingGuide = {
       'Cairn은 웹 앱의 에이전틱 테스팅을 위한 오픈 소스 TypeScript 엔진이자 CLI입니다. 테스트할 사용자 흐름을 설명하면 AI 에이전트가 브라우저에서 실행 경로를 찾습니다. 실행 단계와 검증 조건을 JSON으로 저장하고, 기본 테스트는 모델 호출 없이 다시 실행합니다.',
     home: 'Cairn 홈',
     language: '언어',
-    updated: '2026년 10월 24일 수정 · Cairn 2.9.5 문서 기준',
+    updated: '2026년 11월 6일 수정 · Cairn 2.9.7 문서 기준',
     overview: '에이전틱 테스팅이란?',
     definition:
       '에이전틱 테스팅은 AI 에이전트가 목표에 따라 앱을 탐색하고 테스트 동작을 수행하도록 하는 방식입니다. Cairn은 에이전트가 찾은 브라우저 경로와 검증 조건을 저장해 이후 회귀 테스트에 재사용합니다. AI 모델 자체의 성능을 평가하는 것이 아니라, AI 에이전트를 이용해 웹 앱을 검증하는 용도입니다.',
@@ -115,7 +115,7 @@ export const testingGuide = {
     fit: '로그인·폼·주문처럼 반복할 사용자 흐름을 설명해 테스트를 만들거나, cairn-engine을 자체 QA 도구와 CI에 연결할 수 있습니다. 성공 조건은 앱에 맞게 제공해야 합니다. 브라우저 동작을 코드로 세밀하게 제어해야 한다면 직접 작성한 테스트가 더 적합할 수 있습니다. Cairn을 써도 검증 범위를 검토하는 일은 필요합니다.',
     controlsTitle: '앱 컨텍스트와 실행 예산',
     controls:
-      'appContext로 앱 용어와 업무 규칙을 탐색·UX 점검·복구에 전달할 수 있습니다. 참고 정보이며 관측 증거나 성공 판정을 대체하지 않습니다. budget: { maxModelCalls, timeoutMs }는 실행별 또는 suite 케이스별로 탐색·복구 예산을 공유합니다. 별도 최상위 호출은 별도 예산입니다. 시간 제한은 협력적 취소이며 강제 종료나 과금 상한이 아닙니다.',
+      'appContext로 앱 용어와 업무 규칙을 탐색·UX 점검·복구에 전달할 수 있습니다. 참고 정보이며 관측 증거나 성공 판정을 대체하지 않습니다. budget: { maxModelCalls, timeoutMs }는 실행별 또는 suite 케이스별로 탐색·복구 예산을 공유합니다. 별도 최상위 호출은 기본적으로 별도 예산입니다. 선택적으로 runWorkflow를 사용하면 연결한 엔진 호출과 lease를 사용하는 호스트 작업이 예산을 공유합니다. 시간 제한은 협력적 취소이며 강제 종료나 과금 상한이 아닙니다.',
     faqTitle: 'AI 브라우저 테스트에 관한 질문',
     questions: [
       {
@@ -131,12 +131,12 @@ export const testingGuide = {
       {
         question: '스크린샷을 보고 자동으로 성공을 판정하나요?',
         answer:
-          '기본 Critic은 실행·로직 증거로 판정합니다. 스크린샷은 실행 기록과 사용자 정의 검사에 활용하도록 수집합니다. 근거가 부족한 custom check는 inconclusive로 남을 수 있으며, 증거가 없다는 이유로 통과시키지 않습니다.',
+          '기본 Critic은 실행·로직 증거로 판정합니다. 선택적 evidenceCapture로 중간 화면의 접근성 스냅샷이나 스크린샷을 수집해 사용자 정의 검사에 활용할 수 있습니다. 수집만으로 통과가 되지는 않으며, 스크린샷은 자동으로 마스킹되지 않습니다. 필수 증거가 없으면 검사가 inconclusive로 남을 수 있습니다.',
       },
       {
         question: '주문 데모는 실시간 AI 서비스인가요?',
         answer:
-          '아니요. 합성 주문 흐름을 실행한 엔진 2.9.2의 기록입니다. 실시간 모델 호출이나 새로 측정한 2.9.5 벤치마크가 아닙니다. 기록 안내에서 네트워크 증거 보존의 한계와 재현 방법을 확인할 수 있습니다.',
+          '아니요. 합성 주문 흐름을 실행한 엔진 2.9.2의 기록입니다. 실시간 모델 호출이나 현재 버전을 측정한 벤치마크가 아닙니다. 기록 안내에서 네트워크 증거 보존의 한계와 재현 방법을 확인할 수 있습니다.',
       },
     ],
     nextTitle: '직접 실행하고 증거를 확인해 보세요',
@@ -144,7 +144,7 @@ export const testingGuide = {
     demo: '엔진 실행 기록 살펴보기',
     sources: '공식 근거 문서',
     sourceNames: [
-      'Cairn 2.9.5 README',
+      'Cairn 2.9.7 README',
       '사용법·엔진 임베딩 가이드',
       '검증 조건과 증거 명세',
       '소스 코드와 MIT 라이선스',

@@ -173,7 +173,7 @@ const en = {
       Critic: {
         stage: 'judge',
         description:
-          'Judges execution and logic evidence. Screenshots support records and custom checks. Missing proof can be inconclusive, not a pass.',
+          'Judges execution and logic. Optionally capture intermediate screens and compare selected and destination keys in supported collection replays. Missing required evidence is inconclusive.',
       },
       Reporter: {
         stage: 'report',
@@ -214,6 +214,8 @@ const en = {
     leadBottom: 'Fixed responses demonstrate discovery, saving, and replay. See the quickstart for Node requirements.',
     installLabel: 'Install Cairn and run the local CLI',
     packageManagerLabel: 'Package manager',
+    evidenceGuide: 'Intermediate evidence',
+    identityGuide: 'Item identity',
     contextGuide: 'Page guidance',
     budgetGuide: 'Execution budgets',
     primary: 'Start with the guide',
@@ -401,7 +403,7 @@ const ko: Copy = {
       },
       Critic: {
         stage: 'judge',
-        description: '실행·로직 증거로 판정합니다. 스크린샷은 기록과 사용자 정의 검사에 활용합니다. 근거가 부족하면 inconclusive로 남으며, 통과로 처리하지 않습니다.',
+        description: '실행·로직 증거로 판정합니다. 선택적으로 중간 화면을 수집하고, 지원되는 목록 재실행에서 선택한 항목과 도착 화면의 키를 비교할 수 있습니다. 필수 증거가 없으면 미확인(inconclusive)으로 남습니다.',
       },
       Reporter: {
         stage: 'report',
@@ -441,6 +443,8 @@ const ko: Copy = {
     leadBottom: '미리 정한 응답으로 탐색·저장·재생을 체험합니다. Node 버전 등 준비 사항은 퀵스타트에서 확인하세요.',
     installLabel: 'Cairn 설치와 로컬 CLI 실행',
     packageManagerLabel: '패키지 매니저',
+    evidenceGuide: '중간 화면 증거',
+    identityGuide: '항목 동일성',
     contextGuide: '페이지별 안내',
     budgetGuide: '실행 예산 안내',
     primary: '가이드로 시작하기',

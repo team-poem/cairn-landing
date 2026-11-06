@@ -187,6 +187,13 @@ export function GetStarted() {
               </svg>
               <p className="pipe-note" aria-live="polite">
                 <strong>{port}</strong> — {t.features.ports[port].description}
+                {port === 'Critic' && (
+                  <> {' '}<a className="cairn-link" href={`${cairnLinks.guide}#intermediate-evidence-checkpoints`}>
+                    {t.start.evidenceGuide} <ArrowUpRight size={14} />
+                  </a>{' · '}<a className="cairn-link" href={cairnLinks.selectedItemEvidence}>
+                    {t.start.identityGuide} <ArrowUpRight size={14} />
+                  </a></>
+                )}
                 {(port === 'ContextProvider' || port === 'Planner') && (
                   <> {' '}<a className="cairn-link" href={port === 'ContextProvider' ? cairnLinks.pageGuidance : `${cairnLinks.guide}#execution-budgets`}>
                     {port === 'ContextProvider' ? t.start.contextGuide : t.start.budgetGuide} <ArrowUpRight size={14} />
