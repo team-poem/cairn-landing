@@ -10,9 +10,9 @@ export function TestingGuide({ locale }: { locale: Locale }) {
   const localGuide = (language: Locale) =>
     sitePath(language === 'ko' ? '/ko/agentic-testing/' : '/agentic-testing/');
   const sources = [
-    'https://github.com/team-poem/cairn/blob/v2.9.5/README.md',
-    cairnLinks.guide,
-    'https://github.com/team-poem/cairn/blob/v2.9.5/spec/core/judgment.md',
+    'https://github.com/team-poem/cairn/blob/v2.9.7/README.md',
+    'https://github.com/team-poem/cairn/blob/v2.9.7/docs/guide.md',
+    'https://github.com/team-poem/cairn/blob/v2.9.7/spec/core/judgment.md',
     cairnLinks.repository,
   ];
   const questions = copy.questions.map((item, index) => ({
