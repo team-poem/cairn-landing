@@ -6,9 +6,12 @@ on:
 jobs:
   hooks:
     name: 훅·루프 검증
-    runs-on: ubuntu-latest
+    runs-on: ${{ (github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository) && 'poem-public' || 'ubuntu-latest' }}
     steps:
       - uses: actions/checkout@v4
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.12"
       - run: sh tests/hooks.sh
       - run: sh tests/loop.sh
       - run: sh tests/sobaya.sh
@@ -16,7 +19,7 @@ jobs:
   collab:
     name: 협업 규칙 검사
     if: github.event_name == 'pull_request'
-    runs-on: ubuntu-latest
+    runs-on: ${{ (github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository) && 'poem-public' || 'ubuntu-latest' }}
     steps:
       - uses: actions/checkout@v4
         with: { fetch-depth: 0 }
@@ -29,9 +32,15 @@ jobs:
       group: collab-prune
       cancel-in-progress: false
     if: github.event_name == 'push'
-    runs-on: ubuntu-latest
+    runs-on: poem-public
     permissions: { contents: write, pull-requests: write }
     steps:
+      - name: gh CLI 준비 (self-hosted 이미지에는 없음)
+        run: |
+          command -v gh >/dev/null && exit 0
+          v=2.103.3 a=$(dpkg --print-architecture)
+          curl -fsSL "https://github.com/cli/cli/releases/download/v$v/gh_${v}_linux_$a.tar.gz" | tar -xz -C "$RUNNER_TEMP"
+          echo "$RUNNER_TEMP/gh_${v}_linux_$a/bin" >> "$GITHUB_PATH"
       - uses: actions/checkout@v4
         with: { fetch-depth: 0 }
       - env: { GH_TOKEN: "${{ secrets.GITHUB_TOKEN }}" }
