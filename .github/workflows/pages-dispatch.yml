@@ -18,11 +18,14 @@ jobs:
   test:
     name: 배포 판단 회귀 검사
     if: github.event_name == 'pull_request'
-    runs-on: ubuntu-latest
+    runs-on: ${{ (github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository) && 'poem-public' || 'ubuntu-latest' }}
     steps:
       - uses: actions/checkout@v4
         with:
           persist-credentials: false
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.12"
       - run: python3 tests/pages-dispatch.test.py
   dispatch:
     name: 검증된 main 배포 및 결과 확인
@@ -31,9 +34,15 @@ jobs:
       (github.event.workflow_run.conclusion == 'success' &&
        github.event.workflow_run.event == 'push' &&
        github.event.workflow_run.head_repository.full_name == github.repository)
-    runs-on: ubuntu-latest
+    runs-on: poem-public
     timeout-minutes: 20
     steps:
+      - name: gh CLI 준비 (self-hosted 이미지에는 없음)
+        run: |
+          command -v gh >/dev/null && exit 0
+          v=2.103.3 a=$(dpkg --print-architecture)
+          curl -fsSL "https://github.com/cli/cli/releases/download/v$v/gh_${v}_linux_$a.tar.gz" | tar -xz -C "$RUNNER_TEMP"
+          echo "$RUNNER_TEMP/gh_${v}_linux_$a/bin" >> "$GITHUB_PATH"
       - name: 최신 main만 배포 대상으로 선택
         id: source
         env:
