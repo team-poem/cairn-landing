@@ -6,7 +6,7 @@ on:
 jobs:
   hooks:
     name: 훅·루프 검증
-    runs-on: ubuntu-latest
+    runs-on: poem-public
     steps:
       - uses: actions/checkout@v4
       - run: sh tests/hooks.sh
@@ -16,7 +16,7 @@ jobs:
   collab:
     name: 협업 규칙 검사
     if: github.event_name == 'pull_request'
-    runs-on: ubuntu-latest
+    runs-on: poem-public
     steps:
       - uses: actions/checkout@v4
         with: { fetch-depth: 0 }
@@ -29,7 +29,7 @@ jobs:
       group: collab-prune
       cancel-in-progress: false
     if: github.event_name == 'push'
-    runs-on: ubuntu-latest
+    runs-on: poem-public
     permissions: { contents: write, pull-requests: write }
     steps:
       - uses: actions/checkout@v4
