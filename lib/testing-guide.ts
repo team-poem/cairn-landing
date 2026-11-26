@@ -41,9 +41,9 @@ export const testingGuide = {
         'Enable --heal explicitly when a UI change breaks a target. Save a repaired path only after verification succeeds. Application defects should remain failures.',
       ],
     ],
-    linkSelectionTitle: 'Opening the current second article',
+    linkSelectionTitle: 'Open the second post',
     linkSelectionText:
-      'If the host explicitly approves “open the current second article”, replay selects the second link in the current DOM order rather than the article clicked during recording. With destination verification configured, Cairn compares the link’s href immediately before the click with the URL of the new document opened in the same tab. A matching URL in another tab, or an address change without a new document, does not confirm arrival. A test that specifies a particular article does not become position-based.',
+      'If the host explicitly approves “open the second post”, replay selects the second link in the current DOM order rather than the article clicked during recording. With destination verification configured, Cairn compares the link’s href immediately before the click with the URL of the new document opened in the same tab. A matching URL in another tab, or an address change without a new document, does not confirm arrival. A test that specifies a particular article does not become position-based.',
     linkSelectionSource: 'Read the link-selection guide',
     fitTitle: 'When is Cairn useful?',
     fit: 'Use Cairn to author repeatable login, form, or checkout checks from a task description, or embed cairn-engine in a QA tool or CI workflow. Supply success criteria that match your application. If you need exact handwritten browser logic, conventional scripted tests may be a better fit; Cairn does not remove the need to review test coverage.',
@@ -117,9 +117,9 @@ export const testingGuide = {
         'UI 변경으로 타깃을 찾지 못하면 --heal로 복구를 명시적으로 허용합니다. 검증을 통과한 경로만 다시 저장합니다. 앱 자체의 오류는 실패로 남아야 합니다.',
       ],
     ],
-    linkSelectionTitle: '현재 두 번째 글 열기',
+    linkSelectionTitle: '두 번째 게시글 열기',
     linkSelectionText:
-      '호스트가 “현재 두 번째 글 열기” 규칙을 명시적으로 승인하면, 재실행 시 녹화할 때 클릭한 글이 아니라 현재 DOM 순서상 두 번째 링크를 선택합니다. 도착 검증을 설정하면 클릭 직전 링크의 href와 같은 탭에서 새로 열린 문서의 URL을 비교합니다. 다른 탭의 주소가 같거나 새 문서 없이 주소만 바뀐 경우에는 도착이 확인되지 않습니다. 특정 글을 지정한 테스트가 위치 기준으로 바뀌지는 않습니다.',
+      '호스트가 “두 번째 게시글 열기” 규칙을 명시적으로 승인하면, 재실행 시 녹화할 때 클릭한 글이 아니라 현재 DOM 순서상 두 번째 링크를 선택합니다. 도착 검증을 설정하면 클릭 직전 링크의 href와 같은 탭에서 새로 열린 문서의 URL을 비교합니다. 다른 탭의 주소가 같거나 새 문서 없이 주소만 바뀐 경우에는 도착이 확인되지 않습니다. 특정 글을 지정한 테스트가 위치 기준으로 바뀌지는 않습니다.',
     linkSelectionSource: '링크 선택 명세 보기',
     fitTitle: '어떤 테스트에 활용할 수 있나요?',
     fit: '로그인·폼·주문처럼 반복할 사용자 흐름을 설명해 테스트를 만들거나, cairn-engine을 자체 QA 도구와 CI에 연결할 수 있습니다. 성공 조건은 앱에 맞게 제공해야 합니다. 브라우저 동작을 코드로 세밀하게 제어해야 한다면 직접 작성한 테스트가 더 적합할 수 있습니다. Cairn을 써도 검증 범위를 검토하는 일은 필요합니다.',
