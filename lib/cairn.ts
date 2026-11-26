@@ -2,7 +2,8 @@ export const cairnLinks = {
   demo: 'https://cairn-order-demo.vercel.app',
   repository: 'https://github.com/team-poem/cairn',
   guide: 'https://github.com/team-poem/cairn/blob/main/docs/guide.md',
-  selectedItemEvidence: 'https://github.com/team-poem/cairn/blob/v2.9.7/docs/selected-item-evidence.md',
+  selectedItemEvidence: 'https://github.com/team-poem/cairn/blob/v2.9.9/docs/selected-item-evidence.md',
+  linkSelection: 'https://github.com/team-poem/cairn/blob/v2.9.9/spec/core/link-selection.md',
   pageGuidance: 'https://github.com/team-poem/cairn/blob/main/spec/core/page-guidance.md',
   quickstart:
     'https://github.com/team-poem/cairn/tree/main/examples/quickstart',

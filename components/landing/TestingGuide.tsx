@@ -1,8 +1,8 @@
 import type { Locale } from '@/lib/i18n';
 import { cairnLinks } from '@/lib/cairn';
 import { sitePath } from '@/lib/site-path';
-import { guideUrls, testingGuide } from '@/lib/testing-guide';
-import { localeUrls, modifiedAt, siteUrl } from '@/lib/site';
+import { guideModifiedAt, guideUrls, testingGuide } from '@/lib/testing-guide';
+import { localeUrls, siteUrl } from '@/lib/site';
 
 export function TestingGuide({ locale }: { locale: Locale }) {
   const copy = testingGuide[locale];
@@ -10,9 +10,9 @@ export function TestingGuide({ locale }: { locale: Locale }) {
   const localGuide = (language: Locale) =>
     sitePath(language === 'ko' ? '/ko/agentic-testing/' : '/agentic-testing/');
   const sources = [
-    'https://github.com/team-poem/cairn/blob/v2.9.7/README.md',
-    'https://github.com/team-poem/cairn/blob/v2.9.7/docs/guide.md',
-    'https://github.com/team-poem/cairn/blob/v2.9.7/spec/core/judgment.md',
+    'https://github.com/team-poem/cairn/blob/v2.9.9/README.md',
+    'https://github.com/team-poem/cairn/blob/v2.9.9/docs/guide.md',
+    'https://github.com/team-poem/cairn/blob/v2.9.9/spec/core/judgment.md',
     cairnLinks.repository,
   ];
   const questions = copy.questions.map((item, index) => ({
@@ -35,7 +35,7 @@ export function TestingGuide({ locale }: { locale: Locale }) {
         about: { '@id': `${siteUrl}/#software` },
         mainEntity: { '@id': `${url}#article` },
         hasPart: { '@id': `${url}#questions` },
-        dateModified: modifiedAt,
+        dateModified: guideModifiedAt,
       },
       {
         '@type': 'TechArticle',
@@ -48,10 +48,11 @@ export function TestingGuide({ locale }: { locale: Locale }) {
           ...copy.steps.map(([name, text]) => `${name}: ${text}`),
           copy.fit,
           copy.controls,
+          copy.linkSelectionText,
         ].join('\n\n'),
         inLanguage: locale,
         datePublished: '2026-10-24',
-        dateModified: modifiedAt,
+        dateModified: guideModifiedAt,
         mainEntityOfPage: { '@id': `${url}#webpage` },
         author: { '@type': 'Organization', name: 'Poem', url: cairnLinks.team },
         citation: sources,
@@ -124,6 +125,11 @@ export function TestingGuide({ locale }: { locale: Locale }) {
                 </li>
               ))}
             </ol>
+          </section>
+          <section aria-labelledby="link-selection">
+            <h2 id="link-selection">{copy.linkSelectionTitle}</h2>
+            <p>{copy.linkSelectionText}</p>
+            <p><a href={cairnLinks.linkSelection}>{copy.linkSelectionSource}</a></p>
           </section>
           <section aria-labelledby="use-cases">
             <h2 id="use-cases">{copy.fitTitle}</h2>
