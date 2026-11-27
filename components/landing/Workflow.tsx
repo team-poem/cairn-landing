@@ -15,6 +15,7 @@ import {
   demoReducer,
   demoFrame,
   initialDemo,
+  nextDemoPhase,
   type DemoPhase,
 } from '@/lib/demo-state';
 import { cairnLinks } from '@/lib/cairn';
@@ -46,12 +47,6 @@ const phases = [
     command: 'cairn replay cart.skill.json --heal',
   },
 ] as const;
-const nextPhase: Record<DemoPhase, DemoPhase | null> = {
-  discover: 'freeze',
-  freeze: 'replay',
-  replay: 'heal',
-  heal: null,
-};
 export function Workflow() {
   const { t } = useI18n();
   const [state, dispatch] = useReducer(demoReducer, initialDemo);
@@ -116,14 +111,14 @@ export function Workflow() {
         </TabsList>
         {phases.map((item, index) => {
           const phase = t.workflow.phases[item.id];
-          const next = nextPhase[item.id];
+          const next = nextDemoPhase[item.id];
           const isFreeze = item.id === 'freeze';
           /* 주 버튼은 하나다: 실행 전엔 실행, 실행 중엔 일시정지,
            * 끝나면 다음 단계. 다시 실행·초기화는 보조로 내린다. */
           const primary = isFreeze
             ? { label: phase.action, icon: <ArrowRight size={16} />, onClick: () => selectPhase('replay') }
             : frame.done && next
-              ? { label: t.workflow.next[next as keyof typeof t.workflow.next], icon: <ArrowRight size={16} />, onClick: () => selectPhase(next) }
+              ? { label: t.workflow.next[next], icon: <ArrowRight size={16} />, onClick: () => selectPhase(next) }
               : frame.done
                 ? { label: t.workflow.runAgain, icon: <Play size={16} />, onClick: () => dispatch({ type: 'play' }) }
                 : state.running

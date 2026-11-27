@@ -63,7 +63,9 @@ export function metadataFor(locale: Locale): Metadata {
           width: ogImage.width,
           height: ogImage.height,
           type: 'image/png',
-          alt: 'Cairn — Find a path. Run it again. A cairn of stones under a night sky.',
+          alt: locale === 'ko'
+            ? 'Cairn — 밤하늘 아래 쌓인 돌탑.'
+            : 'Cairn — Find a path. Run it again. A cairn of stones under a night sky.',
         },
       ],
     },

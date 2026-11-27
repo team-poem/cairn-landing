@@ -1,7 +1,7 @@
 {
   "name": "Cairn — agentic testing engine",
   "short_name": "Cairn",
-  "description": "Describe a browser task. Cairn uses AI to find the steps, saves them as JSON, and runs them again without a model call.",
+  "description": "Describe a browser task. Cairn uses AI to find the steps and save them as JSON. Basic replay runs the saved path without a model call.",
   "id": "/cairn-engine/",
   "start_url": "/cairn-engine/",
   "scope": "/cairn-engine/",

@@ -12,7 +12,7 @@ export const testingGuide = {
   en: {
     title: 'Agentic testing for browsers: AI discovery and model-free replay',
     description:
-      'Learn how Cairn uses AI agents to discover browser tests, save JSON scenarios, replay without model calls, and verify opt-in repairs for UI changes.',
+      'Learn how Cairn discovers browser tests with AI, saves JSON scenarios, and runs basic replay without model calls. Repairs for UI changes require opt-in and verification.',
     heading: 'Agentic testing for browser applications',
     intro:
       'Cairn is an open-source TypeScript engine and CLI for testing web applications with AI agents. Describe a user flow, let AI discover browser actions, and save the steps and assertions as a reusable JSON test. Ordinary mechanical replay then runs without a model.',
@@ -48,8 +48,10 @@ export const testingGuide = {
     fitTitle: 'When is Cairn useful?',
     fit: 'Use Cairn to author repeatable login, form, or checkout checks from a task description, or embed cairn-engine in a QA tool or CI workflow. Supply success criteria that match your application. If you need exact handwritten browser logic, conventional scripted tests may be a better fit; Cairn does not remove the need to review test coverage.',
     controlsTitle: 'App knowledge and execution budgets',
-    controls:
-      'Optional appContext gives discovery, exploration, and repair your app terminology and workflow rules. It is guidance, not evidence or proof of success. budget: { maxModelCalls, timeoutMs } shares limits across discovery and repair per run or suite case; separate top-level calls get separate budgets by default. Optional runWorkflow shares an allowance across participating engine calls and host work through borrowed leases. Deadlines use cooperative cancellation, not a hard kill or billing cap.',
+    controls: [
+      'Optional appContext gives discovery, exploration, and repair your app terminology and workflow rules. It is guidance, not evidence or proof of success.',
+      'budget: { maxModelCalls, timeoutMs } shares limits across discovery and repair per run or suite case; separate top-level calls get separate budgets by default. Optional runWorkflow shares an allowance across participating engine calls and host work registered through borrowed leases. Deadlines use cooperative cancellation, not a hard kill or billing cap.',
+    ],
     faqTitle: 'Questions about AI browser testing',
     questions: [
       {
@@ -88,10 +90,10 @@ export const testingGuide = {
   ko: {
     title: '에이전틱 테스팅 가이드: AI 브라우저 테스트와 모델 없는 재실행',
     description:
-      'Cairn으로 AI 에이전트가 브라우저 테스트 경로를 찾고 JSON으로 저장하는 방법을 알아보세요. 모델 없는 재실행, 검증 후 복구, CI 연동과 한계를 설명합니다.',
+      'Cairn으로 AI 에이전트가 브라우저 테스트 경로를 찾고 JSON으로 저장하는 방법을 알아보세요. 모델을 호출하지 않는 기본 재실행, 검증 후 복구와 한계를 설명합니다.',
     heading: 'AI 에이전트로 웹 앱을 테스트하는 방법',
     intro:
-      'Cairn은 웹 앱의 에이전틱 테스팅을 위한 오픈 소스 TypeScript 엔진이자 CLI입니다. 테스트할 사용자 흐름을 설명하면 AI 에이전트가 브라우저에서 실행 경로를 찾습니다. 실행 단계와 검증 조건을 JSON으로 저장하고, 기본 테스트는 모델 호출 없이 다시 실행합니다.',
+      'Cairn은 웹 앱의 에이전틱 테스팅을 위한 오픈 소스 TypeScript 엔진이자 CLI입니다. 테스트할 사용자 흐름을 설명하면 AI 에이전트가 브라우저에서 실행 경로를 찾습니다. 실행 단계와 검증 조건을 JSON으로 저장합니다. 저장한 테스트는 기본 재실행 시 모델 호출 없이 실행합니다.',
     home: 'Cairn 홈',
     language: '언어',
     updated: '2026년 11월 27일 수정 · Cairn 2.9.9 문서 기준',
@@ -110,7 +112,7 @@ export const testingGuide = {
       ],
       [
         '재실행 · Replay',
-        '저장된 단계와 기계적 검증 조건을 브라우저에서 실행합니다. 기본 재생의 모델 호출은 0회입니다. 브라우저 실행이나 인프라 비용까지 없어지는 것은 아닙니다.',
+        '저장된 단계와 기계적 검증 조건을 브라우저에서 실행합니다. 기본 재실행의 모델 호출은 0회입니다. 브라우저 실행이나 인프라 비용까지 없어지는 것은 아닙니다.',
       ],
       [
         '자가 치유 · Repair',
@@ -124,19 +126,21 @@ export const testingGuide = {
     fitTitle: '어떤 테스트에 활용할 수 있나요?',
     fit: '로그인·폼·주문처럼 반복할 사용자 흐름을 설명해 테스트를 만들거나, cairn-engine을 자체 QA 도구와 CI에 연결할 수 있습니다. 성공 조건은 앱에 맞게 제공해야 합니다. 브라우저 동작을 코드로 세밀하게 제어해야 한다면 직접 작성한 테스트가 더 적합할 수 있습니다. Cairn을 써도 검증 범위를 검토하는 일은 필요합니다.',
     controlsTitle: '앱 컨텍스트와 실행 예산',
-    controls:
-      'appContext로 앱 용어와 업무 규칙을 탐색·UX 점검·복구에 전달할 수 있습니다. 참고 정보이며 관측 증거나 성공 판정을 대체하지 않습니다. budget: { maxModelCalls, timeoutMs }는 실행별 또는 suite 케이스별로 탐색·복구 예산을 공유합니다. 별도 최상위 호출은 기본적으로 별도 예산입니다. 선택적으로 runWorkflow를 사용하면 연결한 엔진 호출과 lease를 사용하는 호스트 작업이 예산을 공유합니다. 시간 제한은 협력적 취소이며 강제 종료나 과금 상한이 아닙니다.',
+    controls: [
+      'appContext로 앱 용어와 업무 규칙을 탐색·UX 점검·복구에 전달할 수 있습니다. 참고 정보이며 관측 증거나 성공 판정을 대체하지 않습니다.',
+      'budget: { maxModelCalls, timeoutMs }는 실행별 또는 suite 케이스별로 탐색·복구 예산을 공유합니다. 별도 최상위 호출은 기본적으로 별도 예산입니다. 선택적으로 runWorkflow를 사용하면 연결한 엔진 호출과 호스트 작업이 예산을 공유합니다. 호스트 작업은 공유 예산을 빌려 쓰는 lease를 사용해야 합니다. 시간 제한은 협력적 취소이며 강제 종료나 과금 상한이 아닙니다.',
+    ],
     faqTitle: 'AI 브라우저 테스트에 관한 질문',
     questions: [
       {
         question: '테스트를 실행할 때마다 LLM을 호출하나요?',
         answer:
-          '아니요. 기본 재실행은 저장된 동작과 기계적 검증 조건을 모델 없이 실행합니다. 탐색, 명시적으로 허용한 복구, 선택적 의미 검사는 모델을 호출할 수 있습니다. 정상적인 기본 재생에는 appContext도 모델도 필요 없습니다.',
+          '아니요. 기본 재실행은 저장된 동작과 기계적 검증 조건을 모델 없이 실행합니다. 탐색, 명시적으로 허용한 복구, 선택적 의미 검사는 모델을 호출할 수 있습니다. 정상적인 기본 재실행에는 appContext도 모델도 필요 없습니다.',
       },
       {
         question: 'API 키나 모델 계정 없이 체험할 수 있나요?',
         answer:
-          '네. scripted quickstart는 미리 정한 응답과 실제 Chrome으로 로컬 폼의 탐색·저장·재생을 확인합니다. 브라우저 연동을 검증하는 예제이며, 실제 모델이 처음 보는 앱을 얼마나 잘 탐색하는지 측정한 결과는 아닙니다. 정확한 Node·Chrome 준비 사항은 예제 README에 있습니다.',
+          '네. scripted quickstart는 미리 준비한 모델 응답을 사용해 실제 Chrome에서 로컬 폼을 탐색하고, 경로를 저장해 다시 실행합니다. 브라우저 연동을 검증하는 예제이며, 실제 모델이 처음 보는 앱을 얼마나 잘 탐색하는지 측정한 결과는 아닙니다. 정확한 Node·Chrome 준비 사항은 예제 README에 있습니다.',
       },
       {
         question: '스크린샷을 보고 자동으로 성공을 판정하나요?',
