@@ -44,7 +44,7 @@ export const testingGuide = {
     linkSelectionTitle: 'Open the second post',
     linkSelectionText:
       'If the host explicitly approves “open the second post”, replay selects the second link in the current DOM order rather than the article clicked during recording. With destination verification configured, Cairn compares the link’s href immediately before the click with the URL of the new document opened in the same tab. A matching URL in another tab, or an address change without a new document, does not confirm arrival. A test that specifies a particular article does not become position-based.',
-    linkSelectionSource: 'Read the link-selection guide',
+    linkSelectionSource: 'Read the link-selection spec',
     fitTitle: 'When is Cairn useful?',
     fit: 'Use Cairn to author repeatable login, form, or checkout checks from a task description, or embed cairn-engine in a QA tool or CI workflow. Supply success criteria that match your application. If you need exact handwritten browser logic, conventional scripted tests may be a better fit; Cairn does not remove the need to review test coverage.',
     controlsTitle: 'App knowledge and execution budgets',

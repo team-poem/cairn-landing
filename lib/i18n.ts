@@ -174,7 +174,7 @@ const en = {
       Critic: {
         stage: 'judge',
         description:
-          'Checks execution and assertions. Optionally capture intermediate screens or compare selected and destination item keys in supported same-document collection replays. Missing required evidence can be inconclusive.',
+          'Checks execution and assertions. Optionally capture intermediate evidence, compare selected and destination item keys in supported same-document replays, or compare a selected link’s href with the new document opened in the same tab. Missing required evidence can be inconclusive.',
       },
       Reporter: {
         stage: 'report',
@@ -405,7 +405,7 @@ const ko: Copy = {
       },
       Critic: {
         stage: 'judge',
-        description: '실행 결과와 검증 조건을 확인합니다. 선택적으로 중간 화면을 수집하거나, 지원되는 같은 문서 내 목록 재실행에서 선택한 항목과 도착한 항목의 키를 비교할 수 있습니다. 필수 증거가 부족하면 미확인(inconclusive)이 될 수 있습니다.',
+        description: '실행 결과와 검증 조건을 확인합니다. 선택적으로 중간 증거를 수집하거나, 지원되는 같은 문서 내 목록 재실행에서 선택한 항목과 도착 항목의 키를 비교할 수 있습니다. 선택한 링크의 href와 같은 탭에 열린 새 문서의 주소도 비교할 수 있습니다. 필수 증거가 부족하면 미확인(inconclusive)이 될 수 있습니다.',
       },
       Reporter: {
         stage: 'report',

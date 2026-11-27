@@ -17,11 +17,14 @@ A five-stage pipeline — Context, Plan, Execute, Judge, Report — with replace
 - Planner: turns intent into a Scenario. A static planner replays a frozen file; an LLM loop discovers a new one.
 - SkillStore: stores frozen `*.skill.json` files in a local folder by default, or in your own store.
 - Driver: controls the browser and waits for the page to settle. Use the included Chrome DevTools driver, or supply a Playwright or custom driver.
-- Critic: built-in critics judge execution and logic evidence. Optional evidenceCapture collects intermediate accessibility snapshots or screenshots for host checks; capture itself is not a pass and screenshots are not automatically masked. Opt-in selected-item checks compare explicit keys in supported same-document collection-click replays. Missing required evidence can be inconclusive.
+- Critic: built-in critics judge execution and logic evidence. Optional evidenceCapture collects intermediate accessibility snapshots or screenshots for host checks; capture itself is not a pass and screenshots are not automatically masked. Opt-in checks compare explicit item keys in supported same-document collection-click replays, or a selected link's href with the new document URL in the same tab. Missing required evidence can be inconclusive.
 - Reporter: outputs results to the console or as JSON, or can be replaced with your own reporter.
 
 ## Execution budgets
 `budget: { maxModelCalls, timeoutMs }` limits model-call admissions and elapsed time per run, or per suite case across discovery and repair. Separate top-level calls have separate budgets unless explicitly joined through runWorkflow. Optional runWorkflow shares an allowance across participating engine calls and host work performed through borrowed leases; unwrapped host model calls are outside its count. Timeouts are cooperative cancellation, not hard process termination or a billing cap. App context and execution budgets were introduced in 2.9.4; the 2.9.5 README expands their introduction.
+
+## Link selection
+When a host explicitly declares a position such as "open the second post", replay selects the link at that position in the current DOM order without a model call. Optional destination verification compares its href immediately before the click with the URL of the new document opened in the same tab. Another tab or an address change without a new document cannot confirm arrival. Tests targeting a specific resource remain fixed-resource tests. See https://github.com/team-poem/cairn/blob/v2.9.9/spec/core/link-selection.md.
 
 ## Install
 - npm: `npm install cairn-engine`, then `npx cairn --help`
