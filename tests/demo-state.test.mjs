@@ -1,7 +1,24 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { demoReducer, demoFrame, initialDemo } from '../lib/demo-state.ts';
+import { demoReducer, demoFrame, initialDemo, nextDemoPhase } from '../lib/demo-state.ts';
+import { dictionaries } from '../lib/i18n.ts';
 const tick = (s) => demoReducer(s, { type: 'tick', runId: s.runId });
+test('next-stage labels match their destination in both languages', () => {
+  const expected = {
+    en: { freeze: 'Next: save the path', replay: 'Next: replay', heal: 'Next: repair a change' },
+    ko: { freeze: '다음: 경로 저장', replay: '다음: 재실행', heal: '다음: 자가 치유' },
+  };
+  for (const locale of ['en', 'ko']) {
+    assert.equal(dictionaries[locale].workflow.phases.freeze.action, expected[locale].replay);
+    for (const phase of ['discover', 'freeze', 'replay']) {
+      const next = nextDemoPhase[phase];
+      assert.ok(next);
+      assert.equal(dictionaries[locale].workflow.next[next], expected[locale][next]);
+      assert.equal(demoReducer(initialDemo, { type: 'select', phase: next }).phase, next);
+    }
+    assert.equal(nextDemoPhase.heal, null);
+  }
+});
 test('one timeline drives login, product, and bag in order', () => {
   let s = demoReducer(initialDemo, { type: 'play' });
   assert.deepEqual(

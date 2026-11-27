@@ -80,7 +80,7 @@ export function Hero() {
           onClick={() => setAnimated((value) => !value)}
           aria-pressed={!animated}
           aria-label={
-            animated ? t.hero.motionPauseLabel : t.hero.motionPlayLabel
+            reducedMotion ? t.hero.motionReducedLabel : animated ? t.hero.motionPauseLabel : t.hero.motionPlayLabel
           }
         >
           {animated ? <Pause size={14} /> : <Play size={14} />}

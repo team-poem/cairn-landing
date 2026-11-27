@@ -1,4 +1,11 @@
 export type DemoPhase = 'discover' | 'freeze' | 'replay' | 'heal';
+export type NextDemoPhase = Exclude<DemoPhase, 'discover'>;
+export const nextDemoPhase: Record<DemoPhase, NextDemoPhase | null> = {
+  discover: 'freeze',
+  freeze: 'replay',
+  replay: 'heal',
+  heal: null,
+};
 export type DemoState = {
   phase: DemoPhase;
   completed: number;

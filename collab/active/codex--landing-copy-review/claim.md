@@ -2,7 +2,7 @@
 branch: codex/landing-copy-review
 owner: Gyuhwan_Jeong
 started: 2026-11-27
-status: active
+status: done
 goal: 엔진 동작에 맞춰 랜딩과 가이드의 한영 문구를 다듬고 단계 이동을 바로잡는다
 base: codex/landing-link-selection-preview
 next: lib/i18n.ts, lib/testing-guide.ts, components/landing/Workflow.tsx, 검색용 설명

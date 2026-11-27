@@ -1,6 +1,6 @@
 # Cairn
 
-> Cairn (npm: `cairn-engine`) is an open source agentic testing engine by Poem. You describe a browser task in plain language; Cairn uses AI to discover the steps once, freezes them as a JSON file, and replays that file on every later run without calling a model. When repair is explicitly enabled, Cairn attempts to repair a changed step with AI and saves the updated path only after verification. Application defects remain failures.
+> Cairn (npm: `cairn-engine`) is an open source agentic testing engine by Poem. Describe a browser task; Cairn uses AI to discover the steps and saves them as JSON. Basic replay runs the saved steps and mechanical assertions without a model. Optional semantic checks can call a model. When repair is explicitly enabled, Cairn attempts to repair a changed step with AI and saves the updated path only after verification. Application defects remain failures.
 
 Landing page: https://team-poem.github.io/cairn-engine/ (English)
 Korean landing page: https://team-poem.github.io/cairn-engine/ko/
@@ -8,17 +8,17 @@ Korean landing page: https://team-poem.github.io/cairn-engine/ko/
 ## What it does
 - Discover: turn a task description into concrete browser actions (log in, add to bag, open the cart) and save them as `*.skill.json`.
 - Freeze: keep the path that worked so the next run follows the same steps.
-- Replay: run the saved path deterministically. Basic replay makes no model calls, so it is cheap and stable in CI.
+- Replay: run the saved steps and mechanical checks again. Basic replay makes no model calls; browser execution and infrastructure still have costs and can fail.
 - Heal: opt-in AI repair for UI changes; save the updated path only after verification. Missing evidence in custom checks can be inconclusive and is not a pass.
 
 ## Architecture
-A five-stage pipeline — Context, Plan, Execute, Judge, Report — where anything that varies comes in through a port:
+A five-stage pipeline — Context, Plan, Execute, Judge, Report — with replaceable components connected through ports:
 - ContextProvider: appContext supplies app terminology and workflows to discovery, exploration, and repair. It guides AI but never replaces observed evidence or success checks. Optional pageGuidance supplies advice for each discovery/explore decision observation; it is not used by repair or deterministic replay and does not replace evidence. Healthy mechanical replay needs neither provider nor a model.
 - Planner: turns intent into a Scenario. A static planner replays a frozen file; an LLM loop discovers a new one.
-- SkillStore: where frozen `*.skill.json` files live (a folder by default, or your own store).
-- Driver: drives the browser and waits for the page to settle. Chrome DevTools ships; bring Playwright or your own.
+- SkillStore: stores frozen `*.skill.json` files in a local folder by default, or in your own store.
+- Driver: controls the browser and waits for the page to settle. Use the included Chrome DevTools driver, or supply a Playwright or custom driver.
 - Critic: built-in critics judge execution and logic evidence. Optional evidenceCapture collects intermediate accessibility snapshots or screenshots for host checks; capture itself is not a pass and screenshots are not automatically masked. Opt-in selected-item checks compare explicit keys in supported same-document collection-click replays. Missing required evidence can be inconclusive.
-- Reporter: sends the result anywhere: console, JSON, or your team's tracker.
+- Reporter: outputs results to the console or as JSON, or can be replaced with your own reporter.
 
 ## Execution budgets
 `budget: { maxModelCalls, timeoutMs }` limits model-call admissions and elapsed time per run, or per suite case across discovery and repair. Separate top-level calls have separate budgets unless explicitly joined through runWorkflow. Optional runWorkflow shares an allowance across participating engine calls and host work performed through borrowed leases; unwrapped host model calls are outside its count. Timeouts are cooperative cancellation, not hard process termination or a billing cap. App context and execution budgets were introduced in 2.9.4; the 2.9.5 README expands their introduction.

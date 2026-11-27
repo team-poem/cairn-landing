@@ -47,7 +47,7 @@ export function TestingGuide({ locale }: { locale: Locale }) {
           copy.definition,
           ...copy.steps.map(([name, text]) => `${name}: ${text}`),
           copy.fit,
-          copy.controls,
+          ...copy.controls,
           copy.linkSelectionText,
         ].join('\n\n'),
         inLanguage: locale,
@@ -137,7 +137,7 @@ export function TestingGuide({ locale }: { locale: Locale }) {
           </section>
           <section aria-labelledby="controls">
             <h2 id="controls">{copy.controlsTitle}</h2>
-            <p>{copy.controls}</p>
+            {copy.controls.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
           </section>
           <section aria-labelledby="questions">
             <h2 id="questions">{copy.faqTitle}</h2>
